@@ -20,9 +20,6 @@ print(data.shape)
 
 print(data[:, 4, 0])
 
-csr =  sparse.csr_matrix(data)
-
-print(csr)
 #print(data)
 
 """ model = SpectralClustering(n_clusters=3)
