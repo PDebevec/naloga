@@ -2,14 +2,21 @@ import numpy as np
 import pandas as pd
 
 
-def to_array(dataframe):
+""" def to_array(dataframe):
     arr = []
     for element in dataframe:
         #arr.append(np.fromstring(element[1:-1], dtype=float, sep=','))
         #arr.append(list(float(x) for x in element[1:-1].split(',')))
         for x in element[1:-1].split(',')[:1400]:
             arr.append(float(x))
-    return pd.Series(x for x in np.array(arr).reshape(1214, -1))
+    return np.array(arr).reshape(1214, -1) """
+
+def to_array(data):
+    for i,e in enumerate(data):
+        data[i] = np.array([float(x) for x in e[1:-1].split(',')])
+        """ for x in e[1:-1].split(','):
+            data[i].append(float(x)) """
+    return data
 
 def get_image(data):
     unique = []
@@ -35,3 +42,7 @@ def get_norm(data):
 
 def get_label(data):
     return np.unique(data)
+
+def convert(data):
+    
+    return 0

@@ -12,10 +12,21 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.signal as ss
 import lib as lb
+import scipy.sparse as sparse
 
 data = np.load(open('data.npy', 'rb'), allow_pickle=True)
 
-""" for i in data[:, 4]:
-    print(len(i[:][:1400])) """
+print(data.shape)
 
-print(data[:, 4])
+print(data[:, 4, 0])
+
+csr =  sparse.csr_matrix(data)
+
+print(csr)
+#print(data)
+
+""" model = SpectralClustering(n_clusters=3)
+ res = model.fit(lb.getX(data[:, 4]))
+
+for i,e in enumerate(res.labels_):
+    print(e, data[i, 2]) """
