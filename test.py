@@ -4,36 +4,46 @@ import pickle
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import normalize
 import cv2
 import skimage
 import dask.dataframe as df
 import pandas as pd
 import matplotlib.pyplot as plt
-import scipy
+import scipy.signal as ss
+import lib as lb
 
-file = pd.read_csv('data.csv')
+""" file = pd.read_csv('data.csv')
 print(file.info())
 
-sig2 = pd.DataFrame(file, columns=['TTP_GS_sig2', 'NIR_GS_sig2'])
-sig20 = pd.DataFrame(file, columns=['TTP_GS_sig20', 'NIR_GS_sig20'])
-G_corr = pd.DataFrame(file, columns=['NIR_GS_sig2_G_corr', 'NIR_GS_sig20_G_corr'])
+file.NIR_GS_sig2 = lb.to_array(file.NIR_GS_sig2)
+file.NIR_GS_sig20 = lb.to_array(file.NIR_GS_sig20)
+file.NIR_GS_sig2_G_corr = lb.to_array(file.NIR_GS_sig2_G_corr)
+file.NIR_GS_sig20_G_corr = lb.to_array(file.NIR_GS_sig20_G_corr)
 
-nir = pd.DataFrame(sig2, columns=['NIR_GS_sig2']).to_numpy()
-for i, e in enumerate(nir):
-    arr = []
-    arr.append(np.fromstring(e[1:-1], sep=','))
-    print(np.fromstring(e[1:-1], sep=','))
-    #print(arr[0])
+npy = file.to_numpy()
+np.save(open('data.npy', 'wb'), npy)
+ """
+data = np.load(open('data.npy', 'rb'), allow_pickle=True)
 
+seperate_img = lb.get_image(data)
 
+""" graf = 0
 
+ttp = ss.find_peaks(data[:, 4][graf][:200], distance=150)
+print(ttp[0] * 0.2002, data[:, 3][graf])
+plt.plot(data[:, 4][graf])
+for e in ttp[0]:
+    plt.plot(e, data[:, 4][graf][e], 'x')
 
+plt.axvline(int(data[:, 3][graf]/0.2002))
+plt.axvline(ttp[0])
+plt.axvline(ttp[0] - int(data[:, 3][graf]/0.2002)) """
 
-""" video = pd.DataFrame(file, columns=['Video']).to_numpy()
-finding = pd.DataFrame(file, columns=['finding']).to_numpy()
-sig2 = pd.DataFrame(file, columns=['TTP_GS_sig2', 'NIR_GS_sig2']).to_numpy()
-sig20 = pd.DataFrame(file, columns=['TTP_GS_sig20', 'NIR_GS_sig20']).to_numpy()
-G_corr = pd.DataFrame(file, columns=['NIR_GS_sig2_G_corr', 'NIR_GS_sig20_G_corr']).to_numpy()
-xy_init = pd.DataFrame(file, columns=['x_init', 'y_init']).to_numpy() """
-
-#print(file.info())
+fiture, axis = plt.subplots(3,2)
+for i,e in enumerate(seperate_img[:3]):
+    for k in e[:, 4]:
+        axis[i, 0].plot(k)
+    for k in e[:, 6]:
+        axis[i, 1].plot(k)
+plt.show()
