@@ -2,14 +2,15 @@ import numpy as np
 import pandas as pd
 data = np.load(open('data.npy', 'rb'), allow_pickle=True)
 
-""" def to_array(dataframe):
+def separate_labels(labels_, labels):
+    ulabels_ = np.unique(labels_)
+    print(ulabels_)
+    ulabels = np.unique(labels)
     arr = []
-    for element in dataframe:
-        #arr.append(np.fromstring(element[1:-1], dtype=float, sep=','))
-        #arr.append(list(float(x) for x in element[1:-1].split(',')))
-        for x in element[1:-1].split(',')[:1400]:
-            arr.append(float(x))
-    return np.array(arr).reshape(1214, -1) """
+    for label in ulabels:
+        arr.append([])
+        arr[-1].append(labels_[np.where(labels == label)])
+    return arr
 
 def to_array(strs):
     for i,e in enumerate(strs):
@@ -47,7 +48,7 @@ def get_diff(data_arr):
         arr.append((d[0]-d[1])*-1)
         for i in range(1, len(d)-1):
             arr.append( ((d[i-1]-d[i]) + (d[i]-d[i+1])) * -0.5 )
-        arr.append((d[len(d)-2]-d[len(d)-1])*-1)
+        arr.append((d[-2]-d[-1])*-1)
     return np.array(arr).reshape(len(data_arr), 1400)
 
 """ def get_diff_from(data_arr, fun):

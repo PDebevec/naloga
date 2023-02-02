@@ -3,6 +3,12 @@ import lib as lb
 import matplotlib.pyplot as plt
 import scipy.signal as ss
 
+dif = lb.get_diff(lb.data[:, 4, 0])[0]
+plt.plot(dif)
+plt.plot(lb.data[:, 4, 0][0] / 35)
+p = ss.find_peaks(lb.get_diff(lb.data[:1, 4, 0])[0], height=0, distance=100)[0]
+plt.plot(p, dif[p], 'x', color='black')
+
 """ figure, axis = plt.subplots(6)
 img = 6
 

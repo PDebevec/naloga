@@ -14,14 +14,13 @@ import scipy.signal as ss
 import scipy.sparse as sparse
 import lib as lb
 
+model = SpectralClustering(n_clusters=12, assign_labels='cluster_qr', eigen_solver='lobpcg')
 
-#print(lb.data[:, 4, 0])
-#print(lb.get_diff(lb.data[:, 4, 0])[0])
+res = model.fit(np.concatenate(lb.data[:, 4, 0]).ravel().reshape(1214, 1400)[:1200])
 
-dif = lb.get_diff(lb.data[:, 4, 0])[0]
-plt.plot(dif)
-plt.plot(lb.data[:, 4, 0][0] / 35)
-#print(ss.find_peaks(lb.get_diff(lb.data[:1, 4, 0])[0], height=0, distance=100))
-p = ss.find_peaks(lb.get_diff(lb.data[:1, 4, 0])[0], height=0, distance=100)[0]
-plt.plot(p, dif[p], 'x', color='black')
-plt.show()
+""" print(lb.data[:10, 2, 0])
+print(res.labels_[:10]) """
+
+print(lb.separate_labels(res.labels_, lb.data[:1200, 2, 0]))
+
+#print(res.labels_)
