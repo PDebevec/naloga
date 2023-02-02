@@ -11,14 +11,20 @@ import dask.dataframe as df
 import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.signal as ss
-import lib as lb
 import scipy.sparse as sparse
+import lib as lb
 
 data = np.load(open('data.npy', 'rb'), allow_pickle=True)
 
-print(data.shape)
+images = lb.get_image(data)
+finding = lb.seperate_image(images, lb.get_label(data[:, 2, 0]))
 
-print(data[:, 4, 0])
+for img in finding:
+    print('img')
+    for label in img:
+        print('label')
+        for imgs in label:
+            print(imgs[2])
 
 #print(data)
 

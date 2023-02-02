@@ -20,20 +20,28 @@ def to_array(data):
 
 def get_image(data):
     unique = []
-    for e in np.unique(data[:, 0]):
-        unique.append(np.where(data[:, 0] == e))
+    for e in np.unique(data[:, 0, 0]):
+        unique.append(np.where(data[:, 0, 0] == e))
     images = []
     for i in unique:
         images.append(data[i[0]])
     return images
 
-def seperate_image(data, column, labels):
-    image_per_label = []
-    for i in data:
-        for j in i[:, column]:
-            for l in labels:
-                image_per_label.append()
-    return 0
+def seperate_image(data, labels):
+    image_by_label = []
+    for img in data:
+        temp = []
+        for label in labels:
+            temp2 = []
+            #print(np.where(img[:, 2, 0] == label))
+            for x in np.where(img[:, 2, 0] == label):
+                for y in x:
+                    temp2.append(img[y])
+                #print(x)
+            #print(label, len(temp2))
+            temp.append(temp2)
+        image_by_label.append(temp)
+    return image_by_label
 
 def get_norm(data):
     for i, e in enumerate(data):
