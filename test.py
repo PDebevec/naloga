@@ -14,22 +14,14 @@ import scipy.signal as ss
 import scipy.sparse as sparse
 import lib as lb
 
-data = np.load(open('data.npy', 'rb'), allow_pickle=True)
 
-images = lb.get_image(data)
-finding = lb.seperate_image(images, lb.get_label(data[:, 2, 0]))
+#print(lb.data[:, 4, 0])
+#print(lb.get_diff(lb.data[:, 4, 0])[0])
 
-for img in finding:
-    print('img')
-    for label in img:
-        print('label')
-        for imgs in label:
-            print(imgs[2])
-
-#print(data)
-
-""" model = SpectralClustering(n_clusters=3)
- res = model.fit(lb.getX(data[:, 4]))
-
-for i,e in enumerate(res.labels_):
-    print(e, data[i, 2]) """
+dif = lb.get_diff(lb.data[:, 4, 0])[0]
+plt.plot(dif)
+plt.plot(lb.data[:, 4, 0][0] / 35)
+#print(ss.find_peaks(lb.get_diff(lb.data[:1, 4, 0])[0], height=0, distance=100))
+p = ss.find_peaks(lb.get_diff(lb.data[:1, 4, 0])[0], height=0, distance=100)[0]
+plt.plot(p, dif[p], 'x', color='black')
+plt.show()
