@@ -2,34 +2,27 @@ import numpy as np
 import pandas as pd
 data = np.load(open('data.npy', 'rb'), allow_pickle=True)
 
-def get_image(arr):
+def get_image(arr=data):
     unique = []
     for e in np.unique(arr[:, 0, 0]):
-        unique.append(np.where(arr[:, 0, 0] == e))
-    images = []
-    for i in unique:
-        images.append(arr[i[0]])
-    return images
+        unique.append(arr[np.where(arr[:, 0, 0] == e)[0]])
+    return unique
 
 def get_label(labels):
     return np.unique(labels)
 
-def separate_image(arr_img, labels):
-    image_by_label = []
-    for img in arr_img:
-        temp = []
-        for label in labels:
-            temp2 = []
-            for x in np.where(img[:, 2, 0] == label):
-                for y in x:
-                    temp2.append(img[y])
-            temp.append(temp2)
-        image_by_label.append(temp)
-    return image_by_label
-
-_separated_data = get_image(data)
+_by_image = get_image(data)
 _labels = get_label(data[:, 2, 0])
-_separated_images = separate_image(_separated_data, _labels)
+
+def labeled_image(arr_img=_by_image, labels=_labels):
+    labeled_img = []
+    for img in arr_img:
+        labeled_img.append([])
+        for label in labels:
+            labeled_img[-1].append(img[np.where(img[:, 2, 0] == label)])
+    return labeled_img
+
+_image_by_label = labeled_image(_by_image, _labels)
 _time = np.arange(0, 1400*0.2002, 0.2002)
 
 def separate_labels(labels_, y_train):
@@ -41,16 +34,12 @@ def separate_labels(labels_, y_train):
 def find_batch(labels_, labeled, labels=_labels):
     arr = []
     for batch in labels_:
-        arr.append(labels[np.argmax([
-            labeled[0].count(batch),
-            labeled[1].count(batch),
-            #labeled[2].count(batch)
-        ])])
+        arr.append(labels[np.argmax([x.count(batch) for x in labeled])])
     return arr
 
 def to_array(strs):
     for i,e in enumerate(strs):
-        strs[i] = np.array([float(x) for x in e[1:-1].split(',')[:1400]])
+        strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:1400]
     return strs
 
 def get_diff(data_arr):

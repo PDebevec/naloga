@@ -3,6 +3,14 @@ import lib as lb
 import matplotlib.pyplot as plt
 import scipy.signal as ss
 
+""" for img in range(1):
+    plt.plot(lb.data[img, 4, 0][:300])
+    am = np.argmax(lb.data[img, 4, 0][:300])
+    plt.plot(am, lb.data[img, 4, 0][am], 'x')
+    ttp = int(am *0.1)
+    plt.plot(ttp, lb.data[img, 4, 0][ttp], 'x')
+    plt.plot(int(lb.data[img, 3, 0]/0.2002), lb.data[img, 4, 0][int(lb.data[img, 3, 0]/0.2002)], 'x') """
+
 """ graf = 0
 ttp = ss.find_peaks(lb.data[graf, 4, 0][:200], distance=150)
 
