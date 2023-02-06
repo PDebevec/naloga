@@ -15,10 +15,15 @@ file.NIR_GS_sig2_G_corr = lb.to_array(file.NIR_GS_sig2_G_corr)
 file.NIR_GS_sig20_G_corr = lb.to_array(file.NIR_GS_sig20_G_corr) """
 
 npy = file.to_numpy()
-npy = npy.reshape(1214, -1, 1)
-npy[:, 4, 0] = lb.to_array(npy[:, 4, 0])
-npy[:, 6, 0] = lb.to_array(npy[:, 6, 0])
-npy[:, 7, 0] = lb.to_array(npy[:, 7, 0])
-npy[:, 8, 0] = lb.to_array(npy[:, 8, 0])
+npy = npy.reshape(1214, 11)
+
+npy[:, 4] = lb.to_array(npy[:, 4])
+npy[:, 6] = lb.to_array(npy[:, 6])
+npy[:, 7] = lb.to_array(npy[:, 7])
+npy[:, 8] = lb.to_array(npy[:, 8])
 
 np.save(open('data.npy', 'wb'), npy)
+
+npy2d = np.concatenate(npy[:, 4]).reshape(-1, 1400)
+
+np.save(open('nir.npy', 'wb'), npy2d)
