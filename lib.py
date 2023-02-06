@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 class __lib():
     def __init__(self):
         self.data = np.load(open('data.npy', 'rb'), allow_pickle=True)
@@ -43,6 +44,11 @@ class __lib():
                 arr.append( ((d[i-1]-d[i]) + (d[i]-d[i+1])) * -0.5 )
             arr.append((d[-2]-d[-1])*-1)
         return np.array(arr).reshape(len(data_arr), 1400)
+    
+    @staticmethod
+    def time_of_curve():
+        
+        return 0
 lib = __lib()
 
 class __ml():
