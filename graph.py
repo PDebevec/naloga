@@ -1,6 +1,5 @@
 import numpy as np
-from lib import lib
-lb = lib()
+from lib import lib as lb
 import matplotlib.pyplot as plt
 import scipy.signal as ss
 
@@ -30,7 +29,7 @@ plt.axvline(ttp[0] - int(lb.data[graf, 3]/0.2002)) """
 """ dif = lb.get_diff(lb.data[:, 4])[0]
 plt.plot(dif)
 plt.plot(lb.data[:, 4][0] / 35)
-p = ss.find_peaks(lb.get_diff(lb.data[:1, 4])[0], height=0, distance=100)[0]
+p = ss.find_peaks(lb.get_diff(lb.data[:, 4])[0], height=0, distance=100)[0]
 plt.plot(p, dif[p], 'x', color='black') """
 
 #za posamezne label

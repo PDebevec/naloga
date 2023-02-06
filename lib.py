@@ -34,12 +34,7 @@ class __lib():
                 labeled_img[-1].append(img[np.where(img[:, 2] == label)])
         return labeled_img
 
-    def separate_labels(labels_, y_train):
-        arr = []
-        for label in np.unique(y_train):
-            arr.append(list(labels_[np.where(y_train == label)]))
-        return arr
-
+    @staticmethod
     def get_diff(data_arr):
         arr = []
         for d in data_arr:
@@ -51,17 +46,28 @@ class __lib():
 lib = __lib()
 
 class __ml():
+    
+    @staticmethod
+    def separate_labels(labels_, y_train):
+        arr = []
+        for label in np.unique(y_train):
+            arr.append(list(labels_[np.where(y_train == label)]))
+        return arr
+
+    @staticmethod
     def find_batch(labels_, labeled, labels):
         arr = []
         for batch in labels_:
             arr.append(labels[np.argmax([x.count(batch) for x in labeled])])
         return arr
 
+    @staticmethod
     def to_array(strs):
         for i,e in enumerate(strs):
             strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:1400]
         return strs
 
+    @staticmethod
     def get_xy_data(nirs):
         where = np.where(nirs[:, 2] == 'Healthy')
         xh = nirs[where, 4][0]
