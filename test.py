@@ -32,22 +32,14 @@ file['video'] = file['video'].astype(int)
 file['ROI'] = file['ROI'].astype(int)
 file['finding'] = file['finding'].astype(str)
 
-file = file.set_index(['video', 'finding'])
+file = file.set_index(['video', 'finding', 'ROI'])
 
 pickle.dump(file, open('fdata.pickle', 'wb')) """
 
 data = pickle.load(open('fdata.pickle', 'rb'))
 data['NIR_minmax'] = lb.get_normalized(data['NIR'])
 
-img = np.unique(data.index.get_level_values(0))[4]
-print(data.loc[img])
-
-for x in data.loc[img, 'Benign']['NIR_minmax']:
-    plt.plot(x, color='blue')
-""" for x in data.loc[img, 'Cancer']['NIR_minmax']:
-    plt.plot(x, color='red') """
-for x in data.loc[img, 'Healthy']['NIR_minmax']:
-    plt.plot(x, color='green')
-plt.show()
+#print(data.xs('Cancer', level='finding', drop_level=False))
+print(data.loc[slice(None), 'Cancer'])
 
 #exit()
