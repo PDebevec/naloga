@@ -5,7 +5,6 @@ import pandas as pd
 class __lib():
     def __init__(self):
         self.data = np.load(open('data.npy', 'rb'), allow_pickle=True)
-        self.data2d = np.load(open('nir.npy', 'rb'), allow_pickle=True)
         self._by_image = self.get_image()
         self._labels = self.get_label()
         self._image_by_label = self.labeled_image()
@@ -46,13 +45,21 @@ class __lib():
         return np.array(arr).reshape(len(data_arr), 1400)
     
     @staticmethod
+    def get_normalized(data):
+        arr = []
+        for x in data:
+            mx = np.max(x)
+            mn = np.min(x)
+            arr.append( np.array((x - mn) / (mx - mn)) )
+        return arr
+
+    @staticmethod
     def time_of_curve():
-        
         return 0
 lib = __lib()
 
 class __ml():
-    
+
     @staticmethod
     def separate_labels(labels_, y_train):
         arr = []
@@ -87,12 +94,12 @@ class __ml():
         xb = nirs[where, 4][0]
         xb = np.concatenate(xb).reshape(len(xb), 1400)
         yb = nirs[where, 2][0]
-        """ return np.concatenate((xh[:400], xc[:400])).ravel().reshape((-1, 1400)),\
+        return np.concatenate((xh[:400], xc[:400])).ravel().reshape((-1, 1400)),\
         np.concatenate((xh[400:], xc[400:])).ravel().reshape((-1, 1400)),\
         np.concatenate((yh[:400], yc[:400])),\
-        np.concatenate((yh[400:], yc[400:])) """
-        return np.concatenate((xh[:250], xc[:250], xb[:250])).ravel().reshape((-1, 1400)),\
+        np.concatenate((yh[400:], yc[400:]))
+        """ return np.concatenate((xh[:250], xc[:250], xb[:250])).ravel().reshape((-1, 1400)),\
         np.concatenate((xh[250:], xc[250:], xb[250:])).ravel().reshape((-1, 1400)),\
         np.concatenate((yh[:250], yc[:250], yb[:250])),\
-        np.concatenate((yh[250:], yc[250:], yb[250:]))
+        np.concatenate((yh[250:], yc[250:], yb[250:])) """
 ml = __ml()

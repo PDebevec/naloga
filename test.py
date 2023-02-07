@@ -13,17 +13,41 @@ from lib import lib as lb
 from lib import ml
 #import lib2 as lb2
 
-""" graf = 120
+""" file = pd.read_csv('data.csv')
 
-d = ss.savgol_filter(lb.data[graf, 4][:300], window_length=20, polyorder=2)
+del file['TTP_GS_sig2']
+del file['TTP_GS_sig20']
+del file['NIR_GS_sig20']
+del file['NIR_GS_sig2_G_corr']
+del file['NIR_GS_sig20_G_corr']
+del file['x_init']
+del file['y_init']
 
-for x in np.where(lb.data[:, 2] == 'Cancer')[0][::10]:
-    plt.plot(lb.data[x, 4][:300], color='red')
-for x in np.where(lb.data[:, 2] == 'Healthy')[0][::10]:
-    plt.plot(lb.data[x, 4][:300], color='green')
-for x in np.where(lb.data[:, 2] == 'Benign')[0][::10]:
-    plt.plot(lb.data[x, 4][:300], color='blue')
-#plt.plot(d)
-plt.show() """
+npy = file.to_numpy()
+npy[:, 3] = ml.to_array(npy[:, 3])
+
+file = pd.DataFrame(npy, columns=['video', 'ROI', 'finding', 'NIR'])
+
+file['video'] = file['video'].astype(int)
+file['ROI'] = file['ROI'].astype(int)
+file['finding'] = file['finding'].astype(str)
+
+file = file.set_index(['video', 'finding'])
+
+pickle.dump(file, open('fdata.pickle', 'wb')) """
+
+data = pickle.load(open('fdata.pickle', 'rb'))
+data['NIR_minmax'] = lb.get_normalized(data['NIR'])
+
+img = np.unique(data.index.get_level_values(0))[4]
+print(data.loc[img])
+
+for x in data.loc[img, 'Benign']['NIR_minmax']:
+    plt.plot(x, color='blue')
+""" for x in data.loc[img, 'Cancer']['NIR_minmax']:
+    plt.plot(x, color='red') """
+for x in data.loc[img, 'Healthy']['NIR_minmax']:
+    plt.plot(x, color='green')
+plt.show()
 
 #exit()

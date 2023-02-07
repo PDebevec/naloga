@@ -37,26 +37,28 @@ plt.plot(p, dif[p], 'x', color='black')
 plt.plot(d, dif[d], 'x', color='red') """
 
 #za posamezne label
-figure, axis = plt.subplots(5)
-img = 5+20
+""" figure, axis = plt.subplots(5)
+img = 5+10
 
 index = 0
-for x in lb._image_by_label[20:img]:
-    for e in x[2]:
-        axis[index].plot(e[4], color='green')
+for x in lb._image_by_label[10:img]:
+    print(len(x[0]), len(x[1]), len(x[2]))
     for e in x[1]:
         axis[index].plot(e[4], color='red')
     for e in x[0]:
         axis[index].plot(e[4], color='blue')
-    index+=1
+    for e in x[2]:
+        axis[index].plot(e[4], color='green')
+    index+=1 """
 
 # ^ 23 slika
-""" for e in lb._image_by_label[23][0]:
+img = 23
+for e in lb._image_by_label[img][0]:
     plt.plot(e[4], color='blue')
-for e in lb._image_by_label[23][1]:
+for e in lb._image_by_label[img][1]:
     plt.plot(e[4], color='red')
-for e in lb._image_by_label[23][2]:
-    plt.plot(e[4], color='green') """
+for e in lb._image_by_label[img][2]:
+    plt.plot(e[4], color='green')
 
 #za posamezne label 2
 """ figure, axis = plt.subplots(2,2)
@@ -77,5 +79,16 @@ for i,e in enumerate(lb._by_image[:3]):
         axis[i, 0].plot(k)
     for k in e[:, 6]:
         axis[i, 1].plot(k) """
+
+#smooth
+""" graf = 120
+d = ss.savgol_filter(lb.data[graf, 4][:300], window_length=20, polyorder=2)
+
+for x in np.where(lb.data[:, 2] == 'Cancer')[0][::10]:
+    plt.plot(lb.data[x, 4][:300], color='red')
+for x in np.where(lb.data[:, 2] == 'Healthy')[0][::10]:
+    plt.plot(lb.data[x, 4][:300], color='green')
+for x in np.where(lb.data[:, 2] == 'Benign')[0][::10]:
+    plt.plot(lb.data[x, 4][:300], color='blue') """
 
 plt.show()
