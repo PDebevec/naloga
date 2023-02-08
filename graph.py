@@ -2,6 +2,21 @@ import numpy as np
 from lib import lib as lb
 import matplotlib.pyplot as plt
 import scipy.signal as ss
+import pandas as pd
+
+#izris vsake slike posebej in shrani
+""" for img in pd.unique(lb.fdata.index.get_level_values(0)):
+    for label in pd.unique(lb.fdata.loc[img].index.get_level_values(0)):
+        c = ''
+        match label:
+            case 'Healthy': c = 'green'
+            case 'Benign': c = 'blue'
+            case 'Cancer': c = 'red'
+        for x in lb.fdata.loc[img, label]['NIR_minmax']:
+            plt.plot(x, color=c)
+    #plt.savefig('graphs/minmax/'+str(img)+'_minmax.png')
+    #plt.savefig('graphs/minmax/'+str(img)+'_minmax.png')
+    plt.show() """
 
 #ttp
 """ for img in range(1000,1002):
@@ -52,13 +67,13 @@ for x in lb._image_by_label[10:img]:
     index+=1 """
 
 # ^ 23 slika
-img = 23
+""" img = 23
 for e in lb._image_by_label[img][0]:
     plt.plot(e[4], color='blue')
 for e in lb._image_by_label[img][1]:
     plt.plot(e[4], color='red')
 for e in lb._image_by_label[img][2]:
-    plt.plot(e[4], color='green')
+    plt.plot(e[4], color='green') """
 
 #za posamezne label 2
 """ figure, axis = plt.subplots(2,2)

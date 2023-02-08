@@ -2,7 +2,7 @@
 import numpy as np
 import pickle
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier, LocalOutlierFactor
 from sklearn.ensemble import RandomForestClassifier
 import dask.dataframe as df
 import pandas as pd
@@ -38,8 +38,17 @@ pickle.dump(file, open('fdata.pickle', 'wb')) """
 
 data = pickle.load(open('fdata.pickle', 'rb'))
 data['NIR_minmax'] = lb.get_normalized(data['NIR'])
-
+data['NIR_255'] = data['NIR']/255
 #print(data.xs('Cancer', level='finding', drop_level=False))
-print(data.loc[slice(None), 'Cancer'])
+
+g = 100
+
+model = LocalOutlierFactor(n_neighbors=150)
+model.fit_predict(np.array(data.xs('Healthy', level='finding')['NIR'].values[g]).reshape(-1, 1))
+print(model.negative_outlier_factor_)
+
+plt.plot(data['NIR'].iloc[g], model.negative_outlier_factor_)
+plt.show()
+
 
 #exit()

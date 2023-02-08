@@ -1,15 +1,19 @@
 import numpy as np
 import pandas as pd
+import pickle
 
 
 class __lib():
     def __init__(self):
-        self.data = np.load(open('data.npy', 'rb'), allow_pickle=True)
+        self.fdata = pickle.load(open('fdata.pickle', 'rb'))
+        self.fdata['NIR_minmax'] = self.get_normalized(self.fdata['NIR'])
+        """ self.data = np.load(open('data.npy', 'rb'), allow_pickle=True)
         self._by_image = self.get_image()
         self._labels = self.get_label()
         self._image_by_label = self.labeled_image()
-        self._time = np.arange(0, 1400*0.2002, 0.2002)
+        self._time = np.arange(0, 1400*0.2002, 0.2002) """
 
+    fdata = None
     data = None
     data2d = None
     _by_image = None
