@@ -58,6 +58,16 @@ class __lib():
         return arr
 
     @staticmethod
+    def get_normalized_byimg(data):
+        arr = []
+        for img in pd.unique(data.index.get_level_values(0)):
+            mx = np.max( [max(x) for x in data.loc[img].values] )
+            mn = np.min( [min(x) for x in data.loc[img].values] )
+            for x in data.loc[img]:
+                arr.append( np.array((x - mn) / (mx - mn)) )
+        return arr
+
+    @staticmethod
     def time_of_curve():
         return 0
 lib = __lib()
@@ -69,6 +79,16 @@ class __ml():
         arr = []
         for label in np.unique(y_train):
             arr.append(list(labels_[np.where(y_train == label)]))
+        return arr
+
+    @staticmethod
+    def find_biggest_batch(separate_labels, num):
+        arr = []
+        for label in separate_labels:
+            arr.append( [[label.count(x), x] for x in np.unique(label)] )
+            arr[-1] = sorted(arr[-1], key=lambda x: x[0])
+            #arr[-1] = [ x[1] for x in arr[-1][-25:] ]
+            arr[-1] = arr[-1][-num:]
         return arr
 
     @staticmethod
