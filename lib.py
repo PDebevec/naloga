@@ -75,6 +75,31 @@ lib = __lib()
 class __ml():
 
     @staticmethod
+    def run_clustering(x, img, clusteringfun, column, time, outlierfun=None):
+        """ if outlierfun != None:
+            model = outlierfun(n_neighbors=int(len(x)/3.5))
+            res = model.fit_predict(np.concatenate(x[column].values).reshape(-1, 1400))
+            x = x.drop(index=x.iloc[np.where(res == -1)[0]].index) """
+
+        x = x.loc[img]
+
+        model = clusteringfun(n_clusters=2)
+        res = model.fit(np.concatenate(x[column].values).reshape(-1, 1400)[:, :time])
+
+        print(type(model))
+        print(res.labels_)
+        sl = ml.separate_labels(model.labels_, x.index.get_level_values(0))
+        bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(x.index.get_level_values(0)))
+
+        corect = 0
+        for i in range(len(x.index.get_level_values(0))):
+            #print(bil[i], data.index.get_level_values(0)[i])
+            if bil[i] == x.index.get_level_values(0)[i]:
+                corect+=1
+        print(corect, len(bil), corect/len(bil))
+        return
+
+    @staticmethod
     def separate_labels(labels_, y_train):
         arr = []
         for label in np.unique(y_train):
