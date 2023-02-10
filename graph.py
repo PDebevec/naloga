@@ -14,8 +14,8 @@ import pandas as pd
             case 'Cancer': c = 'red'
         for x in lb.fdata.loc[img, label]['NIR_minmax']:
             plt.plot(x, color=c)
-    #plt.savefig('graphs/minmax/'+str(img)+'_minmax.png')
-    #plt.savefig('graphs/minmax/'+str(img)+'_minmax.png')
+    plt.savefig('graphs/minmax/'+str(img)+'_minmax.png')
+    #plt.savefig('graphs/'+str(img)+'.png')
     plt.show() """
 
 #ttp
@@ -106,4 +106,4 @@ for x in np.where(lb.data[:, 2] == 'Healthy')[0][::10]:
 for x in np.where(lb.data[:, 2] == 'Benign')[0][::10]:
     plt.plot(lb.data[x, 4][:300], color='blue') """
 
-plt.show()
+#plt.show()

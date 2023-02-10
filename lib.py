@@ -79,16 +79,16 @@ class __ml():
         arr = []
         for label in np.unique(y_train):
             arr.append(list(labels_[np.where(y_train == label)]))
+        separate_labels = arr
+        for x in np.unique(np.concatenate(separate_labels)):
+            arr[np.argmax([ y.count(x) for y in separate_labels])].append(x)
         return arr
 
     @staticmethod
-    def find_biggest_batch(separate_labels, num):
+    def find_batch_inlabel(separate_labels, labels_, ulabels):
         arr = []
-        for label in separate_labels:
-            arr.append( [[label.count(x), x] for x in np.unique(label)] )
-            arr[-1] = sorted(arr[-1], key=lambda x: x[0])
-            #arr[-1] = [ x[1] for x in arr[-1][-25:] ]
-            arr[-1] = arr[-1][-num:]
+        for x in labels_:
+            arr.append(ulabels[np.argmax([ y.count(x) for y in separate_labels ])])
         return arr
 
     @staticmethod

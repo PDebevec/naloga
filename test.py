@@ -1,7 +1,7 @@
 #import sklearn as sk
 import numpy as np
 import pickle
-from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering
+from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, AffinityPropagation, MeanShift, DBSCAN, OPTICS, Birch, BisectingKMeans
 from sklearn.neighbors import KNeighborsClassifier, LocalOutlierFactor
 from sklearn.ensemble import RandomForestClassifier
 import dask.dataframe as df
@@ -45,25 +45,96 @@ data['NIR_minmax'] = lb.get_normalized(data['NIR'])
 data['NIR_minmax_img'] = lb.get_normalized_byimg(data['NIR'])
 data['NIR_255'] = data['NIR']/255
 #print(data.xs('Cancer', level='finding', drop_level=False))
+data=data.loc[170108]
+time = 1400
 
-""" l = 'Healthy'
-model = LocalOutlierFactor(n_neighbors=int(len(data.xs(l, level='finding')['NIR'])/10))
-res = model.fit_predict(np.concatenate(data.xs(l, level='finding')['NIR'].values).reshape(-1, 1400)) """
 model = LocalOutlierFactor(n_neighbors=int(len(data)/3.5))
-res = model.fit_predict(np.concatenate(data['NIR'].values).reshape(-1, 1400))
+res = model.fit_predict(np.concatenate(data['NIR_minmax_img'].values).reshape(-1, 1400))
 data = data.drop(index=data.iloc[np.where(res == -1)[0]].index)
 #print(len(np.where(res == -1)[0]))
 
 """ plt.plot(model.negative_outlier_factor_)
 plt.show() """
 
-model = AgglomerativeClustering(n_clusters=3*25, linkage='ward')
-res = model.fit(np.concatenate(data['NIR'].values).reshape(-1, 1400))
+model = KMeans(n_clusters=2)
+res = model.fit(np.concatenate(data['NIR_minmax_img'].values).reshape(-1, 1400)[:, :time])
 
+print(type(model))
 print(res.labels_)
-sl = ml.separate_labels(model.labels_, data.index.get_level_values(1))
-print(ml.find_biggest_batch(sl, 25))
+sl = ml.separate_labels(model.labels_, data.index.get_level_values(0))
+bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(data.index.get_level_values(0)))
 
+x = 0
+for i in range(len(data.index.get_level_values(0))):
+    #print(bil[i], data.index.get_level_values(0)[i])
+    if bil[i] == data.index.get_level_values(0)[i]:
+        x+=1
+
+print(x, len(bil), x/len(bil))
+
+model = SpectralClustering(n_clusters=2)
+res = model.fit(np.concatenate(data['NIR_minmax_img'].values).reshape(-1, 1400)[:, :time])
+
+print(type(model))
+print(res.labels_)
+sl = ml.separate_labels(model.labels_, data.index.get_level_values(0))
+bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(data.index.get_level_values(0)))
+
+x = 0
+for i in range(len(data.index.get_level_values(0))):
+    #print(bil[i], data.index.get_level_values(0)[i])
+    if bil[i] == data.index.get_level_values(0)[i]:
+        x+=1
+
+print(x, len(bil), x/len(bil))
+
+model = MiniBatchKMeans(n_clusters=2)
+res = model.fit(np.concatenate(data['NIR_minmax_img'].values).reshape(-1, 1400)[:, :time])
+
+print(type(model))
+print(res.labels_)
+sl = ml.separate_labels(model.labels_, data.index.get_level_values(0))
+bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(data.index.get_level_values(0)))
+
+x = 0
+for i in range(len(data.index.get_level_values(0))):
+    #print(bil[i], data.index.get_level_values(0)[i])
+    if bil[i] == data.index.get_level_values(0)[i]:
+        x+=1
+
+print(x, len(bil), x/len(bil))
+
+model = AgglomerativeClustering(n_clusters=2)
+res = model.fit(np.concatenate(data['NIR_minmax_img'].values).reshape(-1, 1400)[:, :time])
+
+print(type(model))
+print(res.labels_)
+sl = ml.separate_labels(model.labels_, data.index.get_level_values(0))
+bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(data.index.get_level_values(0)))
+
+x = 0
+for i in range(len(data.index.get_level_values(0))):
+    #print(bil[i], data.index.get_level_values(0)[i])
+    if bil[i] == data.index.get_level_values(0)[i]:
+        x+=1
+
+print(x, len(bil), x/len(bil))
+
+model = Birch(n_clusters=2)
+res = model.fit(np.concatenate(data['NIR_minmax_img'].values).reshape(-1, 1400)[:, :time])
+
+print(type(model))
+print(res.labels_)
+sl = ml.separate_labels(model.labels_, data.index.get_level_values(0))
+bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(data.index.get_level_values(0)))
+
+x = 0
+for i in range(len(data.index.get_level_values(0))):
+    #print(bil[i], data.index.get_level_values(0)[i])
+    if bil[i] == data.index.get_level_values(0)[i]:
+        x+=1
+
+print(x, len(bil), x/len(bil))
 
 """ for img in pd.unique(data.index.get_level_values(0)):
     for label in pd.unique(data.loc[img].index.get_level_values(0)):
