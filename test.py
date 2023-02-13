@@ -4,6 +4,7 @@ import pickle
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, AffinityPropagation, MeanShift, DBSCAN, OPTICS, Birch, BisectingKMeans
 from sklearn.neighbors import KNeighborsClassifier, LocalOutlierFactor
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 import dask.dataframe as df
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,20 +14,42 @@ from lib import lib as lb
 from lib import ml
 #import lib2 as lb2
 
-data = pickle.load(open('fdata.pickle', 'rb'))
-data['NIR_minmax'] = lb.get_normalized(data['NIR'])
-data['NIR_minmax_img'] = lb.get_normalized_byimg(data['NIR'])
-data['NIR_255'] = data['NIR']/255
-#print(data.xs('Cancer', level='finding', drop_level=False))
+#data['label'] = lb.get_lables(data)
+#print(lb.data.xs('Cancer', level='finding', drop_level=False))
+lb.data['NIR_minmax'] = lb.get_normalized(lb.data['NIR'])
+lb.data['NIR_minmax_img'] = lb.get_normalized_byimg(lb.data['NIR'])
+lb.data['NIR_255'] = lb.data['NIR']/255
+lb.data['NIR_diff'] = lb.get_diff(lb.data['NIR'])
+print(lb.data)
 
-model = LocalOutlierFactor(n_neighbors=int(len(data)/3.5))
-res = model.fit_predict(np.concatenate(data['NIR_255'].values).reshape(-1, 1400))
-data = data.drop(index=data.iloc[np.where(res == -1)[0]].index)
+""" model = LocalOutlierFactor(n_neighbors=int(len(lb.data)*0.5))
+res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
+lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
-ml.run_clustering(x=data, img=16092101, time=1400, column='NIR_minmax_img', clusteringfun=KMeans)
-ml.run_clustering(x=data, img=16092101, time=1400, column='NIR_minmax_img', clusteringfun=SpectralClustering)
-ml.run_clustering(x=data, img=16092101, time=1400, column='NIR_minmax_img', clusteringfun=MiniBatchKMeans)
-ml.run_clustering(x=data, img=16092101, time=1400, column='NIR_minmax_img', clusteringfun=AgglomerativeClustering)
-ml.run_clustering(x=data, img=16092101, time=1400, column='NIR_minmax_img', clusteringfun=Birch)
+model = KMeans(n_clusters=2)
+res = model.fit_predict(np.concatenate(lb.data['NIR_255'].values).reshape(-1, 1400))
+print(list(res), list(model.labels_))
+exit()
+
+for img in pd.unique(lb.data.xs('Benign' and 'Healthy', level='finding', drop_level=False).index.get_level_values(0)):
+    print(img)
+    ml.run_clustering(x=lb.data, img=img, time=300, column='NIR_diff', clusteringfun=KMeans)
+    ml.run_clustering(x=lb.data, img=img, time=300, column='NIR_diff', clusteringfun=SpectralClustering)
+    ml.run_clustering(x=lb.data, img=img, time=300, column='NIR_diff', clusteringfun=MiniBatchKMeans)
+    ml.run_clustering(x=lb.data, img=img, time=300, column='NIR_diff', clusteringfun=AgglomerativeClustering)
+    ml.run_clustering(x=lb.data, img=img, time=300, column='NIR_diff', clusteringfun=Birch)
+
+""" for img in pd.unique(lb.data.index.get_level_values(0)):
+    for label in pd.unique(lb.data.loc[img].index.get_level_values(0)):
+        c = ''
+        match label:
+            case 'Healthy': c = 'green'
+            case 'Benign': c = 'blue'
+            case 'Cancer': c = 'red'
+        for x in lb.data.loc[img, label]['NIR_diff']:
+            plt.plot(x, color=c)
+    #plt.savefig('graphs/minmax/'+str(img)+'_minmax.png')
+    #plt.savefig('graphs/'+str(img)+'.png')
+    plt.show() """
 
 #exit()
