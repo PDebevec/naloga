@@ -56,8 +56,8 @@ class __ml():
         x = x.loc[img]
 
         model = clusteringfun(n_clusters=2)
-        res = model.fit_predict(np.concatenate(x[column].values).reshape(-1, 1400)[:, :time])
-        
+        res = model.fit(np.concatenate(x[column].values).reshape(-1, 1400)[:, :time])
+
         print(type(model))
         #print(res.labels_)
         sl = ml.separate_labels(model.labels_, x.index.get_level_values(0))
