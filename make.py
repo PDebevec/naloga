@@ -12,17 +12,19 @@ del file['TTP_GS_sig20']
 del file['NIR_GS_sig20']
 del file['NIR_GS_sig2_G_corr']
 del file['NIR_GS_sig20_G_corr']
-del file['x_init']
-del file['y_init']
+#del file['x_init']
+#del file['y_init']
 
 npy = file.to_numpy()
 npy[:, 3] = ml.to_array(npy[:, 3])
 
-file = pd.DataFrame(npy, columns=['video', 'ROI', 'finding', 'NIR'])
+file = pd.DataFrame(npy, columns=['video', 'ROI', 'finding', 'NIR', 'x', 'y'])
 
 file['video'] = file['video'].astype(int)
 file['ROI'] = file['ROI'].astype(int)
 file['finding'] = file['finding'].astype(str)
+file['x'] = file['x'].astype(int)
+file['y'] = file['y'].astype(int)
 
 file = file.set_index(['video', 'finding'])
 
