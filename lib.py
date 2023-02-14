@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 import pickle
-
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.metrics import accuracy_score
 
 class __lib():
     def __init__(self):
@@ -47,29 +48,55 @@ class __lib():
             for label in data_lables.loc[img].index.get_level_values(0):
                 arr.append(np.where(ulabels == label))
         return np.concatenate(arr)
+    
+    @staticmethod
+    def get_img_label(data):
+        arr = []
+        for img in pd.unique(data.index.get_level_values(0)):
+            ulabels = pd.unique(data.loc[img].index.get_level_values(0))
+            if 'Benign' in ulabels:
+                arr.append(0)
+            else:
+                arr.append(1)
+        return arr
+    
+    @staticmethod
+    def seperate_bylabel(lable1, label2, values):
+        l1 = np.logical_or(lable1 == 0, label2 == 0)
+        l2 = np.logical_or(lable1 == 1, label2 == 1)
+        print(l1.shape, l2.shape)
+        arr = np.concatenate(values).reshape(-1, 1400)
+        return list(arr[:, l1]), list(arr[:, l2])
+        
 lib = __lib()
 
 class __ml():
 
     @staticmethod
-    def run_clustering(x, img, clusteringfun, column, time):
+    def run_clustering(x, img, clusteringfun, column):
         x = x.loc[img]
 
         model = clusteringfun(n_clusters=2)
-        res = model.fit(np.concatenate(x[column].values).reshape(-1, 1400)[:, :time])
+        model.fit(np.concatenate(x[column].values).reshape(-1, len(x[column][0])))
 
-        print(type(model))
-        #print(res.labels_)
-        sl = ml.separate_labels(model.labels_, x.index.get_level_values(0))
-        bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(x.index.get_level_values(0)))
-
-        corect = 0
+        #print(type(model))
+        return [type(model).__name__, ml.get_accuracy(model.labels_, x.index.get_level_values(0))]
+        """ sl = ml.separate_labels(model.labels_, x.index.get_level_values(0))
+        bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(x.index.get_level_values(0))) """
+        """ corect = 0
         for i in range(len(x.index.get_level_values(0))):
             #print(bil[i], data.index.get_level_values(0)[i])
             if bil[i] == x.index.get_level_values(0)[i]:
                 corect+=1
-        print(corect, len(bil), corect/len(bil))
-        return
+        print(corect, len(bil), corect/len(bil)) """
+
+    @staticmethod
+    def get_accuracy(labels_, y):
+        arr = []
+        model = LabelBinarizer()
+        res = np.concatenate(model.fit_transform(y))
+        acc = accuracy_score(res, labels_)
+        return max([ acc, (acc-1)*-1 ])
 
     @staticmethod
     def separate_labels(labels_, y_train):
