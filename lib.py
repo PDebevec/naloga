@@ -3,10 +3,25 @@ import pandas as pd
 import pickle
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import accuracy_score
+from scipy.ndimage import gaussian_filter1d
 
 class __lib():
     def __init__(self):
         self.data = pickle.load(open('fdata.pickle', 'rb'))
+        self.data['NIR_255'] = self.data['NIR']/255
+        self.data['NIR_minmax'] = self.get_minmax(self.data['NIR'])
+        self.data['NIR_minmax_img'] = self.get_minmax_byimg(self.data['NIR'])
+        self.data['NIR_diff'] = self.get_diff(self.data['NIR'])
+
+        self.data['NIR_255_smth'] = self.get_gaussian(self.data['NIR_255'].values, 15)
+        self.data['NIR_minmax_smth'] = self.get_gaussian(self.data['NIR_minmax'].values, 15)
+        self.data['NIR_minmax_img_smth'] = self.get_gaussian(self.data['NIR_minmax_img'].values, 15)
+        self.data['NIR_diff_smth'] = self.get_gaussian(self.data['NIR_diff'].values, 15)
+
+        """ self.data['NIR_smth_255'] = [ [ y/255 for y in x ] for x in np.array(self.get_gaussian(self.data['NIR'], 15)) ]
+        self.data['NIR_smth_minmax'] = self.get_minmax(self.get_gaussian(self.data['NIR_255'], 15))
+        self.data['NIR_smth_minmax_img'] = self.get_minmax_byimg(self.data['NIR_255_smth'])
+        self.data['NIR_smth_diff'] = self.get_diff(self.get_gaussian(self.data['NIR_255'], 15)) """
     data = None
 
     @staticmethod
@@ -22,7 +37,7 @@ class __lib():
         return arr
     
     @staticmethod
-    def get_normalized(data):
+    def get_minmax(data):
         arr = []
         for x in data:
             mx = np.max(x)
@@ -31,7 +46,7 @@ class __lib():
         return arr
 
     @staticmethod
-    def get_normalized_byimg(data):
+    def get_minmax_byimg(data):
         arr = []
         for img in pd.unique(data.index.get_level_values(0)):
             mx = np.max( [max(x) for x in data.loc[img].values] )
@@ -67,7 +82,20 @@ class __lib():
         print(l1.shape, l2.shape)
         arr = np.concatenate(values).reshape(-1, 1400)
         return list(arr[:, l1]), list(arr[:, l2])
-        
+    
+    @staticmethod
+    def get_gaussian(data, sigma):
+        arr = []
+        for x in data:
+            arr.append(gaussian_filter1d(x, sigma))
+        return arr
+
+    @staticmethod
+    def get_avg(data):
+        avg = []
+        for y in range(len(data[0])):
+            avg.append( np.average( [ data[x][y] for x in range(len(data)) ] ) )
+        return avg
 lib = __lib()
 
 class __ml():

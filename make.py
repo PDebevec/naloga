@@ -17,8 +17,10 @@ del file['y_init']
 
 npy = file.to_numpy()
 npy[:, 3] = ml.to_array(npy[:, 3])
+#npy[:, 4] = ml.to_array(npy[:, 4])
+#npy[:, 5] = ml.to_array(npy[:, 5])
 
-file = pd.DataFrame(npy, columns=['video', 'ROI', 'finding', 'NIR'])
+file = pd.DataFrame(npy, columns=['video', 'ROI', 'finding', 'NIR'])#, 'NIR_corr2', 'NIR_corr20'])
 
 file['video'] = file['video'].astype(int)
 file['ROI'] = file['ROI'].astype(int)
@@ -27,5 +29,9 @@ file['finding'] = file['finding'].astype(str)
 file = file.set_index(['video', 'finding'])
 
 file = file.drop(16091601)
+file = file.drop(16091401)
+file = file.drop(16092101)
+
+file = file.sort_index()
 
 pickle.dump(file, open('fdata.pickle', 'wb'))

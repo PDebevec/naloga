@@ -1,104 +1,54 @@
 #import sklearn as sk
 import numpy as np
+from mpl_toolkits.mplot3d import axes3d
 import pickle
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
 from sklearn.cluster import SpectralCoclustering, SpectralBiclustering #neki
 from sklearn.cluster import AffinityPropagation, MeanShift, DBSCAN, OPTICS, BisectingKMeans
 from sklearn.neighbors import KNeighborsClassifier, LocalOutlierFactor
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import accuracy_score
 import dask.dataframe as df
 import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.signal as ss
 import scipy.sparse as sparse
+from scipy.ndimage import gaussian_filter
 from lib import lib as lb
 from lib import ml
 #import lib2 as lb2
-
-#data['label'] = lb.get_lables(data)
 #print(lb.data.xs('Cancer', level='finding', drop_level=False))
-lb.data['NIR_minmax'] = lb.get_normalized(lb.data['NIR'])
-lb.data['NIR_minmax_img'] = lb.get_normalized_byimg(lb.data['NIR'])
-lb.data['NIR_255'] = lb.data['NIR']/255
-lb.data['NIR_diff'] = lb.get_diff(lb.data['NIR'])
 #16091401 170108
 
-csv = pd.DataFrame(columns=['normalized', 'algo', 'acc']).set_index('normalized')
+x_train = lb.data.xs('Cancer', level=1, drop_level=False)['NIR_255'].sample(frac=1)
+x_test, x_train = x_train[200:], x_train[:200]
+temp = lb.data.xs('Benign', level=1, drop_level=False)['NIR_255'].sample(frac=1)
+x_test, x_train = pd.concat([ x_test, temp[200:] ]), pd.concat([ x_train, temp[:200] ])
+temp = lb.data.xs('Healthy', level=1, drop_level=False)['NIR_255'].sample(frac=1)
+x_test, x_train = pd.concat([ x_test, temp[200:] ]).to_frame().sample(frac=1), pd.concat([ x_train, temp[:200] ]).to_frame().sample(frac=1)
 
-#print(ml.run_clustering(x=lb.data, img=16091401, column='NIR', clusteringfun=KMeans))
-csv.loc['NIR'] = [ ['ne', 123], ['ja', 321] ]
 
-csv.loc['NIR'] = [  ml.run_clustering(x=lb.data, img=16091401, column='NIR', clusteringfun=KMeans), 
-                    ml.run_clustering(x=lb.data, img=16091401, column='NIR', clusteringfun=SpectralClustering),
-                    ml.run_clustering(x=lb.data, img=16091401, column='NIR', clusteringfun=MiniBatchKMeans),
-                    ml.run_clustering(x=lb.data, img=16091401, column='NIR', clusteringfun=AgglomerativeClustering),
-                    ml.run_clustering(x=lb.data, img=16091401, column='NIR', clusteringfun=Birch) ]
+model = KNeighborsClassifier()
+model.fit(np.concatenate(x_train['NIR_255'].values).reshape(-1, 1400), x_train.index.get_level_values(1))
 
-print(csv)
+res = model.predict(np.concatenate(x_test['NIR_255'].values).reshape(-1, 1400))
 
-""" for img in pd.unique(lb.data.index.get_level_values(0)):
-    print(img)
-    ml.run_clustering(x=lb.data, img=img, column='NIR', clusteringfun=KMeans)
-    ml.run_clustering(x=lb.data, img=img, column='NIR', clusteringfun=SpectralClustering)
-    ml.run_clustering(x=lb.data, img=img, column='NIR', clusteringfun=MiniBatchKMeans)
-    ml.run_clustering(x=lb.data, img=img, column='NIR', clusteringfun=AgglomerativeClustering)
-    ml.run_clustering(x=lb.data, img=img, column='NIR', clusteringfun=Birch) """
+count = 0
+for i in range(len(res)):
+    if res[i] == x_test.index.get_level_values(1)[i]:
+        count+=1
+print(len(res), count, (count / len(res)))
 
-""" model = SpectralCoclustering(n_clusters=2, mini_batch=True)
-model.fit(np.concatenate(lb.data['NIR_diff'].values).reshape(-1, 1400))
-plt.plot(model.column_labels_)
-l = model.column_labels_
-model = SpectralBiclustering(n_clusters=2, mini_batch=True)
-model.fit(np.concatenate(lb.data['NIR_diff'].values).reshape(-1, 1400))
-plt.plot(model.column_labels_)
-plt.show()
+model = LocalOutlierFactor()
+model.fit(np.concatenate(x_train['NIR_255'].values).reshape(-1, 1400), x_train.index.get_level_values(1))
 
-lb.data['c1'], lb.data['c2'] = lb.seperate_bylabel(l, model.column_labels_, lb.data['NIR_255'].values)
+res = model.predict(np.concatenate(x_test['NIR_255'].values).reshape(-1, 1400))
 
-for img in pd.unique(lb.data.index.get_level_values(0)):
-    print(img)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster1', clusteringfun=KMeans)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster1', clusteringfun=SpectralClustering)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster1', clusteringfun=MiniBatchKMeans)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster1', clusteringfun=AgglomerativeClustering)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster1', clusteringfun=Birch)
-
-input()
-
-for img in pd.unique(lb.data.index.get_level_values(0)):
-    print(img)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster2', clusteringfun=KMeans)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster2', clusteringfun=SpectralClustering)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster2', clusteringfun=MiniBatchKMeans)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster2', clusteringfun=AgglomerativeClustering)
-    ml.run_clustering(x=lb.data, img=img, time=300, column='cluster2', clusteringfun=Birch) """
-
-""" for img in pd.unique(lb.data.index.get_level_values(0)):
-    print(img)
-    model = SpectralCoclustering(n_clusters=2, mini_batch=True)
-    model.fit(np.concatenate(lb.data.loc[img]['NIR_255'].values).reshape(-1, 1400))
-    plt.plot(model.column_labels_)
-    model = SpectralBiclustering(n_clusters=2, mini_batch=True)
-    model.fit(np.concatenate(lb.data.loc[img]['NIR_255'].values).reshape(-1, 1400))
-    plt.plot(model.column_labels_)
-    plt.show() """
-
-""" model = LocalOutlierFactor(n_neighbors=int(len(lb.data)*0.5))
-res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
-lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
-
-""" for img in pd.unique(lb.data.index.get_level_values(0)):
-    for label in pd.unique(lb.data.loc[img].index.get_level_values(0)):
-        c = ''
-        match label:
-            case 'Healthy': c = 'green'
-            case 'Benign': c = 'blue'
-            case 'Cancer': c = 'red'
-        for x in lb.data.loc[img, label]['NIR_diff']:
-            plt.plot(x, color=c)
-    #plt.savefig('graphs/minmax/'+str(img)+'_minmax.png')
-    #plt.savefig('graphs/'+str(img)+'.png')
-    plt.show() """
+count = 0
+for i in range(len(res)):
+    if res[i] == x_test.index.get_level_values(1)[i]:
+        count+=1
+print(len(res), count, (count / len(res)))
 
 #exit()
