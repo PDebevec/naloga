@@ -29,8 +29,8 @@ file['finding'] = file['finding'].astype(str)
 file = file.set_index(['video', 'finding'])
 
 file = file.drop(16091601)
-file = file.drop(16091401)
-file = file.drop(16092101)
+#file = file.drop(16091401)
+#file = file.drop(16092101)
 
 file = file.sort_index()
 

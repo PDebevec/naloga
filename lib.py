@@ -108,7 +108,8 @@ class __ml():
         model.fit(np.concatenate(x[column].values).reshape(-1, len(x[column][0])))
 
         #print(type(model))
-        return [type(model).__name__, ml.get_accuracy(model.labels_, x.index.get_level_values(0))]
+        #return [type(model).__name__, ml.get_accuracy(model.labels_, x.index.get_level_values(0))]
+        return ml.get_accuracy(model.labels_, x.index.get_level_values(0))
         """ sl = ml.separate_labels(model.labels_, x.index.get_level_values(0))
         bil = ml.find_batch_inlabel(sl, model.labels_, np.unique(x.index.get_level_values(0))) """
         """ corect = 0
