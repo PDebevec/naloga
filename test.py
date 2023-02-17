@@ -21,8 +21,13 @@ import ml
 #print(lb.data.xs('Cancer', level='finding', drop_level=False))
 #NIR_255 FastICA default AgglomerativeClustering avg:0.8544623722497882 min:0.5357142857142857 nmax:6
 
-ml.select_decomposition_cluster(
-    decomposition=FastICA()
-)
+ml.seperate_x_cancer_benign()
+
+
+""" ml.select_decomposition_cluster(
+    decomposition=FastICA(n_components=12),
+    cluster=AgglomerativeClustering(n_clusters=2),
+    column='NIR_255',
+) """
 
 #exit()

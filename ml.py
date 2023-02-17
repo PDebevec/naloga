@@ -6,6 +6,7 @@ import pandas as pd
 from pathlib import Path
 from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
@@ -72,6 +73,17 @@ def select_decomposition_cluster(decomposition, cluster, column, x_fit):
             x = decomposition.fit_transform(x_fit.loc[img][column])
             cluster.fit(x)
     return cluster.lables_
+
+def get_cancer_benign():
+    cvideos = pd.unique(lb.data.xs('Cancer', level=1, drop_level=False).index.get_level_values(0))
+    bvideos = pd.unique(lb.data.xs('Benign', level=1, drop_level=False).index.get_level_values(0))
+    return cvideos, bvideos
+
+def seperate_x_cancer_benign():
+    c, b = get_cancer_benign()
+    print(train_test_split(c, shuffle=True, test_size=0.2))
+    print(train_test_split(b, shuffle=True, test_size=0.2))
+    return
 
 def decomposition_cluster(column):
     setting= [ 'sigmoid', 'cosine', 'default', 'default', 'default', 'default', 'default' ]
