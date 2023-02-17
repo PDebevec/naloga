@@ -1,8 +1,8 @@
 import pandas as pd
 import pickle
 import numpy as np
-from lib import ml
-from lib import lib as lb
+import ml
+import lib as lb
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -62,54 +62,61 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
 res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
-#rezultati z decomposition za NIR_diff in NIR_minmax
-""" csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video'])
+#decomposition in cluster podatkov
+#naredi
+""" ml.decomposition_cluster('NIR_255')
+ml.decomposition_cluster('NIR_diff')
+ml.decomposition_cluster('NIR_minmax')
+ml.decomposition_cluster('NIR_255_smth')
+ml.decomposition_cluster('NIR_diff_smth')
+ml.decomposition_cluster('NIR_minmax_smth') """
+#skupi
+""" csv255s = pd.read_csv('NIR_255_smth.csv')
+csvdiffs = pd.read_csv('NIR_diff_smth.csv')
+csvminmaxs = pd.read_csv('NIR_minmax_smth.csv')
+csv255 = pd.read_csv('NIR_255.csv')
+csvdiff = pd.read_csv('NIR_diff.csv')
+csvminmax = pd.read_csv('NIR_minmax.csv')
+csv =  pd.concat([ csvdiff, csvminmax, csv255, csvdiffs, csvminmaxs, csv255s ]).set_index([ 'col', 'component_fun', 'setting', 'model', 'video' ])
+csv.to_csv('allrez.csv') """
+#izpiše najbolše
+csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video'])
 arr = np.array([])
 for img in pd.unique(csv.index.get_level_values(4)):
     temp = csv.xs(img, level='video', drop_level=False)
-    i = np.argwhere( temp.values == np.max(temp.values) )[:, 0].flatten()
+    i = np.argwhere( temp.values[:, 0] == np.max(temp.values[:, 0]) )[:, 0].flatten()
+    temp = temp.iloc[ i ]
+    i = np.argwhere( (temp.values[:, 1]*10).astype(int) == np.min((temp.values[:, 1]*10).astype(int)) )[:, 0].flatten()
     print(temp.iloc[ i ])
     arr = np.concatenate((temp.iloc[ i ].values[:, 0], arr))
-print(np.average(arr), np.min(arr), np.max(arr)) """
-
-#join
-csvminmax = pd.read_csv('rez1.csv')
-csvminmax['col'] = 'NIR_minmax'
-csvdiff = pd.read_csv('rez.csv')
-csvdiff['col'] = 'NIR_diff'
-csv =  pd.concat([ csvminmax, csvdiff ]).set_index([ 'col', 'component_fun', 'setting', 'model', 'video' ])
-csv.to_csv('allrez.csv')
-
-#decomposition za NIR_diff in NIR_minmax
-""" csv = pd.read_csv('rez1.csv').set_index(['component_fun', 'setting', 'model', 'video'])
-dfcsv = np.array(['component_fun', 'setting',  'model', 'video', 'acc'])
-for img in pd.unique(lb.data.index.get_level_values(0)):
-    #print(img)
-    model = TruncatedSVD(n_components=12)#, kernel='cosine')
-    x = model.fit_transform(np.concatenate(lb.data.loc[img]['NIR_minmax'].values).reshape(-1 ,1400))
-    
-    compmodel = type(model).__name__
-    
-    model = KMeans(n_clusters=2)
-    model.fit(x)
-    dfcsv = np.vstack((dfcsv, np.array([compmodel, 'default', type(model).__name__, img, ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))])))
-    model = SpectralClustering(n_clusters=2)
-    model.fit(x)
-    dfcsv = np.vstack((dfcsv, np.array([compmodel, 'default', type(model).__name__, img, ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))])))
-    model = MiniBatchKMeans(n_clusters=2)
-    model.fit(x)
-    dfcsv = np.vstack((dfcsv, np.array([compmodel, 'default', type(model).__name__, img, ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))])))
-    model = AgglomerativeClustering(n_clusters=2)
-    model.fit(x)
-    dfcsv = np.vstack((dfcsv, np.array([compmodel, 'default', type(model).__name__, img, ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))])))
-    model = Birch(n_clusters=2)
-    model.fit(x)
-    dfcsv = np.vstack((dfcsv, np.array([compmodel, 'default', type(model).__name__, img, ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))])))
-
-dfcsv = pd.DataFrame(dfcsv[1:], columns=dfcsv[0])
-dfcsv = dfcsv.sort_values(by=['component_fun', 'setting', 'model', 'video']).set_index(['component_fun', 'setting', 'model', 'video'])
-csv = pd.concat([csv, dfcsv])
-csv.to_csv('rez1.csv') """
+print('avg: ', np.average(arr), '\nmin:', np.min(arr), '\nmax:', np.max(arr))
+#najbolša kobinacija
+""" csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video'])
+arr = []
+for l0 in pd.unique(csv.index.get_level_values(0)):
+    temp = csv.xs(l0, level=0, drop_level=False)
+    for l1 in pd.unique(temp.index.get_level_values(1)):
+        l1t = temp.xs(l1, level=1, drop_level=False)
+        for l2 in pd.unique(l1t.index.get_level_values(2)):
+            l2t = l1t.xs(l2, level=2, drop_level=False)
+            for l3 in pd.unique(l2t.index.get_level_values(3)):
+                l3t = l2t.xs(l3, level=3, drop_level=False)
+                arr.append([
+                    l0+' '+l1+' '+l2+' '+l3
+                    ,np.mean(l3t['acc'].values)
+                    ,np.min(l3t['acc'].values)
+                    ,l3t['acc'].values.tolist().count(1) ])
+arr = np.array(arr)
+temp = []
+for comb in arr[:, 0]:
+    temp.append(
+        np.where(arr[arr[:, 1].astype(float).argsort()][:, 0] == comb)[0][0]
+        + np.where(arr[arr[:, 2].astype(float).argsort()][:, 0] == comb)[0][0]
+        + np.where(arr[arr[:, 3].astype(int).argsort()][:, 0] == comb)[0][0]
+      )
+#print(np.array(temp))
+arr = np.hstack((arr, np.array(temp).reshape(-1, 1)))
+print(arr[arr[:, 4].astype(float).argsort()][-1]) """
 
 #transposed data and binary labels
 """ model = LabelBinarizer()
