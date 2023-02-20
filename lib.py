@@ -2,10 +2,11 @@ import numpy as np
 import pandas as pd
 import pickle
 from sklearn.preprocessing import LabelBinarizer
+from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
 from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
 
-data = None
+data = pickle.load(open('data.pickle', 'rb'))
 
 def get_diff(data_arr):
     arr = []
@@ -79,8 +80,7 @@ def get_avg(data):
         avg.append( np.average( [ data[x][y] for x in range(len(data)) ] ) )
     return avg
 
-data = pickle.load(open('fdata.pickle', 'rb'))
-data['NIR_255'] = data['NIR']/255
+""" data['NIR_255'] = data['NIR']/255
 data['NIR_minmax'] = get_minmax(data['NIR'])
 data['NIR_minmax_img'] = get_minmax_byimg(data['NIR'])
 data['NIR_diff'] = get_diff(data['NIR'])
@@ -88,4 +88,4 @@ data['NIR_diff'] = get_diff(data['NIR'])
 data['NIR_255_smth'] = get_gaussian(data['NIR_255'].values, 15)
 data['NIR_minmax_smth'] = get_gaussian(data['NIR_minmax'].values, 15)
 data['NIR_minmax_img_smth'] = get_gaussian(data['NIR_minmax_img'].values, 15)
-data['NIR_diff_smth'] = get_gaussian(data['NIR_diff'].values, 15)
+data['NIR_diff_smth'] = get_gaussian(data['NIR_diff'].values, 15) """

@@ -62,6 +62,20 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
 res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
+#random forest na decomposition
+""" x_train, x_test = ml.seperate_x_random_img()
+#x_train, x_test = ml.seperate_x_cancer_benign(0.1)
+for col in lb.data.columns[10:]:
+    model = RandomForestClassifier()
+    model.fit(np.concatenate(x_train[col].values).reshape(-1, 12), x_train.index.get_level_values(1))
+    res = model.predict(np.concatenate(x_test[col].values).reshape(-1, 12))
+
+    count = 0
+    for i in range(len(res)):
+        if res[i] == x_test.index.get_level_values(1)[i]:
+            count+=1
+    print(col, count, len(res), count/len(res)) """
+
 #decomposition in cluster podatkov
 #naredi
 """ ml.decomposition_cluster('NIR_255')
@@ -85,13 +99,15 @@ arr = np.array([])
 for img in pd.unique(csv.index.get_level_values(4)):
     temp = csv.xs(img, level='video', drop_level=False)
     i = np.argwhere( temp.values[:, 0] == np.max(temp.values[:, 0]) )[:, 0].flatten()
-    temp = temp.iloc[ i ]
-    i = np.argwhere( (temp.values[:, 1]*10).astype(int) == np.min((temp.values[:, 1]*10).astype(int)) )[:, 0].flatten()
+    #temp = temp.iloc[ i ]
+    #i = np.argwhere( (temp.values[:, 1]*100).astype(int) == np.min((temp.values[:, 1]*100).astype(int)) )[:, 0].flatten()
     print(temp.iloc[ i ])
     arr = np.concatenate((temp.iloc[ i ].values[:, 0], arr))
 print('avg: ', np.average(arr), '\nmin:', np.min(arr), '\nmax:', np.max(arr))
 #najbolša kobinacija
-""" csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video'])
+csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video']).sort_index()
+#KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
+csv = csv.xs('')
 arr = []
 for l0 in pd.unique(csv.index.get_level_values(0)):
     temp = csv.xs(l0, level=0, drop_level=False)
@@ -105,18 +121,21 @@ for l0 in pd.unique(csv.index.get_level_values(0)):
                     l0+' '+l1+' '+l2+' '+l3
                     ,np.mean(l3t['acc'].values)
                     ,np.min(l3t['acc'].values)
-                    ,l3t['acc'].values.tolist().count(1) ])
+                    #,l3t['acc'].values.tolist().count(1)
+                    ])
 arr = np.array(arr)
 temp = []
 for comb in arr[:, 0]:
     temp.append(
         np.where(arr[arr[:, 1].astype(float).argsort()][:, 0] == comb)[0][0]
         + np.where(arr[arr[:, 2].astype(float).argsort()][:, 0] == comb)[0][0]
-        + np.where(arr[arr[:, 3].astype(int).argsort()][:, 0] == comb)[0][0]
+        #+ np.where(arr[arr[:, 3].astype(int).argsort()][:, 0] == comb)[0][0]
       )
 #print(np.array(temp))
 arr = np.hstack((arr, np.array(temp).reshape(-1, 1)))
-print(arr[arr[:, 4].astype(float).argsort()][-1]) """
+print(arr[arr[:, 3].astype(float).argsort()][-1, 0])
+
+#print(csv.loc['NIR_diff_smth', 'FastICA', 'default', 'AgglomerativeClustering'])
 
 #transposed data and binary labels
 """ model = LabelBinarizer()

@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
 
@@ -17,18 +18,7 @@ def run_clustering(x, img, clusteringfun, column):
 
     model = clusteringfun(n_clusters=2)
     model.fit(np.concatenate(x[column].values).reshape(-1, len(x[column][0])))
-
-    #print(type(model))
-    #return [type(model).__name__, get_accuracy(model.labels_, x.index.get_level_values(0))]
     return get_accuracy(model.labels_, x.index.get_level_values(0))
-    """ sl = separate_labels(model.labels_, x.index.get_level_values(0))
-    bil = find_batch_inlabel(sl, model.labels_, np.unique(x.index.get_level_values(0))) """
-    """ corect = 0
-    for i in range(len(x.index.get_level_values(0))):
-        #print(bil[i], data.index.get_level_values(0)[i])
-        if bil[i] == x.index.get_level_values(0)[i]:
-            corect+=1
-    print(corect, len(bil), corect/len(bil)) """
 
 
 def get_accuracy(labels_, y):
@@ -79,11 +69,43 @@ def get_cancer_benign():
     bvideos = pd.unique(lb.data.xs('Benign', level=1, drop_level=False).index.get_level_values(0))
     return cvideos, bvideos
 
-def seperate_x_cancer_benign():
+def seperate_x_cancer_benign(split):
     c, b = get_cancer_benign()
-    print(train_test_split(c, shuffle=True, test_size=0.2))
-    print(train_test_split(b, shuffle=True, test_size=0.2))
-    return
+    c_train, c_test = train_test_split(c, shuffle=True, test_size=split)
+    b_train, b_test = train_test_split(b, shuffle=True, test_size=split)
+    return lb.data.loc[np.hstack((c_train, b_train))], lb.data.loc[np.hstack((c_test, b_test))]
+
+def seperate_x_random_img():
+    img = np.random.choice(pd.unique(lb.data.index.get_level_values(0)), 1)[0]
+    return lb.data.drop(img), lb.data.xs(img, level='video', drop_level=False)
+
+def decomposition_data(column, file, components):
+    setting= [ '_sigmoid_', '_cosine_', '_', '_', '_', '_', '_' ]
+
+    decomposition = [
+        KernelPCA(n_components=components, kernel='sigmoid'),
+        KernelPCA(n_components=components, kernel='cosine'),
+        FactorAnalysis(n_components=components),
+        FastICA(n_components=components),
+        IncrementalPCA(n_components=components),
+        PCA(n_components=components),
+        TruncatedSVD(n_components=components)
+    ]
+
+
+    """ m = KernelPCA(n_components=50, kernel='sigmoid')
+    file[column+'_sigmoid_'+type(m).__name__] = m.fit_transform(np.concatenate(file[column].values).reshape(-1, 1400))
+    m = KernelPCA(n_components=50, kernel='cosine')
+    file[column+'_cosine_'+type(m).__name__] = list(m.fit_transform(np.concatenate(file[column].values).reshape(-1, 1400))) """
+    
+    nplist = []
+    for s,d in zip(setting, decomposition):
+        nplist.append(np.array([[column+s+type(d).__name__]*components]))
+        for img in pd.unique(file.index.get_level_values(0)):
+            nplist[-1] = np.vstack(( nplist[-1],
+            d.fit_transform(np.concatenate(file.loc[img][column].values).reshape(-1, 1400)) ))
+        file[column+s+type(d).__name__] = nplist[-1][1:].tolist()
+    return file
 
 def decomposition_cluster(column):
     setting= [ 'sigmoid', 'cosine', 'default', 'default', 'default', 'default', 'default' ]

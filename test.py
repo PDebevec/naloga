@@ -13,21 +13,27 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import accuracy_score
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.colors as mco
 import scipy.signal as ss
 import scipy.sparse as sparse
 import lib as lb
 import ml
 #import lib2 as lb2
 #print(lb.data.xs('Cancer', level='finding', drop_level=False))
-#NIR_255 FastICA default AgglomerativeClustering avg:0.8544623722497882 min:0.5357142857142857 nmax:6
+#NIR_diff_smth FastICA default AgglomerativeClustering avg:0.8581598572776615 min:0.5365853658536586
 
-ml.seperate_x_cancer_benign()
+X = np.array([[1, 1], [2, 1], [3, 1.2], [4, 1], [5, 0.8], [6, 1]])
+print(X.shape)
+model = NMF(n_components=2, init='random', random_state=0)
+W = model.fit_transform(X)
+print(W)
+H = model.components_
+print(H)
 
-
-""" ml.select_decomposition_cluster(
-    decomposition=FastICA(n_components=12),
-    cluster=AgglomerativeClustering(n_clusters=2),
-    column='NIR_255',
-) """
+model = MiniBatchNMF(n_components=2, init='random', random_state=0)
+W = model.fit_transform(X)
+print(W)
+H = model.components_
+print(H)
 
 #exit()
