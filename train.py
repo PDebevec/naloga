@@ -94,7 +94,7 @@ csvminmax = pd.read_csv('NIR_minmax.csv')
 csv =  pd.concat([ csvdiff, csvminmax, csv255, csvdiffs, csvminmaxs, csv255s ]).set_index([ 'col', 'component_fun', 'setting', 'model', 'video' ])
 csv.to_csv('allrez.csv') """
 #izpiše najbolše
-csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video'])
+""" csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video'])
 arr = np.array([])
 for img in pd.unique(csv.index.get_level_values(4)):
     temp = csv.xs(img, level='video', drop_level=False)
@@ -103,11 +103,11 @@ for img in pd.unique(csv.index.get_level_values(4)):
     #i = np.argwhere( (temp.values[:, 1]*100).astype(int) == np.min((temp.values[:, 1]*100).astype(int)) )[:, 0].flatten()
     print(temp.iloc[ i ])
     arr = np.concatenate((temp.iloc[ i ].values[:, 0], arr))
-print('avg: ', np.average(arr), '\nmin:', np.min(arr), '\nmax:', np.max(arr))
+print('avg: ', np.average(arr), '\nmin:', np.min(arr), '\nmax:', np.max(arr)) """
 #najbolša kobinacija
 csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video']).sort_index()
 #KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
-csv = csv.xs('')
+csv = csv.xs('KMeans', level='model', drop_level=False)
 arr = []
 for l0 in pd.unique(csv.index.get_level_values(0)):
     temp = csv.xs(l0, level=0, drop_level=False)
@@ -133,7 +133,7 @@ for comb in arr[:, 0]:
       )
 #print(np.array(temp))
 arr = np.hstack((arr, np.array(temp).reshape(-1, 1)))
-print(arr[arr[:, 3].astype(float).argsort()][-1, 0])
+print(arr[arr[:, 3].astype(float).argsort()][-1, 0]) #izpisat acc pa cajt
 
 #print(csv.loc['NIR_diff_smth', 'FastICA', 'default', 'AgglomerativeClustering'])
 
