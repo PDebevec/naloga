@@ -1,146 +1,85 @@
-                                                                       acc      time
-col           component_fun  setting model                   video                  
-NIR_diff_smth IncrementalPCA default AgglomerativeClustering 16090101  1.0  0.413481
-              KernelPCA      sigmoid AgglomerativeClustering 16090101  1.0  0.420561
-              PCA            default AgglomerativeClustering 16090101  1.0  0.474059
-              TruncatedSVD   default AgglomerativeClustering 16090101  1.0  0.494355
-                                                                        acc      time
-col             component_fun setting model                   video                  
-NIR_diff        KernelPCA     cosine  AgglomerativeClustering 16090401  1.0  0.570281
-                PCA           default AgglomerativeClustering 16090401  1.0  0.565139
-                TruncatedSVD  default AgglomerativeClustering 16090401  1.0  0.570947
-NIR_minmax      KernelPCA     sigmoid AgglomerativeClustering 16090401  1.0  0.540512
-NIR_diff_smth   KernelPCA     sigmoid AgglomerativeClustering 16090401  1.0  0.545781
-                TruncatedSVD  default AgglomerativeClustering 16090401  1.0  0.563970
-NIR_minmax_smth KernelPCA     cosine  AgglomerativeClustering 16090401  1.0  0.595858
-                              sigmoid AgglomerativeClustering 16090401  1.0  0.589411
-                                                                         acc      time
-col             component_fun  setting model                   video                  
-NIR_diff        IncrementalPCA default AgglomerativeClustering 16090601  1.0  0.451592
-                KernelPCA      sigmoid AgglomerativeClustering 16090601  1.0  0.442424
-NIR_minmax      KernelPCA      cosine  AgglomerativeClustering 16090601  1.0  0.442310
-                               sigmoid AgglomerativeClustering 16090601  1.0  0.423605
-NIR_diff_smth   KernelPCA      cosine  AgglomerativeClustering 16090601  1.0  0.451176
-                               sigmoid AgglomerativeClustering 16090601  1.0  0.442445
-NIR_minmax_smth KernelPCA      cosine  AgglomerativeClustering 16090601  1.0  0.468220
-                               sigmoid AgglomerativeClustering 16090601  1.0  0.454945
-NIR_255_smth    KernelPCA      cosine  AgglomerativeClustering 16090601  1.0  0.449670
-                                                                            acc      time
-col           component_fun  setting model                   video                       
-NIR_255       IncrementalPCA default AgglomerativeClustering 16091201  0.972222  0.457102
-              KernelPCA      sigmoid AgglomerativeClustering 16091201  0.972222  0.430860
-              TruncatedSVD   default AgglomerativeClustering 16091201  0.972222  0.435163
-NIR_diff_smth FastICA        default AgglomerativeClustering 16091201  0.972222  0.491686
-NIR_255_smth  IncrementalPCA default AgglomerativeClustering 16091201  0.972222  0.444755
-              KernelPCA      sigmoid AgglomerativeClustering 16091201  0.972222  0.436239
-              PCA            default AgglomerativeClustering 16091201  0.972222  0.458565
-              TruncatedSVD   default AgglomerativeClustering 16091201  0.972222  0.432747
-                                                                 acc      time
-col     component_fun  setting model                   video                  
-NIR_255 FactorAnalysis default AgglomerativeClustering 16091301  1.0  0.924766
                                                                       acc      time
 col           component_fun setting model                   video                  
-NIR_diff_smth FastICA       default AgglomerativeClustering 16091401  1.0  0.760761
-                                                              acc      time
-col      component_fun setting model           video                       
-NIR_diff KernelPCA     sigmoid MiniBatchKMeans 16092001  0.984127  9.923295
-                                                                 acc      time
-col      component_fun setting model                   video                  
-NIR_diff FastICA       default AgglomerativeClustering 16092101  1.0  0.777968
+NIR_diff_smth KernelPCA     sigmoid AgglomerativeClustering 16090101  1.0  9.301186
+              PCA           default AgglomerativeClustering 16090101  1.0  9.103537
                                                                         acc      time
 col             component_fun setting model                   video                  
-NIR_minmax_smth FastICA       default AgglomerativeClustering 16092201  1.0  0.742408
+NIR_minmax      KernelPCA     sigmoid AgglomerativeClustering 16090401  1.0  4.716396
+NIR_diff_smth   KernelPCA     sigmoid AgglomerativeClustering 16090401  1.0  4.283428
+NIR_minmax_smth KernelPCA     sigmoid AgglomerativeClustering 16090401  1.0  4.740953
+                                                                      acc      time
+col           component_fun setting model                   video                  
+NIR_diff_smth KernelPCA     sigmoid AgglomerativeClustering 16090601  1.0  3.095388
+NIR_255_smth  KernelPCA     cosine  AgglomerativeClustering 16090601  1.0  3.667831
+                                                                          acc      time
+col          component_fun setting model                   video                       
+NIR_255      KernelPCA     sigmoid AgglomerativeClustering 16091201  0.972222  2.836466
+NIR_255_smth KernelPCA     sigmoid AgglomerativeClustering 16091201  0.972222  2.660036
+                                                                 acc        time
+col     component_fun  setting model                   video                    
+NIR_255 FactorAnalysis default AgglomerativeClustering 16091301  1.0  563.560724
+                                                                      acc        time
+col           component_fun setting model                   video                    
+NIR_diff_smth FastICA       default AgglomerativeClustering 16091401  1.0  354.227304
+                                                     acc       time
+col      component_fun setting model  video                        
+NIR_diff KernelPCA     sigmoid KMeans 16092001  0.984127  59.821367
+                                                                 acc       time
+col      component_fun setting model                   video                   
+NIR_diff FastICA       default AgglomerativeClustering 16092101  1.0  63.904285
+                                                                        acc        time
+col             component_fun setting model                   video                    
+NIR_minmax_smth FastICA       default AgglomerativeClustering 16092201  1.0  205.638885
                                                                  acc      time
 col      component_fun setting model                   video                  
-NIR_diff KernelPCA     sigmoid AgglomerativeClustering 16092301  1.0  0.488503
-                                                                      acc      time
-col      component_fun setting model                   video                       
-NIR_diff KernelPCA     cosine  AgglomerativeClustering 16092501  0.986486  0.562802
-                                                                         acc      time
-col             component_fun  setting model                   video                  
-NIR_minmax      IncrementalPCA default AgglomerativeClustering 16092701  1.0  0.427301
-                KernelPCA      cosine  AgglomerativeClustering 16092701  1.0  0.451508
-                               sigmoid AgglomerativeClustering 16092701  1.0  0.411702
-                PCA            default AgglomerativeClustering 16092701  1.0  0.418234
-                TruncatedSVD   default AgglomerativeClustering 16092701  1.0  0.438613
-NIR_255         KernelPCA      cosine  AgglomerativeClustering 16092701  1.0  0.452951
-NIR_minmax_smth IncrementalPCA default AgglomerativeClustering 16092701  1.0  0.448201
-                KernelPCA      cosine  AgglomerativeClustering 16092701  1.0  0.456999
-                               sigmoid AgglomerativeClustering 16092701  1.0  0.451110
-                PCA            default AgglomerativeClustering 16092701  1.0  0.480751
-                TruncatedSVD   default AgglomerativeClustering 16092701  1.0  0.449766
-NIR_255_smth    KernelPCA      cosine  AgglomerativeClustering 16092701  1.0  0.455550
-                                                                    acc      time
-col        component_fun  setting model                   video                  
-NIR_diff   IncrementalPCA default AgglomerativeClustering 16092801  1.0  0.485064
-           KernelPCA      cosine  AgglomerativeClustering 16092801  1.0  0.488861
-                          sigmoid AgglomerativeClustering 16092801  1.0  0.454447
-           PCA            default AgglomerativeClustering 16092801  1.0  0.471202
-           TruncatedSVD   default AgglomerativeClustering 16092801  1.0  0.476660
-NIR_minmax KernelPCA      cosine  AgglomerativeClustering 16092801  1.0  0.485844
-                          sigmoid AgglomerativeClustering 16092801  1.0  0.465351
-NIR_255    KernelPCA      cosine  AgglomerativeClustering 16092801  1.0  0.490934
-                                                                           acc    time
-col           component_fun setting model                   video                     
-NIR_diff_smth KernelPCA     cosine  AgglomerativeClustering 16093001  0.919355  0.5557
-                                                                  acc      time
-col           component_fun setting model           video                      
-NIR_diff_smth TruncatedSVD  default MiniBatchKMeans 16093201  0.95122  8.611198
-                                                                  acc      time
-col      component_fun  setting model                   video                  
-NIR_diff IncrementalPCA default AgglomerativeClustering 16093301  1.0  0.490892
-         PCA            default AgglomerativeClustering 16093301  1.0  0.425916
+NIR_diff KernelPCA     sigmoid AgglomerativeClustering 16092301  1.0  7.730722
+                                                                      acc       time
+col      component_fun setting model                   video                        
+NIR_diff KernelPCA     cosine  AgglomerativeClustering 16092501  0.986486  22.965431
+                                                                   acc     time
+col        component_fun setting model                   video                 
+NIR_minmax KernelPCA     sigmoid AgglomerativeClustering 16092701  1.0  2.79665
+                                                                        acc     time
+col             component_fun setting model                   video                 
+NIR_minmax_smth KernelPCA     sigmoid AgglomerativeClustering 16092801  1.0  4.04644
+                                                                      acc       time
+col      component_fun setting model                   video                        
+NIR_diff KernelPCA     cosine  AgglomerativeClustering 16093001  0.919355  14.498949
+                                                                   acc       time
+col           component_fun setting model           video                        
+NIR_diff_smth KernelPCA     sigmoid MiniBatchKMeans 16093201  0.926829  108.79159
+                                               acc      time
+col      component_fun setting model video                  
+NIR_diff TruncatedSVD  default Birch 16093301  1.0  14.21833
                                                                              acc      time
 col             component_fun setting model                   video                       
-NIR_minmax      KernelPCA     cosine  AgglomerativeClustering 16093501  0.963636  0.503489
-                              sigmoid AgglomerativeClustering 16093501  0.963636  0.502611
-NIR_255         KernelPCA     cosine  AgglomerativeClustering 16093501  0.963636  0.531708
-NIR_minmax_smth KernelPCA     cosine  AgglomerativeClustering 16093501  0.963636  0.542817
-                              sigmoid AgglomerativeClustering 16093501  0.963636  0.529497
-NIR_255_smth    KernelPCA     cosine  AgglomerativeClustering 16093501  0.963636  0.532477
-                                                                        acc      time
-col             component_fun setting model                   video                  
-NIR_minmax      KernelPCA     cosine  AgglomerativeClustering 16093601  1.0  0.427702
-NIR_minmax_smth KernelPCA     cosine  AgglomerativeClustering 16093601  1.0  0.488596
-NIR_255_smth    KernelPCA     cosine  AgglomerativeClustering 16093601  1.0  0.419800
-                              sigmoid AgglomerativeClustering 16093601  1.0  0.410393
-                                                                     acc      time
-col          component_fun setting model                   video                  
-NIR_255      KernelPCA     sigmoid AgglomerativeClustering 16093801  1.0  0.574189
-NIR_255_smth KernelPCA     sigmoid AgglomerativeClustering 16093801  1.0  0.591894
-                                                              acc      time
-col     component_fun setting model                   video                
-NIR_255 FastICA       default AgglomerativeClustering 170101  1.0  0.662406
-                                                                 acc      time
-col        component_fun setting model                   video                
-NIR_minmax KernelPCA     cosine  AgglomerativeClustering 170103  1.0  0.384604
-NIR_255    TruncatedSVD  default AgglomerativeClustering 170103  1.0  0.399015
-                                                                     acc      time
-col           component_fun  setting model                   video                
-NIR_diff_smth IncrementalPCA default AgglomerativeClustering 170104  1.0  0.518139
-              KernelPCA      sigmoid AgglomerativeClustering 170104  1.0  0.532197
-              PCA            default AgglomerativeClustering 170104  1.0  0.525295
-              TruncatedSVD   default AgglomerativeClustering 170104  1.0  0.587274
-                                                                       acc      time
-col             component_fun  setting model                   video                
-NIR_diff        IncrementalPCA default AgglomerativeClustering 170108  1.0  0.399358
-                KernelPCA      cosine  AgglomerativeClustering 170108  1.0  0.363630
-                PCA            default AgglomerativeClustering 170108  1.0  0.383823
-NIR_minmax      IncrementalPCA default AgglomerativeClustering 170108  1.0  0.379917
-                KernelPCA      cosine  AgglomerativeClustering 170108  1.0  0.376693
-                               sigmoid AgglomerativeClustering 170108  1.0  0.382662
-                PCA            default AgglomerativeClustering 170108  1.0  0.394704
-NIR_255         KernelPCA      sigmoid AgglomerativeClustering 170108  1.0  0.399358
-NIR_diff_smth   IncrementalPCA default AgglomerativeClustering 170108  1.0  0.387263
-                PCA            default AgglomerativeClustering 170108  1.0  0.395216
-NIR_minmax_smth IncrementalPCA default AgglomerativeClustering 170108  1.0  0.396910
-                KernelPCA      sigmoid AgglomerativeClustering 170108  1.0  0.373045
-                PCA            default AgglomerativeClustering 170108  1.0  0.394396
-NIR_255_smth    KernelPCA      sigmoid AgglomerativeClustering 170108  1.0  0.377546
-                                                            acc      time
-col      component_fun setting model           video                     
-NIR_diff KernelPCA     sigmoid MiniBatchKMeans 170110  0.920635  6.356438
-
-avg:  0.9927810500186078 
+NIR_minmax_smth KernelPCA     sigmoid AgglomerativeClustering 16093501  0.963636  3.706694
+                                                                   acc      time
+col        component_fun setting model                   video                  
+NIR_minmax KernelPCA     cosine  AgglomerativeClustering 16093601  1.0  3.967762
+                                                                acc      time
+col     component_fun setting model                   video                  
+NIR_255 KernelPCA     sigmoid AgglomerativeClustering 16093801  1.0  4.427195
+                                                              acc        time
+col     component_fun setting model                   video                  
+NIR_255 FastICA       default AgglomerativeClustering 170101  1.0  166.943312
+                                                                      acc      time
+col             component_fun setting model                   video                
+NIR_255         KernelPCA     sigmoid AgglomerativeClustering 170103  1.0  2.952814
+NIR_minmax_smth KernelPCA     sigmoid AgglomerativeClustering 170103  1.0  2.515316
+NIR_255_smth    KernelPCA     sigmoid AgglomerativeClustering 170103  1.0  2.403259
+                                                                    acc      time
+col           component_fun setting model                   video                
+NIR_diff_smth KernelPCA     sigmoid AgglomerativeClustering 170104  1.0  5.613089
+                                                                      acc      time
+col             component_fun setting model                   video                
+NIR_255         KernelPCA     sigmoid AgglomerativeClustering 170108  1.0  2.089024
+NIR_diff_smth   KernelPCA     sigmoid AgglomerativeClustering 170108  1.0  2.270460
+NIR_minmax_smth KernelPCA     sigmoid AgglomerativeClustering 170108  1.0  2.407789
+NIR_255_smth    KernelPCA     sigmoid AgglomerativeClustering 170108  1.0  2.543688
+                                                   acc      time
+col      component_fun setting model  video                     
+NIR_diff KernelPCA     sigmoid KMeans 170110  0.920635  20.84136
+avg:  0.9895739207744576 
 min: 0.9193548387096774 
 max: 1.0

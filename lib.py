@@ -8,6 +8,11 @@ from scipy.ndimage import gaussian_filter1d
 
 data = pickle.load(open('data.pickle', 'rb'))
 
+def to_array(strs):
+    for i,e in enumerate(strs):
+        strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:1400]
+    return strs
+
 def get_diff(data_arr):
     arr = []
     for d in data_arr:

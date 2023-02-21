@@ -63,6 +63,7 @@ res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1,
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
 #random forest na decomposition
+#1.
 """ x_train, x_test = ml.seperate_x_random_img()
 #x_train, x_test = ml.seperate_x_cancer_benign(0.1)
 for col in lb.data.columns[10:]:
@@ -75,6 +76,24 @@ for col in lb.data.columns[10:]:
         if res[i] == x_test.index.get_level_values(1)[i]:
             count+=1
     print(col, count, len(res), count/len(res)) """
+#2.
+""" x_train, x_test = ml.seperate_x_random_img()
+
+forest = RandomForestClassifier()
+forest.fit(np.array(x_train['NIR_diff_smth_FastICA'].tolist(), dtype=float), x_train.index.get_level_values(1))
+
+model = AgglomerativeClustering(n_clusters=2)
+cluster = model.fit(np.array(x_test['NIR_diff_smth_FastICA'].tolist(), dtype=float))
+
+labels = forest.predict(np.array(x_test['NIR_diff_smth_FastICA'].tolist(), dtype=float))
+
+i0 = np.where(cluster.labels_ == 0)[0]
+i1 = np.where(cluster.labels_ == 1)[0]
+
+print(np.unique(labels[i0], return_counts=True))
+print(np.unique(labels[i1], return_counts=True))
+print(np.unique(labels, return_counts=True))
+print(pd.unique(x_test.index.get_level_values(1))) """
 
 #decomposition in cluster podatkov
 #naredi
@@ -99,15 +118,15 @@ arr = np.array([])
 for img in pd.unique(csv.index.get_level_values(4)):
     temp = csv.xs(img, level='video', drop_level=False)
     i = np.argwhere( temp.values[:, 0] == np.max(temp.values[:, 0]) )[:, 0].flatten()
-    #temp = temp.iloc[ i ]
-    #i = np.argwhere( (temp.values[:, 1]*100).astype(int) == np.min((temp.values[:, 1]*100).astype(int)) )[:, 0].flatten()
+    temp = temp.iloc[ i ]
+    i = np.argwhere( (temp.values[:, 1]).astype(int) == np.min((temp.values[:, 1]).astype(int)) )[:, 0].flatten()
     print(temp.iloc[ i ])
     arr = np.concatenate((temp.iloc[ i ].values[:, 0], arr))
 print('avg: ', np.average(arr), '\nmin:', np.min(arr), '\nmax:', np.max(arr)) """
-#najbolša kobinacija
-csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video']).sort_index()
-#KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
-csv = csv.xs('KMeans', level='model', drop_level=False)
+#najbolša kobinacija train.txt
+""" csv = pd.read_csv('allrez.csv').set_index(['col', 'component_fun', 'setting', 'model', 'video']).sort_index()
+
+csv = csv.xs('NIR_255', level='col', drop_level=False)
 arr = []
 for l0 in pd.unique(csv.index.get_level_values(0)):
     temp = csv.xs(l0, level=0, drop_level=False)
@@ -130,12 +149,11 @@ for comb in arr[:, 0]:
         np.where(arr[arr[:, 1].astype(float).argsort()][:, 0] == comb)[0][0]
         + np.where(arr[arr[:, 2].astype(float).argsort()][:, 0] == comb)[0][0]
         #+ np.where(arr[arr[:, 3].astype(int).argsort()][:, 0] == comb)[0][0]
-      )
+    )
 #print(np.array(temp))
 arr = np.hstack((arr, np.array(temp).reshape(-1, 1)))
-print(arr[arr[:, 3].astype(float).argsort()][-1, 0]) #izpisat acc pa cajt
-
-#print(csv.loc['NIR_diff_smth', 'FastICA', 'default', 'AgglomerativeClustering'])
+print(arr[arr[:, 3].astype(float).argsort()][-1])
+#print(csv.loc['NIR_diff_smth', 'FastICA', 'default', 'AgglomerativeClustering']) """
 
 #transposed data and binary labels
 """ model = LabelBinarizer()

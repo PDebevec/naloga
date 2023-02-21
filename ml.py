@@ -22,7 +22,7 @@ def run_clustering(x, img, clusteringfun, column):
 
 
 def get_accuracy(labels_, y):
-    arr = []
+    #arr = []
     model = LabelBinarizer()
     res = np.concatenate(model.fit_transform(y))
     acc = accuracy_score(res, labels_)
@@ -51,12 +51,6 @@ def find_batch(labels_, labeled, labels):
     for batch in labels_:
         arr.append(labels[np.argmax([x.count(batch) for x in labeled])])
     return arr
-
-
-def to_array(strs):
-    for i,e in enumerate(strs):
-        strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:1400]
-    return strs
 
 def select_decomposition_cluster(decomposition, cluster, column, x_fit):
     for img in pd.unique(x_fit.index.get_level_values(0)):
@@ -91,12 +85,6 @@ def decomposition_data(column, file, components):
         PCA(n_components=components),
         TruncatedSVD(n_components=components)
     ]
-
-
-    """ m = KernelPCA(n_components=50, kernel='sigmoid')
-    file[column+'_sigmoid_'+type(m).__name__] = m.fit_transform(np.concatenate(file[column].values).reshape(-1, 1400))
-    m = KernelPCA(n_components=50, kernel='cosine')
-    file[column+'_cosine_'+type(m).__name__] = list(m.fit_transform(np.concatenate(file[column].values).reshape(-1, 1400))) """
     
     nplist = []
     for s,d in zip(setting, decomposition):
@@ -120,11 +108,11 @@ def decomposition_cluster(column):
         TruncatedSVD(n_components=12)
     ]
 
-        #,KMeans(n_clusters=2)
-        #,SpectralClustering(n_clusters=2)
-        #,Birch(n_clusters=2)
     cluster = [ 
         MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2)
         ,AgglomerativeClustering(n_clusters=2)
     ]
     
@@ -139,9 +127,58 @@ def decomposition_cluster(column):
                 sc = time.time()
                 c.fit(x)
                 ct = time.time() - sc
-                dfcsv = np.vstack((dfcsv, np.array([column, compmodel, s, type(c).__name__, img, get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(0)), dt+ct*1000])))
+                dfcsv = np.vstack((dfcsv, np.array([column, compmodel, s, type(c).__name__, img, get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(0)), (dt+ct)*1000])))
     dfcsv = pd.DataFrame(dfcsv[1:], columns=dfcsv[0])
     dfcsv = dfcsv.sort_values(by=['col', 'component_fun', 'setting', 'model', 'video']).set_index(['col', 'component_fun', 'setting', 'model', 'video'])
     Path(column+'.csv').touch(exist_ok=True)
     dfcsv.to_csv(column+'.csv')
+    print(column+'.csv')
+    return
+
+def double_decomposition_cluster():
+    setting= [ '_sigmoid', '_cosine', '', '', '', '', '' ]
+
+    decomposition = [
+            KernelPCA(n_components=7, kernel='sigmoid'),
+            KernelPCA(n_components=7, kernel='cosine'),
+            FactorAnalysis(n_components=7),
+            FastICA(n_components=7),
+            IncrementalPCA(n_components=7),
+            PCA(n_components=7),
+            TruncatedSVD(n_components=7)
+        ]
+
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+    arr = []
+    for col in lb.data.columns[2:8]:
+        for img in pd.unique(lb.data.index.get_level_values(0)):
+            x = np.array(lb.data.loc[img][col].tolist())
+            for s1,d1 in zip(setting, decomposition):
+                for s2,d2 in zip(setting, decomposition):
+                    ds = time.time()
+                    w = d1.fit_transform(x)
+                    h = d2.fit_transform(w.T)
+                    de = time.time() - ds
+                    for c in cluster:
+                        print(col, img, type(d1).__name__, type(d2).__name__, type(c).__name__)
+                        cs = time.time()
+                        c.fit(np.matmul(w, h))
+                        ce = time.time() - cs
+                        arr.append([
+                            col, img,
+                            type(d1).__name__+s1, type(d2).__name__+s2,
+                            type(c).__name__,
+                            get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(0)),
+                            (de+ce)*1000
+                            ])
+                        return arr
+    df = pd.DataFrame(arr, columns=['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster', 'acc', 'time']).set_index( [ 'col', 'img', 'decomposition.1',  'decomposition.2', 'cluster' ] )
+    df.to_csv('aalldiff.csv')
     return
