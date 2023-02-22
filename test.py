@@ -24,22 +24,31 @@ import ml
 #print(lb.data.xs('Cancer', level='finding', drop_level=False))
 #NIR_diff_smth FastICA default AgglomerativeClustering avg:0.8581598572776615 min:0.5365853658536586
 #NIR_diff_smth_FastICA
+#NIR_diff, FactorAnalysis, TruncatedSVD, AgglomerativeClustering
 
-csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )
-
-videos = []
-algos = []
+li = pickle.load(open('videolabel.pickle', 'rb'))
+perimg = []
 for img in pd.unique(lb.data.index.get_level_values(0)):
-    x = csv.xs(img, level='img')
-    y = np.array(x['acc'].tolist())
-    if x.iloc[y.astype(float).argsort()[-1]]['acc'] == 1:
-        videos.append(img)
-    else:
-        algos.append(x.reset_index().iloc[y.astype(float).argsort()[-1]].values)
+    data = lb.data.query("video == "+str(img)).sample(frac=1)#16093801
 
-for img in videos:
-    x = csv.xs(img, level='img')
-    for algo in algos:
-        print(algo)
-        print(x.loc[algo[0], algo[1], algo[2], algo[3]]['acc'])
+    model = TruncatedSVD(n_components=2)
+    r1 = model.fit_transform(np.array(data['NIR_255'].values.tolist()).T)
+    plt.plot(r1)
+    model = TruncatedSVD(n_components=2)
+    r1 = model.fit_transform(np.array(data['NIR_minmax'].values.tolist()).T)
+    plt.plot(r1)
+    model = TruncatedSVD(n_components=2)
+    r1 = model.fit_transform(np.array(data['NIR_diff'].values.tolist()).T)
+    plt.plot(r1)
+    plt.show()
+    exit()
+
+""" perimg = np.array(perimg)
+
+model = AgglomerativeClustering(n_clusters=2)
+model.fit(perimg)
+
+print(ml.get_accuracy(model.labels_, li['label'].values)) """
+
+#plt.show()
 #exit()

@@ -55,3 +55,16 @@ file = ml.decomposition_data('NIR_diff_smth', file, 12)
 print('3. decomposition')
 
 pickle.dump(file, open('ddata.pickle', 'wb'))
+
+""" imglabels = np.hstack((
+    pd.unique(lb.data.index.get_level_values(0)).reshape(-1, 1),
+    np.array([ pd.unique(lb.data.loc[x].query("finding != 'Healthy'").index.get_level_values(0))[0] for x in pd.unique(lb.data.index.get_level_values(0))] ).reshape(-1, 1)
+))
+
+model = LabelBinarizer()
+imglabels = np.hstack(( imglabels, model.fit_transform(imglabels[:,1]) ))
+
+df = pd.DataFrame(imglabels, columns=['video', 'label', 'binary']).set_index(['video'])
+df.to_pickle('videolabel.pickle')
+
+print(df) """
