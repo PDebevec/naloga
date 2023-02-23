@@ -4,6 +4,7 @@ import lib as lb
 import numpy as np
 import pandas as pd
 from pathlib import Path
+import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
 from sklearn.model_selection import train_test_split
@@ -178,7 +179,36 @@ def double_decomposition_cluster():
                             get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(0)),
                             (de+ce)*1000
                             ])
-                        return arr
+            return arr
     df = pd.DataFrame(arr, columns=['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster', 'acc', 'time']).set_index( [ 'col', 'img', 'decomposition.1',  'decomposition.2', 'cluster' ] )
     df.to_csv('aalldiff.csv')
+    return
+
+def divisor():
+    divisors = lb.get_divisor(1400)
+
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+    arr = []
+    i = 0
+    for col in lb.data.columns[2:]:
+        for img in pd.unique(lb.data.index.get_level_values(0)):
+            print(col, img)
+            for c in cluster:
+                for d in divisors:
+                    x = lb.data.loc[img][col]
+                    c.fit(np.array(x.values.tolist())[:, ::d])
+                    arr.append([
+                        col, img,
+                        type(c).__name__, d,
+                        get_accuracy(c.labels_, x.index.get_level_values(0))
+                    ])
+    df = pd.DataFrame(arr, columns=['col', 'video', 'cluster', 'divisor', 'acc']).set_index(['col', 'video', 'cluster', 'divisor'])
+    df.to_csv('divisor.csv')
     return

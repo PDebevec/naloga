@@ -63,26 +63,28 @@ res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1,
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
 #double decomposition in clustering
-#izpis acc kombinacij pri img s slabšimi acc
-""" csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )
+#izpis
+csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )
 videos = []
 algos = []
 for img in pd.unique(lb.data.index.get_level_values(0)):
+    print('\n', img)
     x = csv.xs(img, level='img')
     y = np.array(x['acc'].tolist())
-    if x.iloc[y.astype(float).argsort()[-1]]['acc'] == 1:
+    print(x.iloc[y.astype(float).argsort()[-5:]])
+"""     if x.iloc[y.astype(float).argsort()[-1]]['acc'] == 1:
         videos.append(img)
     else:
-        algos.append(x.reset_index().iloc[y.astype(float).argsort()[-1]].values)
+        algos.append(x.reset_index().iloc[y.astype(float).argsort()[-1]].values) """
 
-for img in videos:
+""" for img in videos:
     print(img)
     x = csv.xs(img, level='img')
     for algo in algos:
         print(algo[0], algo[1], algo[2], algo[3], end=' ')
         print(x.loc[algo[0], algo[1], algo[2], algo[3]]['acc']) """
 #
-csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )
+""" csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )
 comb = []
 for img in pd.unique(csv.index.get_level_values(1)):
     temp = csv.loc[:, img, :, :, :]
@@ -98,7 +100,7 @@ csv = csv.reset_index(level='img').sort_index()
 for x in br:
     temp = csv.loc[x[0].split(' ')[0], x[0].split(' ')[1], x[0].split(' ')[2], x[0].split(' ')[3]]
     print(temp.index.tolist()[0])
-    print(np.mean(temp['acc'].values), np.min(temp['acc'].values))
+    print(np.mean(temp['acc'].values), np.min(temp['acc'].values)) """
 
 #random forest na decomposition
 #1.

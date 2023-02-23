@@ -78,12 +78,24 @@ def get_gaussian(data, sigma):
         arr.append(gaussian_filter1d(x, sigma))
     return arr
 
+def get_gaussian_diff(data, sigma):
+    arr = []
+    for x in data:
+        arr.append(gaussian_filter1d(x, sigma=sigma, order=1, mode='nearest'))
+    return arr
 
 def get_avg(data):
     avg = []
     for y in range(len(data[0])):
         avg.append( np.average( [ data[x][y] for x in range(len(data)) ] ) )
     return avg
+
+def get_divisor(num):
+    arr = []
+    for i in range(2, num):
+        if num % i == 0:
+            arr.append(i)
+    return arr
 
 """ data['NIR_255'] = data['NIR']/255
 data['NIR_minmax'] = get_minmax(data['NIR'])
