@@ -202,13 +202,16 @@ def divisor():
             print(col, img)
             for c in cluster:
                 for d in divisors:
+                    st = time.time()
                     x = lb.data.loc[img][col]
                     c.fit(np.array(x.values.tolist())[:, ::d])
+                    et = time.time() - st
                     arr.append([
                         col, img,
                         type(c).__name__, d,
-                        get_accuracy(c.labels_, x.index.get_level_values(0))
+                        get_accuracy(c.labels_, x.index.get_level_values(0)),
+                        et*1000
                     ])
-    df = pd.DataFrame(arr, columns=['col', 'video', 'cluster', 'divisor', 'acc']).set_index(['col', 'video', 'cluster', 'divisor'])
+    df = pd.DataFrame(arr, columns=['col', 'video', 'cluster', 'divisor', 'acc', 'time']).set_index(['col', 'video', 'cluster', 'divisor'])
     df.to_csv('divisor.csv')
     return

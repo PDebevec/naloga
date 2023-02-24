@@ -34,11 +34,13 @@ file = file.drop(16091601)
 file = file.sort_index()
 
 file['NIR_255'] = file['NIR']/255
-file['NIR_minmax'] = lb.get_minmax(file['NIR'])
-file['NIR_diff'] = lb.get_gaussian_diff(file['NIR'], 1)
+file['NIR_minmax'] = lb.get_minmax(file['NIR_255'])
+file['NIR_nfp'] = lb.get_nfp(file['NIR_minmax'])
+file['NIR_diff'] = lb.get_gaussian_diff(file['NIR_255'], 1)
 
 file['NIR_255_smth'] = lb.get_gaussian(file['NIR_255'].values, 15)
 file['NIR_minmax_smth'] = lb.get_gaussian(file['NIR_minmax'].values, 15)
+file['NIR_nfp_smth'] = lb.get_gaussian(file['NIR_nfp'].values, 15)
 file['NIR_diff_smth'] = lb.get_gaussian(file['NIR_diff'].values, 15)
 
 pickle.dump(file, open('data.pickle', 'wb'))

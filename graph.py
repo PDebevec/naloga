@@ -9,17 +9,13 @@ from scipy.ndimage import gaussian_filter1d
 for img in pd.unique(lb.data.index.get_level_values(0)):
     print(img)
     #fig, axis = plt.subplots(1,2)
-    for label in pd.unique(lb.data.loc[img].index.get_level_values(0)):
+    for l,x in zip(lb.data.loc[img].index.get_level_values(0), lb.data.loc[img]['NIR_nfp'].values):
         c = ''
-        match label:
+        match l:
             case 'Healthy': c = 'green'
             case 'Benign': c = 'blue'
             case 'Cancer': c = 'red'
-        for x,y in zip(lb.data.loc[img, label]['NIR_255'], lb.data.loc[img, label]['NIR_diff']):
-            plt.plot(gaussian_filter1d(x, sigma=5, order=1, mode='nearest')*300)
-            plt.plot(y)
-            plt.show()
-            exit()
+        plt.plot(x, color=c)
         """ for x in lb.data.loc[img, label]['NIR_diff']:
             plt.plot(x, color=c) """
         """ for x in lb.data.loc[img, label]['NIR_255']:
@@ -27,7 +23,7 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
     #plt.savefig('graphs/minmax_img/'+str(img)+'_minmax_img.png')
     #plt.savefig('graphs/'+str(img)+'.png')
     plt.show()
-    exit()
+    #exit()
 
 #3d graf slik
 """ for img in pd.unique(lb.data.index.get_level_values(0)):

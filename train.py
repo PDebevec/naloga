@@ -62,6 +62,27 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
 res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
+#clustering z n števili podatkov
+""" csv = pd.read_csv('divisor.csv').set_index(['col', 'video', 'cluster'])
+arr = []
+arr2 = []
+for video in lb.videol:
+    x = csv.query("video == "+str(video))
+    x = x.sort_values(by=['acc', 'time', 'divisor'])
+    v = x.iloc[-1]['acc']
+    arr.append(v)
+    arr2.append(x.loc[x['acc'] == v])
+#print(arr2)
+#print(np.min(arr), np.mean(arr))
+for a in arr2:
+    if len(a) == 1:
+        c = 0
+        for b in arr2:
+            i = a.index[0][0] == b.index[0][0] and a.index[0][2] == b.index[0][2]
+            if i:
+                c+=1
+        print(c, a.index[0]) """
+
 #double decomposition in clustering
 #izpis
 csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )

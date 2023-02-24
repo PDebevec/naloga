@@ -5,15 +5,25 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
 from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
+from scipy.signal import find_peaks
 
 data = pickle.load(open('data.pickle', 'rb'))
+videos = pickle.load(open('videolabel.pickle', 'rb'))
+#data2 = 
+videol = videos.index.get_level_values(0)
 
 def to_array(strs):
     for i,e in enumerate(strs):
         strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:1400]
     return strs
 
-def get_diff(data_arr):
+def get_num_of_data(data, num):
+    arr = []
+    for x in data:
+        arr.append(x[::int(1400/num)])
+    return arr
+
+""" def get_diff(data_arr):
     arr = []
     for d in data_arr:
         temp = []
@@ -22,8 +32,7 @@ def get_diff(data_arr):
             temp.append( ((d[i-1]-d[i]) + (d[i]-d[i+1])) * -0.5 )
         temp.append(-(d[-2]-d[-1]))
         arr.append(temp)
-    return arr
-
+    return arr """
 
 def get_minmax(data):
     arr = []
@@ -33,15 +42,22 @@ def get_minmax(data):
         arr.append( np.array((x - mn) / (mx - mn)) )
     return arr
 
+def get_nfp(data):
+    arr = []
+    for x in data:
+        n = x[find_peaks(x, distance=140, height=0.5)[0][0]]
+        arr.append(x/n)
+    return arr
 
-def get_minmax_byimg(data):
+""" def get_minmax_byimg(data):
     arr = []
     for img in pd.unique(data.index.get_level_values(0)):
         mx = np.max( [max(x) for x in data.loc[img].values] )
         mn = np.min( [min(x) for x in data.loc[img].values] )
         for x in data.loc[img]:
             arr.append( np.array((x - mn) / (mx - mn)) )
-    return arr
+    return arr """
+
 
 
 def get_lables(data_lables):
