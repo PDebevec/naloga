@@ -29,47 +29,5 @@ import ml
 #170108 16091401 16092701 16093601 16093801
 
 
-        
-""" for img in pd.unique(lb.data.index.get_level_values(0)):
-    nir = np.array(lb.data.loc[img]['NIR_255'].values.tolist())
-    model = AgglomerativeClustering(n_clusters=2)
-    model.fit(nir[:, ::140])
-    print(ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0)), end=' ')
-    nfp = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
-    model = AgglomerativeClustering(n_clusters=2)
-    model.fit(nfp[:, ::140])
-    print(ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))) """
-
-""" num = 14
-for img in pd.unique(lb.data.index.get_level_values(0)):
-    arr = []
-    for i in range(len(lb.data.loc[img])):
-        i1 = 0
-        i2 = 0
-        x = lb.data.loc[img]['NIR_diff'].values[i]#[:350]
-        y = lb.data.loc[img]['NIR_255'].values[i]#[:350]
-        x = x/np.max(x)
-        y = y/np.max(y)
-
-        for n in np.arange(1, 0, -0.001):
-            i = np.where(np.logical_or(x > n, x < -n))[0]
-            #print(len(i))
-            if len(i) >= num:
-                arr.append(i[:num])
-                break
-    for i in range(len(lb.data.loc[img])):
-        x = lb.data.loc[img]['NIR_nfp'].values[i][arr[i]]
-        plt.plot(x)
-    plt.show()
-    plt.plot(np.array(lb.data.loc[img]['NIR_nfp'].values.tolist()).T)
-    plt.show() """
-
-""" plt.plot(x/np.max(x))
-#plt.plot(i, x[i], 'x')
-plt.plot(y/np.max(y))
-plt.plot(i1, y[i1]/np.max(y), 'x')
-plt.plot(i2, y[i2]/np.max(y), 'x') """
-""" plt.plot(y[i])
-plt.show() """
 
 #exit()

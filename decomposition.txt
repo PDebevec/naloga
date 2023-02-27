@@ -1,0 +1,7 @@
+KernelPCA_sigmoid 2.45 ms
+KernelPCA_cosine 2.91 ms
+FactorAnalysis 679.21 ms
+FastICA 37.6 ms
+IncrementalPCA 25.83 ms
+PCA 17.76 ms
+TruncatedSVD 12.51 ms

@@ -3,6 +3,7 @@ import pickle
 import numpy as np
 import ml
 import lib as lb
+from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -62,19 +63,120 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
 res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
-#clustering z n števili podatkov
+#testiranje hitrosti clustering > cluster.txt
+""" cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+x = np.array(lb.data.loc[16091401]['NIR_nfp'].values.tolist())
+for c in cluster:
+    t = 0
+    for i in range(1000):
+        st = time.time()
+        c.fit(x)
+        t += time.time() - st
+    print(type(c).__name__, round(t, 2)) """
+
+#testiranje hitrosti decomposition > decomposition.txt
+""" setting= [ '_sigmoid', '_cosine', '', '', '', '', '' ]
+decomposition = [
+            KernelPCA(n_components=4, kernel='sigmoid'),
+            KernelPCA(n_components=4, kernel='cosine'),
+            FactorAnalysis(n_components=4),
+            FastICA(n_components=4),
+            IncrementalPCA(n_components=4),
+            PCA(n_components=4),
+            TruncatedSVD(n_components=4)
+        ]
+
+x = np.array(lb.data.loc[16091401]['NIR_nfp'].values.tolist())
+for d,s in zip(decomposition, setting):
+    t = 0
+    for i in range(1000):
+        st = time.time()
+        d.fit_transform(x)
+        t += time.time() - st
+    print(type(d).__name__+s, round(t, 2)) """
+
+#vizualizacija decomposition na video glede na ROI
+""" arr = []
+for img in lb.uvideo:
+    x = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
+
+    model = FactorAnalysis(n_components=1)
+    w = model.fit_transform(x)
+    arr.append(np.zeros(150))
+    for r,i in zip(lb.data.loc[img].index.get_level_values(1), range(len(w))):
+        arr[-1][r] = w[i]
+
+    for l,r,i in zip(lb.data.loc[img].index.get_level_values(0), lb.data.loc[img].index.get_level_values(1), range(len(w))):
+        if l == 'Healthy':
+            plt.plot(r, w[i], 'g.')
+        elif l == 'Benign':
+            plt.plot(r, w[i], 'b.')
+        else:
+            plt.plot(r, w[i], 'r.')
+    plt.show() """
+#clustering na decomposition videja
+#cluster podobne videje skupaj s DBSCAN ???
+#n_clusters = 6 na sklearn.cluster
+""" model = DBSCAN(min_samples=1, eps=8.2)
+model.fit(np.array(arr))
+
+print(model.labels_)
+print(lb.videos['binary'].values)
+#print(model.labels_) """
+
+#dobit mean med peaks ???
+""" img = 170108
+x = lb.data.loc[img]['NIR_diff'].values[2]
+
+p1 = find_peaks(x)[0]
+p2 = find_peaks(-x)[0]
+print(len(p1), len(p2))
+plt.plot(x)
+plt.plot(lb.data.loc[img]['NIR_nfp'].values[2])
+plt.plot(p1, x[p1], 'x')
+plt.plot(p2, x[p2], 'x')
+plt.show() """
+
+#clustering z n števili podatkov razlika med 255 in nfp
+""" for img in pd.unique(lb.data.index.get_level_values(0)):
+    arr = [0, 0]
+    gd = lb.get_divisor(1400)
+    for d in gd:
+        nir = np.array(lb.data.loc[img]['NIR_255'].values.tolist())
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(nir[:, ::d])
+        #print(ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0)), end=' ')
+        arr[0] += ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))
+        nfp = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(nfp[:, ::d])
+        arr[1] += ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0))
+        #print(ml.get_accuracy(model.labels_, lb.data.loc[img].index.get_level_values(0)))
+    print(img, arr[0]/len(gd), arr[1]/len(gd))
+    arr[0] = 0
+    arr[1] = 0 """
+
+#clustering z n števili podatkov (divisor)
 """ csv = pd.read_csv('divisor.csv').set_index(['col', 'video', 'cluster'])
 arr = []
 arr2 = []
 for video in lb.videol:
     x = csv.query("video == "+str(video))
-    x = x.sort_values(by=['acc', 'time', 'divisor'])
+    x = x.sort_values(by=['acc'])
     v = x.iloc[-1]['acc']
     arr.append(v)
     arr2.append(x.loc[x['acc'] == v])
-#print(arr2)
-#print(np.min(arr), np.mean(arr))
-for a in arr2:
+    arr2[-1] = arr2[-1].sort_values(by=['divisor'])
+print(arr2)
+print(np.min(arr), np.mean(arr)) """
+""" for a in arr2:
     if len(a) == 1:
         c = 0
         for b in arr2:
@@ -85,14 +187,14 @@ for a in arr2:
 
 #double decomposition in clustering
 #izpis
-csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )
+""" csv = pd.read_csv('all.csv').set_index( ['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster'] )
 videos = []
 algos = []
 for img in pd.unique(lb.data.index.get_level_values(0)):
     print('\n', img)
     x = csv.xs(img, level='img')
     y = np.array(x['acc'].tolist())
-    print(x.iloc[y.astype(float).argsort()[-5:]])
+    print(x.iloc[y.astype(float).argsort()[-5:]]) """
 """     if x.iloc[y.astype(float).argsort()[-1]]['acc'] == 1:
         videos.append(img)
     else:

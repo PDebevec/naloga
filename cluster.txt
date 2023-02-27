@@ -1,0 +1,5 @@
+MiniBatchKMeans 139.58 ms
+KMeans 183.47 ms
+SpectralClustering 21.13 ms
+Birch 22.85 ms
+AgglomerativeClustering 1.46 ms

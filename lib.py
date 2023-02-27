@@ -9,8 +9,8 @@ from scipy.signal import find_peaks
 
 data = pickle.load(open('data.pickle', 'rb'))
 videos = pickle.load(open('videolabel.pickle', 'rb'))
-#data2 = 
-videol = videos.index.get_level_values(0)
+data2 = pickle.load(open('data2.pickle', 'rb'))
+uvideo = videos.index.get_level_values(0)
 
 def to_array(strs):
     for i,e in enumerate(strs):
@@ -92,12 +92,16 @@ def get_gaussian(data, sigma):
     arr = []
     for x in data:
         arr.append(gaussian_filter1d(x, sigma))
+        #arr[-1] = [ x/arr[-1].max() for x in arr[-1]]
+        arr[-1] /= arr[-1].max()
     return arr
 
 def get_gaussian_diff(data, sigma):
     arr = []
     for x in data:
         arr.append(gaussian_filter1d(x, sigma=sigma, order=1, mode='nearest'))
+        #arr[-1] = [ x/arr[-1].max() for x in arr[-1]]
+        arr[-1] /= arr[-1].max()
     return arr
 
 def get_avg(data):

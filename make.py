@@ -3,6 +3,7 @@ import dask
 import lib as lb
 import numpy as np
 import pickle
+from sklearn.preprocessing import LabelBinarizer
 
 file = pd.read_csv('data.csv')
 
@@ -13,6 +14,7 @@ del file['NIR_GS_sig2_G_corr']
 del file['NIR_GS_sig20_G_corr']
 del file['x_init']
 del file['y_init']
+
 
 npy = file.to_numpy()
 npy[:, 3] = lb.to_array(npy[:, 3])
@@ -25,23 +27,23 @@ file['video'] = file['video'].astype(int)
 file['ROI'] = file['ROI'].astype(int)
 file['finding'] = file['finding'].astype(str)
 
-file = file.set_index(['video', 'finding'])
+file = file.set_index(['video', 'finding', 'ROI'])
+
+file = file.sort_index(level=[0, 2])
 
 file = file.drop(16091601)
 #file = file.drop(16091401)
 #file = file.drop(16092101)
-
-file = file.sort_index()
 
 file['NIR_255'] = file['NIR']/255
 file['NIR_minmax'] = lb.get_minmax(file['NIR_255'])
 file['NIR_nfp'] = lb.get_nfp(file['NIR_minmax'])
 file['NIR_diff'] = lb.get_gaussian_diff(file['NIR_255'], 1)
 
-file['NIR_255_smth'] = lb.get_gaussian(file['NIR_255'].values, 15)
-file['NIR_minmax_smth'] = lb.get_gaussian(file['NIR_minmax'].values, 15)
-file['NIR_nfp_smth'] = lb.get_gaussian(file['NIR_nfp'].values, 15)
-file['NIR_diff_smth'] = lb.get_gaussian(file['NIR_diff'].values, 15)
+file['NIR_255_smth'] = lb.get_gaussian(file['NIR_255'].values, 5)
+file['NIR_minmax_smth'] = lb.get_gaussian(file['NIR_minmax'].values, 5)
+file['NIR_nfp_smth'] = lb.get_gaussian(file['NIR_nfp'].values, 5)
+file['NIR_diff_smth'] = lb.get_gaussian(file['NIR_diff'].values, 5)
 
 pickle.dump(file, open('data.pickle', 'wb'))
 
@@ -54,7 +56,7 @@ print('2. decomposition')
 file = ml.decomposition_data('NIR_diff_smth', file, 12)
 print('3. decomposition') """
 
-pickle.dump(file, open('data.pickle', 'wb'))
+#pickle.dump(file, open('data.pickle', 'wb'))
 
 """ imglabels = np.hstack((
     pd.unique(lb.data.index.get_level_values(0)).reshape(-1, 1),
@@ -64,7 +66,9 @@ pickle.dump(file, open('data.pickle', 'wb'))
 model = LabelBinarizer()
 imglabels = np.hstack(( imglabels, model.fit_transform(imglabels[:,1]) ))
 
-df = pd.DataFrame(imglabels, columns=['video', 'label', 'binary']).set_index(['video'])
-df.to_pickle('videolabel.pickle')
+df = pd.DataFrame(imglabels, columns=['video', 'label', 'binary'])
+df['video'] = df['video'].astype(int)
+df['binary'] = df['binary'].astype(int)
 
-print(df) """
+df = df.set_index(['video'])
+df.to_pickle('videolabel.pickle') """
