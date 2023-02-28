@@ -15,13 +15,16 @@ del file['NIR_GS_sig20_G_corr']
 del file['x_init']
 del file['y_init']
 
+file['NIR_GS_sig2'] = lb.to_array(file['NIR_GS_sig2'].values)
 
-npy = file.to_numpy()
+file = file.rename(columns={'Video':'video', 'ROI_num':'ROI', 'NIR_GS_sig2':'NIR'})
+
+""" npy = file.to_numpy()
 npy[:, 3] = lb.to_array(npy[:, 3])
 #npy[:, 4] = ml.to_array(npy[:, 4])
 #npy[:, 5] = ml.to_array(npy[:, 5])
 
-file = pd.DataFrame(npy, columns=['video', 'ROI', 'finding', 'NIR'])#, 'NIR_corr2', 'NIR_corr20'])
+file = pd.DataFrame(npy, columns=['video', 'ROI', 'finding', 'NIR'])#, 'NIR_corr2', 'NIR_corr20']) """
 
 file['video'] = file['video'].astype(int)
 file['ROI'] = file['ROI'].astype(int)
@@ -29,7 +32,8 @@ file['finding'] = file['finding'].astype(str)
 
 file = file.set_index(['video', 'finding', 'ROI'])
 
-file = file.sort_index(level=[0, 2])
+#file = file.sort_index(level=[0, 2])
+
 
 file = file.drop(16091601)
 #file = file.drop(16091401)
@@ -45,7 +49,14 @@ file['NIR_minmax_smth'] = lb.get_gaussian(file['NIR_minmax'].values, 5)
 file['NIR_nfp_smth'] = lb.get_gaussian(file['NIR_nfp'].values, 5)
 file['NIR_diff_smth'] = lb.get_gaussian(file['NIR_diff'].values, 5)
 
+file['binary'] = lb.get_binary(file)
+
+file.reset_index(inplace=True)
+file = file.set_index(['video', 'finding', 'ROI', 'binary'])
+file = file.sort_index(level=[0, 2])
+
 pickle.dump(file, open('data.pickle', 'wb'))
+print(file.info())
 
 """ import ml
 

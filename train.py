@@ -1,10 +1,12 @@
 import pandas as pd
 import pickle
 import numpy as np
+import time
 import ml
 import lib as lb
 from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
+from sklearn.decomposition import NMF, MiniBatchNMF
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cluster import SpectralCoclustering, SpectralBiclustering
@@ -74,12 +76,15 @@ lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
 x = np.array(lb.data.loc[16091401]['NIR_nfp'].values.tolist())
 for c in cluster:
-    t = 0
-    for i in range(1000):
-        st = time.time()
-        c.fit(x)
-        t += time.time() - st
-    print(type(c).__name__, round(t, 2)) """
+    for d in lb.get_divisor(1400):
+        t = []
+        for i in range(100):
+            st = time.time()
+            c.fit(x[:, ::d])
+            t.append(time.time() - st)
+        t = lb.reject_outliers(np.array(t))
+        t = np.sum(t) / len(t)
+        print(int(1400/d), type(c).__name__, round(t*1000, 3), 'ms') """
 
 #testiranje hitrosti decomposition > decomposition.txt
 """ setting= [ '_sigmoid', '_cosine', '', '', '', '', '' ]
@@ -93,14 +98,17 @@ decomposition = [
             TruncatedSVD(n_components=4)
         ]
 
-x = np.array(lb.data.loc[16091401]['NIR_nfp'].values.tolist())
+x = np.array(lb.data.loc[16091401]['NIR_nfp'].values.tolist())-1
 for d,s in zip(decomposition, setting):
-    t = 0
-    for i in range(1000):
-        st = time.time()
-        d.fit_transform(x)
-        t += time.time() - st
-    print(type(d).__name__+s, round(t, 2)) """
+    for di in lb.get_divisor(700):
+        t = []
+        for i in range(100):
+            st = time.time()
+            d.fit_transform(x[:, ::di])
+            t.append(time.time() - st)
+        t = lb.reject_outliers(np.array(t))
+        t = np.sum(t) / len(t)
+        print(int(1400/di), type(d).__name__+s, round(t*1000, 3), 'ms') """
 
 #vizualizacija decomposition na video glede na ROI
 """ arr = []
@@ -121,6 +129,86 @@ for img in lb.uvideo:
         else:
             plt.plot(r, w[i], 'r.')
     plt.show() """
+#visualizacija ROI glede na decomposition
+""" arr = []
+for img in lb.uvideo:
+    x = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
+
+    model = KernelPCA(n_components=1, kernel='sigmoid')
+    w = model.fit_transform(x)
+    
+    arr.append(np.zeros(150))
+    for r,i in zip(lb.data.loc[img].index.get_level_values(1), range(len(w))):
+        arr[-1][r] = w[i]
+    arr[-1] = arr[-1].reshape(-1, 15)
+    arr[-1] += np.abs(np.min(arr[-1]))
+    plt.title(str(img))
+    plt.imshow(arr[-1], cmap='Blues_r')
+    plt.show() """
+
+#Vizualizacija img glede na decomposition in cluster rezultate
+""" orig = np.zeros(150)
+clus = np.zeros(150)
+deco = np.zeros(150)
+for img,ulabel in zip(lb.uvideo, lb.ulabel):
+    x = np.array(lb.data.loc[img]['NIR_255'].values.tolist())
+
+    orig[:] = 0
+    clus[:] = 0
+    deco[:] = 0
+
+    c = AgglomerativeClustering(n_clusters=2)
+    c.fit(x)
+    w1 = c.labels_ +1
+
+    d = FactorAnalysis(n_components=1)
+    w2 = d.fit_transform(x)
+    w2 += np.abs(np.min(w2)) +1
+
+    for r,i in zip(lb.data.loc[img].index.get_level_values(1), range(len(w2))):
+        clus[r] = w1[i]
+        deco[r] = w2[i]
+        orig[r] = lb.data.loc[img].iloc[i]['binary']
+    
+    #deco += np.abs(np.min(orig))
+    plt.figure(str(img))
+    plt.subplot(2,2,(3,4))
+    plt.title('original')
+    if ulabel == 'Cancer':
+        plt.imshow(orig.reshape(-1 ,15), cmap='Reds')
+        plt.subplot(2,2,1)
+        plt.title('decomposition')
+        plt.imshow(deco.reshape(-1 ,15), cmap='Reds')
+        plt.subplot(2,2,2)
+        plt.title('cluster')
+        plt.imshow(clus.reshape(-1, 15), cmap='Reds')
+    else:
+        plt.imshow(orig.reshape(-1, 15), cmap='Blues')
+        plt.subplot(2,2,1)
+        plt.title('decomposition')
+        plt.imshow(deco.reshape(-1 ,15), cmap='Blues')
+        plt.subplot(2,2,2)
+        plt.title('cluster')
+        plt.imshow(clus.reshape(-1, 15), cmap='Blues')
+    plt.show() """
+#vizualizacija img gleden an nmf
+""" for img,l in zip(lb.uvideo, lb.ulabel):
+    if img == 170110 or img == 16092701: continue
+    x = np.array(lb.data2.loc[img]['timeseries_Gcorr_LD_GS20'].values.tolist())
+    x = np.nan_to_num(x, nan=0.0)
+
+    model = NMF(n_components=1)
+    w = model.fit_transform(x).reshape(-1)
+    h = model.components_.reshape(-1)
+
+    #print(w.mean())
+    #print(h.mean())
+    if l == 'Cancer':
+        plt.plot(h.mean(), w.mean(), 'ro')
+    else:
+        plt.plot(h.mean(), w.mean(), 'bo')
+plt.show() """
+
 #clustering na decomposition videja
 #cluster podobne videje skupaj s DBSCAN ???
 #n_clusters = 6 na sklearn.cluster

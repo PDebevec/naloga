@@ -11,10 +11,11 @@ data = pickle.load(open('data.pickle', 'rb'))
 videos = pickle.load(open('videolabel.pickle', 'rb'))
 data2 = pickle.load(open('data2.pickle', 'rb'))
 uvideo = videos.index.get_level_values(0)
+ulabel = videos['label'].values
 
-def to_array(strs):
+def to_array(strs, num=1400):
     for i,e in enumerate(strs):
-        strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:1400]
+        strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:num]
     return strs
 
 def get_num_of_data(data, num):
@@ -58,7 +59,13 @@ def get_nfp(data):
             arr.append( np.array((x - mn) / (mx - mn)) )
     return arr """
 
-
+def get_binary(data):
+    arr = []
+    for img in pd.unique(data.index.get_level_values(0)):
+        model = LabelBinarizer()
+        res = model.fit_transform(data.loc[img].index.get_level_values(0))+1
+        arr.append(res.reshape(-1).tolist())
+    return sum(arr, [])
 
 def get_lables(data_lables):
     arr = []
@@ -112,10 +119,13 @@ def get_avg(data):
 
 def get_divisor(num):
     arr = []
-    for i in range(2, num):
+    for i in range(1, int(num/2+1)):
         if num % i == 0:
             arr.append(i)
     return arr
+
+def reject_outliers(data, m=2):
+    return data[abs(data - np.mean(data)) < m * np.std(data)]
 
 """ data['NIR_255'] = data['NIR']/255
 data['NIR_minmax'] = get_minmax(data['NIR'])

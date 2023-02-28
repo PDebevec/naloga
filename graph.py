@@ -6,7 +6,7 @@ import pandas as pd
 from scipy.ndimage import gaussian_filter1d
 
 #izris vsake slike posebej in shrani
-for img in pd.unique(lb.data.index.get_level_values(0)):
+""" for img in pd.unique(lb.data.index.get_level_values(0)):
     print(img)
     #fig, axis = plt.subplots(1,2)
     for l,x in zip(lb.data.loc[img].index.get_level_values(0), lb.data.loc[img]['NIR_nfp'].values):
@@ -16,14 +16,14 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
             case 'Benign': c = 'blue'
             case 'Cancer': c = 'red'
         plt.plot(x, color=c)
-        """ for x in lb.data.loc[img, label]['NIR_diff']:
-            plt.plot(x, color=c) """
-        """ for x in lb.data.loc[img, label]['NIR_255']:
-            axis[1].plot(x, color=c) """
+        for x in lb.data.loc[img, label]['NIR_diff']:
+            plt.plot(x, color=c)
+        for x in lb.data.loc[img, label]['NIR_255']:
+            axis[1].plot(x, color=c)
     #plt.savefig('graphs/minmax_img/'+str(img)+'_minmax_img.png')
     #plt.savefig('graphs/'+str(img)+'.png')
     plt.show()
-    #exit()
+    #exit() """
 
 #3d graf slik
 """ for img in pd.unique(lb.data.index.get_level_values(0)):

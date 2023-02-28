@@ -215,3 +215,23 @@ def divisor():
     df = pd.DataFrame(arr, columns=['col', 'video', 'cluster', 'divisor', 'acc', 'time']).set_index(['col', 'video', 'cluster', 'divisor'])
     df.to_csv('divisor.csv')
     return
+
+def clustering_on_column(column):
+    print('col', 'img', 'cluster', 'acc', 'time', sep=',')
+
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+    for img in pd.unique(lb.data2.index.get_level_values(0)):
+        x = lb.data2.loc[img][column]
+        for c in cluster:
+            st = time.time()
+            c.fit(np.array(x.values.tolist()))
+            et = time.time() - st
+            print(column, img, type(c).__name__, get_accuracy(c.labels_, x.index.get_level_values(0)), et*1000, sep=',')
+    return
