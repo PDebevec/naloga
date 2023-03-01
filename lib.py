@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import pickle
+import tsfel
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
 from sklearn.metrics import accuracy_score
@@ -17,6 +18,22 @@ def to_array(strs, num=1400):
     for i,e in enumerate(strs):
         strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:num]
     return strs
+
+def get_x(img, col):
+    return np.array(data.loc[img][col].values.tolist())
+
+def get_l(img, l=0):
+    return data.loc[img].index.get_level_values(l)
+
+def get_diff_indata(data):
+    arr = []
+    data = np.array([
+        y/y.mean() for y in data+1
+    ])
+    data -= data.min()
+    data /= data.max()
+    data = (data.max(axis=1) - data.min(axis=1))
+    return data/data.max()
 
 def get_num_of_data(data, num):
     arr = []
@@ -117,6 +134,14 @@ def get_avg(data):
         avg.append( np.average( [ data[x][y] for x in range(len(data)) ] ) )
     return avg
 
+def get_tsfd(data):
+    model = tsfel.time_series_features_extractor(
+        tsfel.get_features_by_domain(),
+        data.to_numpy(),
+        #fs=2, #ne vpliva na podatke ali hitrost default=None
+        verbose=1)
+    return model.values.tolist()
+
 def get_divisor(num):
     arr = []
     for i in range(1, int(num/2+1)):
@@ -126,6 +151,7 @@ def get_divisor(num):
 
 def reject_outliers(data, m=2):
     return data[abs(data - np.mean(data)) < m * np.std(data)]
+
 
 """ data['NIR_255'] = data['NIR']/255
 data['NIR_minmax'] = get_minmax(data['NIR'])

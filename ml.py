@@ -227,11 +227,15 @@ def clustering_on_column(column):
         ,AgglomerativeClustering(n_clusters=2)
     ]
 
-    for img in pd.unique(lb.data2.index.get_level_values(0)):
-        x = lb.data2.loc[img][column]
+    for img in pd.unique(lb.data.index.get_level_values(0)):
+        x = lb.data.loc[img][column]
         for c in cluster:
             st = time.time()
             c.fit(np.array(x.values.tolist()))
             et = time.time() - st
             print(column, img, type(c).__name__, get_accuracy(c.labels_, x.index.get_level_values(0)), et*1000, sep=',')
+    return
+
+def hyper_parameter_perimg(img, n_data, ):
+    
     return

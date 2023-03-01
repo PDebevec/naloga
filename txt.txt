@@ -1,0 +1,5 @@
+https://www.sciencedirect.com/science/article/pii/S2352711020300017
+
+https://tsfel.readthedocs.io/en/latest/descriptions/get_started.html
+
+https://tsfel.readthedocs.io/en/latest/descriptions/modules/tsfel.feature_extraction.html#:~:text=tsfel.feature_extraction.calc_features.time_series_features_extractor
