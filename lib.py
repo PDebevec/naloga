@@ -8,10 +8,11 @@ from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
 from scipy.signal import find_peaks
 
+#data1 = pickle.load(open('data1.pickle', 'rb'))
+#data2 = pickle.load(open('data2.pickle', 'rb'))
 data = pickle.load(open('data.pickle', 'rb'))
 videos = pickle.load(open('videolabel.pickle', 'rb'))
-data2 = pickle.load(open('data2.pickle', 'rb'))
-uvideo = videos.index.get_level_values(0)
+uvideo = pd.unique(data.index.get_level_values(0))
 ulabel = videos['label'].values
 
 def to_array(strs, num=1400):
@@ -22,23 +23,26 @@ def to_array(strs, num=1400):
 def get_x(img, col):
     return np.array(data.loc[img][col].values.tolist())
 
+def get_allx(col):
+    return np.array(data[col].values.tolist())
+
 def get_l(img, l=0):
     return data.loc[img].index.get_level_values(l)
 
-def get_diff_indata(data):
+def get_diff_indata(X):
     arr = []
-    data = np.array([
-        y/y.mean() for y in data+1
+    X = np.array([
+        y/y.mean() for y in X+1
     ])
-    data -= data.min()
-    data /= data.max()
-    data = (data.max(axis=1) - data.min(axis=1))
-    return data/data.max()
+    X -= X.min()
+    X /= X.max()
+    X = (X.max(axis=1) - X.min(axis=1))
+    return X/X.max()
 
-def get_num_of_data(data, num):
+def get_num_of_data(X, num):
     arr = []
-    for x in data:
-        arr.append(x[::int(1400/num)])
+    for x in X:
+        arr.append(x[::int(len(x)/num)])
     return arr
 
 """ def get_diff(data_arr):
@@ -52,18 +56,18 @@ def get_num_of_data(data, num):
         arr.append(temp)
     return arr """
 
-def get_minmax(data):
+def get_minmax(X):
     arr = []
-    for x in data:
+    for x in X:
         mx = np.max(x)
         mn = np.min(x)
         arr.append( np.array((x - mn) / (mx - mn)) )
     return arr
 
-def get_nfp(data):
+def get_nfp(X):
     arr = []
-    for x in data:
-        n = x[find_peaks(x, distance=140, height=0.5)[0][0]]
+    for x in X:
+        n = x[find_peaks(x, distance=250, height=0.5)[0][0]]
         arr.append(x/n)
     return arr
 
@@ -76,11 +80,11 @@ def get_nfp(data):
             arr.append( np.array((x - mn) / (mx - mn)) )
     return arr """
 
-def get_binary(data):
+def get_binary(X):
     arr = []
-    for img in pd.unique(data.index.get_level_values(0)):
+    for img in pd.unique(X.index.get_level_values(0)):
         model = LabelBinarizer()
-        res = model.fit_transform(data.loc[img].index.get_level_values(0))+1
+        res = model.fit_transform(X.loc[img].index.get_level_values(0))+1
         arr.append(res.reshape(-1).tolist())
     return sum(arr, [])
 
@@ -93,51 +97,42 @@ def get_lables(data_lables):
     return np.concatenate(arr)
 
 
-def get_img_label(data):
+def get_img_label(X):
     arr = []
-    for img in pd.unique(data.index.get_level_values(0)):
-        ulabels = pd.unique(data.loc[img].index.get_level_values(0))
+    for img in pd.unique(X.index.get_level_values(0)):
+        ulabels = pd.unique(X.loc[img].index.get_level_values(0))
         if 'Benign' in ulabels:
             arr.append(0)
         else:
             arr.append(1)
     return arr
 
-
-def seperate_bylabel(lable1, label2, values):
-    l1 = np.logical_or(lable1 == 0, label2 == 0)
-    l2 = np.logical_or(lable1 == 1, label2 == 1)
-    print(l1.shape, l2.shape)
-    arr = np.concatenate(values).reshape(-1, 1400)
-    return list(arr[:, l1]), list(arr[:, l2])
-
-
-def get_gaussian(data, sigma):
+def get_gaussian(X, sigma):
     arr = []
-    for x in data:
+    for x in X:
         arr.append(gaussian_filter1d(x, sigma))
         #arr[-1] = [ x/arr[-1].max() for x in arr[-1]]
         arr[-1] /= arr[-1].max()
     return arr
 
-def get_gaussian_diff(data, sigma):
+def get_gaussian_diff(X, sigma):
     arr = []
-    for x in data:
+    for x in X:
         arr.append(gaussian_filter1d(x, sigma=sigma, order=1, mode='nearest'))
         #arr[-1] = [ x/arr[-1].max() for x in arr[-1]]
         arr[-1] /= arr[-1].max()
     return arr
 
-def get_avg(data):
+def get_avg(X):
     avg = []
-    for y in range(len(data[0])):
-        avg.append( np.average( [ data[x][y] for x in range(len(data)) ] ) )
+    for y in range(len(X[0])):
+        avg.append( np.average( [ X[x][y] for x in range(len(X)) ] ) )
     return avg
 
-def get_tsfd(data):
+def get_tsfd(X):
     model = tsfel.time_series_features_extractor(
         tsfel.get_features_by_domain(),
-        data.to_numpy(),
+        X.to_numpy(),
         #fs=2, #ne vpliva na podatke ali hitrost default=None
         verbose=1)
     return model.values.tolist()
@@ -149,8 +144,8 @@ def get_divisor(num):
             arr.append(i)
     return arr
 
-def reject_outliers(data, m=2):
-    return data[abs(data - np.mean(data)) < m * np.std(data)]
+def reject_outliers(X, m=2):
+    return X[abs(X - np.mean(X)) < m * np.std(X)]
 
 
 """ data['NIR_255'] = data['NIR']/255

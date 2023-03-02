@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from scipy.ndimage import gaussian_filter1d
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
@@ -23,12 +23,16 @@ def run_clustering(x, img, clusteringfun, column):
 
 
 def get_accuracy(labels_, y):
-    #arr = []
     model = LabelBinarizer()
     res = np.concatenate(model.fit_transform(y))
     acc = accuracy_score(res, labels_)
     return max([ acc, (acc-1)*-1 ])
 
+def get_f1_score(labels_, y, ave='samples'):
+    model = LabelBinarizer()
+    res = np.concatenate(model.fit_transform(y))
+    acc = f1_score(res, labels_, average=ave)
+    return acc
 
 def separate_labels(labels_, y_train):
     arr = []
@@ -92,7 +96,7 @@ def decomposition_data(column, file, components):
         nplist.append(np.array([[column+s+type(d).__name__]*components]))
         for img in pd.unique(file.index.get_level_values(0)):
             nplist[-1] = np.vstack(( nplist[-1],
-            d.fit_transform(np.concatenate(file.loc[img][column].values).reshape(-1, 1400)) ))
+            d.fit_transform(lb.get_x(img, column))))
         file[column+s+type(d).__name__] = nplist[-1][1:].tolist()
     return file
 
@@ -121,9 +125,9 @@ def decomposition_cluster(column):
     for img in pd.unique(lb.data.index.get_level_values(0)):
         for d, s in zip(decomposition, setting):
             sd = time.time()
-            x = d.fit_transform(np.concatenate(lb.data.loc[img][column].values).reshape(-1 ,1400))
-            compmodel = type(d).__name__
+            x = d.fit_transform(lb.get_x(img, column))
             dt = time.time() - sd
+            compmodel = type(d).__name__
             for c in cluster:
                 sc = time.time()
                 c.fit(x)
@@ -185,7 +189,6 @@ def double_decomposition_cluster():
     return
 
 def divisor():
-    divisors = lb.get_divisor(1400)
 
     cluster = [ 
         MiniBatchKMeans(n_clusters=2)
@@ -197,13 +200,14 @@ def divisor():
 
     arr = []
     i = 0
-    for col in lb.data.columns[2:]:
+    for col in lb.data.columns[1:]:
+        divisors = lb.get_divisor(len(lb.data[col].values[0]))
         for img in pd.unique(lb.data.index.get_level_values(0)):
             print(col, img)
             for c in cluster:
                 for d in divisors:
-                    st = time.time()
                     x = lb.data.loc[img][col]
+                    st = time.time()
                     c.fit(np.array(x.values.tolist())[:, ::d])
                     et = time.time() - st
                     arr.append([
@@ -217,7 +221,7 @@ def divisor():
     return
 
 def clustering_on_column(column):
-    print('col', 'img', 'cluster', 'acc', 'time', sep=',')
+    open('./csv/'+column+'.csv', 'w').close()
 
     cluster = [ 
         MiniBatchKMeans(n_clusters=2)
@@ -227,15 +231,42 @@ def clustering_on_column(column):
         ,AgglomerativeClustering(n_clusters=2)
     ]
 
+    f = open('./csv/'+column+'.csv', 'a')
+    f.write('video,clustering,acc,time\n')
     for img in pd.unique(lb.data.index.get_level_values(0)):
         x = lb.data.loc[img][column]
         for c in cluster:
             st = time.time()
             c.fit(np.array(x.values.tolist()))
             et = time.time() - st
-            print(column, img, type(c).__name__, get_accuracy(c.labels_, x.index.get_level_values(0)), et*1000, sep=',')
+            #print(column, img, type(c).__name__, get_accuracy(c.labels_, x.index.get_level_values(0)), et*1000, sep=',')
+            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(0)))+','+str(et*1000)+'\n')
     return
 
-def hyper_parameter_perimg(img, n_data, ):
-    
+def clustering_on_diff(col, p=1.0):
+    open('./csv/'+str(int(p*100))+'%diff_'+col+'.csv', 'w').close()
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+    f = open('./csv/'+str(int(p*100))+'%diff_'+col+'.csv', 'a')
+    f.write('video,clustering,acc\n')
+    for img in lb.uvideo:
+        x = lb.get_x(img, col)
+        d = lb.get_diff_indata(x.T)
+        d = np.where(d >= p)[0]
+        x = x[:, d].reshape(-1, len(d))
+
+        for c in cluster:
+            c.fit(x)
+            #print(img, type(c).__name__, get_accuracy(c.labels_, lb.get_l(img)), sep=',')
+            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, lb.get_l(img)))+'\n')
     return
+
+""" def hyper_parameter_perimg(img, n_data, ):
+    
+    return """

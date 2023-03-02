@@ -30,7 +30,7 @@ file['video'] = file['video'].astype(int)
 file['ROI'] = file['ROI'].astype(int)
 file['finding'] = file['finding'].astype(str)
 
-file = file.set_index(['video', 'finding', 'ROI'])
+file = file.set_index(['video', 'finding', 'ROI']).sort_index(level=[0, 2])
 
 #file = file.sort_index(level=[0, 2])
 
@@ -54,10 +54,10 @@ file['NIR_diff_smth'] = lb.get_gaussian(file['NIR_diff'].values, 5) """
 file['binary'] = lb.get_binary(file)
 
 file.reset_index(inplace=True)
-file = file.set_index(['video', 'finding', 'ROI', 'binary'])
-file = file.sort_index(level=[0, 2])
+file = file.set_index(['video', 'finding', 'ROI', 'binary']).sort_index(level=[0, 2])
+#file = file.sort_index(level=[0, 2])
 
-pickle.dump(file, open('data.pickle', 'wb'))
+pickle.dump(file, open('data1.pickle', 'wb'))
 print(file.info())
 
 """ import ml

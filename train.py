@@ -3,6 +3,7 @@ import pickle
 import numpy as np
 import time
 import ml
+import os
 import lib as lb
 from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
@@ -65,8 +66,9 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
 res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
-#testiranje hitrosti clustering > cluster.txt
-""" cluster = [ 
+#testiranje hitrosti clustering > cluster_perf.csv #> cluster.txt
+""" open('./csv/cluster_perf.csv', 'w').close()
+cluster = [ 
         MiniBatchKMeans(n_clusters=2)
         ,KMeans(n_clusters=2)
         ,SpectralClustering(n_clusters=2)
@@ -75,6 +77,8 @@ lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
     ]
 
 x = np.array(lb.data.loc[16091401]['NIR_nfp'].values.tolist())
+f = open('./csv/cluster_perf.csv', 'a')
+f.write('data,clustering,time\n')
 for c in cluster:
     for d in lb.get_divisor(1400):
         t = []
@@ -84,10 +88,13 @@ for c in cluster:
             t.append(time.time() - st)
         t = lb.reject_outliers(np.array(t))
         t = np.sum(t) / len(t)
-        print(int(1400/d), type(c).__name__, round(t*1000, 3), 'ms') """
+        #print(int(1400/d), type(c).__name__, round(t*1000, 3), 'ms')
+        f.write(str(int(1400/d))+','+type(c).__name__+','+str(round(t*1000, 3))+' ms\n') """
 
-#testiranje hitrosti decomposition > decomposition.txt
-""" setting= [ '_sigmoid', '_cosine', '', '', '', '', '' ]
+
+#testiranje hitrosti decomposition > decomposition_perf.csv #> decomposition.txt
+""" open('./csv/decomposition_perf.csv', 'w').close()
+setting= [ '_sigmoid', '_cosine', '', '', '', '', '' ]
 decomposition = [
             KernelPCA(n_components=4, kernel='sigmoid'),
             KernelPCA(n_components=4, kernel='cosine'),
@@ -99,6 +106,8 @@ decomposition = [
         ]
 
 x = np.array(lb.data.loc[16091401]['NIR_nfp'].values.tolist())-1
+f = open('./csv/decomposition_perf.csv', 'a')
+f.write('data,clustering,time\n')
 for d,s in zip(decomposition, setting):
     for di in lb.get_divisor(700):
         t = []
@@ -108,7 +117,8 @@ for d,s in zip(decomposition, setting):
             t.append(time.time() - st)
         t = lb.reject_outliers(np.array(t))
         t = np.sum(t) / len(t)
-        print(int(1400/di), type(d).__name__+s, round(t*1000, 3), 'ms') """
+        #print(int(1400/di), type(d).__name__+s, round(t*1000, 3), 'ms')
+        f.write(str(int(1400/di))+','+type(d).__name__+s+','+str(round(t*1000, 3))+' ms\n') """
 
 #vizualizacija decomposition na video glede na ROI
 """ arr = []
@@ -147,7 +157,7 @@ for img in lb.uvideo:
     plt.show() """
 
 #Vizualizacija img glede na decomposition in cluster rezultate
-orig = np.zeros(150)
+""" orig = np.zeros(150)
 clus = np.zeros(150)
 deco = np.zeros(150)
 for img,ulabel in zip(lb.uvideo, lb.ulabel):
@@ -168,7 +178,7 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
     for r,i in zip(lb.data.loc[img].index.get_level_values(1), range(len(w2))):
         clus[r] = w1[i]
         deco[r] = w2[i]
-        orig[r] = lb.data.loc[img].index.get_level_values(2)[i]
+        orig[r] = lb.data.loc[img].index.get_level_values(1)[i]
     
     #deco += np.abs(np.min(orig))
     plt.figure(str(img))
@@ -190,11 +200,11 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
         plt.subplot(2,2,2)
         plt.title('cluster')
         plt.imshow(clus.reshape(-1, 15), cmap='Blues')
-    plt.show()
+    plt.show() """
 #vizualizacija img gleden an nmf
 """ for img,l in zip(lb.uvideo, lb.ulabel):
     if img == 170110 or img == 16092701: continue
-    x = np.array(lb.data2.loc[img]['timeseries_Gcorr_LD_GS20'].values.tolist())
+    x = np.array(lb.data.loc[img]['timeseries_Gcorr_LD_GS20'].values.tolist())
     x = np.nan_to_num(x, nan=0.0)
 
     model = NMF(n_components=1)
