@@ -9,17 +9,29 @@ from scipy.ndimage import gaussian_filter1d
 for img in pd.unique(lb.uvideo):
     print(img)
     #fig, axis = plt.subplots(1,2)
-    for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_nfp')):
+    for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_nfp_smth')):
         c = ''
         match l:
             case 'Healthy': c = 'green'
             case 'Benign': c = 'blue'
             case 'Cancer': c = 'red'
         plt.plot(x, color=c)
-    plt.savefig('graphs/nfp/'+str(img)+'_nfp.png')
+    #plt.savefig('graphs/nfp/'+str(img)+'_nfp.png')
     #plt.savefig('graphs/'+str(img)+'.png')
     plt.show()
     #exit()
+#simple
+""" for img in pd.unique(lb.uvideo):
+    c = ''
+    plt.title(img)
+    for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_diff_smth')):
+        match l:
+            case 'Healthy': c = 'green'
+            case 'Benign': c = 'blue'
+            case 'Cancer': c = 'red'
+        plt.plot(x, color=c)
+    plt.show() """
+
 
 #3d graf slik
 """ for img in pd.unique(lb.data.index.get_level_values(0)):

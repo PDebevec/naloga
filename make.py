@@ -41,21 +41,22 @@ file = file.drop(16091601)
 
 file['NIR_255'] = file['NIR']/255
 file['NIR_minmax'] = lb.get_minmax(file['NIR_255'])
-file['NIR_nfp'] = lb.get_nfp(file['NIR_minmax'])
+file['NIR_nfp'] = lb.get_nfp(file['NIR_255'])
 file['NIR_diff'] = lb.get_gaussian_diff(file['NIR_minmax'], 1)
+#file['NIR_tsd'] = lb.get_tsfd(file['NIR_nfp'])
 
-file['NIR_tsd'] = lb.get_tsfd(file['NIR_minmax'])
+file['NIR_255_smth'] = lb.get_gaussian(file['NIR_255'].values, 20)
+file['NIR_minmax_smth'] = lb.get_minmax(file['NIR_255_smth'].values)
+file['NIR_nfp_smth'] = lb.get_nfp(file['NIR_255_smth'].values)
+file['NIR_diff_smth'] = lb.get_gaussian_diff(file['NIR_minmax_smth'].values, 1)
+#file['NIR_tsd_smth'] = lb.get_tsfd(file['NIR_nfp_smth'])
 
-""" file['NIR_255_smth'] = lb.get_gaussian(file['NIR_255'].values, 5)
-file['NIR_minmax_smth'] = lb.get_gaussian(file['NIR_minmax'].values, 5)
-file['NIR_nfp_smth'] = lb.get_gaussian(file['NIR_nfp'].values, 5)
-file['NIR_diff_smth'] = lb.get_gaussian(file['NIR_diff'].values, 5) """
-
-file['binary'] = lb.get_binary(file)
+file['drops'], file['drops_mean'] = lb.get_drop_mean(file['NIR_nfp_smth'])
 
 file.reset_index(inplace=True)
-file = file.set_index(['video', 'finding', 'ROI', 'binary']).sort_index(level=[0, 2])
-#file = file.sort_index(level=[0, 2])
+file = file.set_index(['video', 'finding', 'ROI']).sort_index(level=[0, 2])
+
+#file['NIT_nfp_smth_shift'] = lb.get_shift_nfp()
 
 pickle.dump(file, open('data1.pickle', 'wb'))
 print(file.info())

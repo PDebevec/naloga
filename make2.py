@@ -8,23 +8,26 @@ file = pd.read_csv('data2.csv')
 
 file['x_init'] = [[x] for x in file['x_init']]
 
-del file['x_init']
-del file['y_init']
+del file['timeseries']
+del file['timeseries_Gcorr_GS20']
 del file['drops_rel']
 del file['drops_rel_med']
 del file['cumul_values_at_TTP&drops']
 del file['cumul_intervals_between_TTP&drops']
 del file['norm_cumul_values_at_TTP&drops']
 del file['norm_cumul_intervals_between_TTP&drops']
+del file['cumul_curve_Gcorr_GS20']
+del file['x_init']
+del file['y_init']
 
 file['Video'] = file['Video'].astype(int)
 file['ROI_num'] = file['ROI_num'].astype(int)
 file['finding'] = file['finding'].astype(str)
 
-file['timeseries'] = lb.to_array(file['timeseries'].values)
-file['timeseries_Gcorr_GS20'] = lb.to_array(file['timeseries_Gcorr_GS20'].values)
-file['timeseries_Gcorr_LD_GS20'] = lb.to_array(file['timeseries_Gcorr_LD_GS20'].values, num=1380)
-file['cumul_curve_Gcorr_GS20'] = lb.to_array(file['cumul_curve_Gcorr_GS20'].values, num=1380)
+#file['timeseries'] = lb.to_array(file['timeseries'].values)
+#file['timeseries_Gcorr_GS20'] = lb.to_array(file['timeseries_Gcorr_GS20'].values)
+#file['timeseries_Gcorr_LD_GS20'] = lb.to_array(file['timeseries_Gcorr_LD_GS20'].values, num=1380)
+#file['cumul_curve_Gcorr_GS20'] = lb.to_array(file['cumul_curve_Gcorr_GS20'].values, num=1380)
 #file['drops_rel'] = lb.to_array(file['drops_rel'].values)
 #file['drops_rel_med'] = lb.to_array(file['drops_rel_med'].values)
 #file['cumul_values_at_TTP&drops'] = lb.to_array(file['cumul_values_at_TTP&drops'].values)

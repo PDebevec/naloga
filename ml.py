@@ -12,27 +12,27 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
+from sklearn.neighbors import LocalOutlierFactor
 
 
 def run_clustering(x, img, clusteringfun, column):
     x = x.loc[img]
-
     model = clusteringfun(n_clusters=2)
     model.fit(np.concatenate(x[column].values).reshape(-1, len(x[column][0])))
-    return get_accuracy(model.labels_, x.index.get_level_values(0))
+    return get_accuracy(model.labels_, x.index.get_level_values(2))
 
 
 def get_accuracy(labels_, y):
-    model = LabelBinarizer()
-    res = np.concatenate(model.fit_transform(y))
-    acc = accuracy_score(res, labels_)
+    #model = LabelBinarizer()
+    #res = model.fit_transform(y).reshape(-1)
+    acc = accuracy_score(y, labels_)
     return max([ acc, (acc-1)*-1 ])
 
-def get_f1_score(labels_, y, ave='samples'):
-    model = LabelBinarizer()
-    res = np.concatenate(model.fit_transform(y))
-    acc = f1_score(res, labels_, average=ave)
-    return acc
+def get_f1_score(labels_, y, ave='micro'):
+    #model = LabelBinarizer()
+    #res = model.fit_transform(y).reshape(-1)
+    acc = f1_score(y, labels_, average=ave)
+    return max([ acc, (acc-1)*-1 ])
 
 def separate_labels(labels_, y_train):
     arr = []
@@ -132,7 +132,7 @@ def decomposition_cluster(column):
                 sc = time.time()
                 c.fit(x)
                 ct = time.time() - sc
-                dfcsv = np.vstack((dfcsv, np.array([column, compmodel, s, type(c).__name__, img, get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(0)), (dt+ct)*1000])))
+                dfcsv = np.vstack((dfcsv, np.array([column, compmodel, s, type(c).__name__, img, get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(2)), (dt+ct)*1000])))
     dfcsv = pd.DataFrame(dfcsv[1:], columns=dfcsv[0])
     dfcsv = dfcsv.sort_values(by=['col', 'component_fun', 'setting', 'model', 'video']).set_index(['col', 'component_fun', 'setting', 'model', 'video'])
     Path(column+'.csv').touch(exist_ok=True)
@@ -180,7 +180,7 @@ def double_decomposition_cluster():
                             col, img,
                             type(d1).__name__+s1, type(d2).__name__+s2,
                             type(c).__name__,
-                            get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(0)),
+                            get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(2)),
                             (de+ce)*1000
                             ])
             return arr
@@ -213,7 +213,7 @@ def divisor():
                     arr.append([
                         col, img,
                         type(c).__name__, d,
-                        get_accuracy(c.labels_, x.index.get_level_values(0)),
+                        get_accuracy(c.labels_, x.index.get_level_values(2)),
                         et*1000
                     ])
     df = pd.DataFrame(arr, columns=['col', 'video', 'cluster', 'divisor', 'acc', 'time']).set_index(['col', 'video', 'cluster', 'divisor'])
@@ -240,8 +240,34 @@ def clustering_on_column(column):
             c.fit(np.array(x.values.tolist()))
             et = time.time() - st
             #print(column, img, type(c).__name__, get_accuracy(c.labels_, x.index.get_level_values(0)), et*1000, sep=',')
-            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(0)))+','+str(et*1000)+'\n')
+            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(2)))+','+str(et*1000)+'\n')
     return
+
+""" def clustering_on_column_outlier(column):
+    open('./csv/'+column+'+outlier.csv', 'w').close()
+    
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+    f = open('./csv/'+column+'+outlier.csv', 'a')
+    f.write('video,clustering,acc,time\n')
+    for img in lb.uvideo:
+        x = lb.get_x(img, column)
+        model = LocalOutlierFactor(n_neighbors=int(len(x)*0.9))
+        res = model.fit_predict(x)
+        
+        for c in cluster:
+            st = time.time()
+            c.fit(x[res == 1])
+            et = time.time() - st
+            #print(img, get_accuracy(model.labels_, lb.get_l(img, l=2)[res == 1]))
+            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(2)))+','+str(et*1000)+'\n')
+    return """
 
 def clustering_on_diff(col, p=1.0):
     open('./csv/'+str(int(p*100))+'%diff_'+col+'.csv', 'w').close()
@@ -264,8 +290,10 @@ def clustering_on_diff(col, p=1.0):
         for c in cluster:
             c.fit(x)
             #print(img, type(c).__name__, get_accuracy(c.labels_, lb.get_l(img)), sep=',')
-            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, lb.get_l(img)))+'\n')
+            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, lb.get_l(img, l=2)))+'\n')
     return
+
+
 
 """ def hyper_parameter_perimg(img, n_data, ):
     

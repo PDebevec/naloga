@@ -23,21 +23,48 @@ def to_array(strs, num=1400):
 def get_x(img, col):
     return np.array(data.loc[img][col].values.tolist())
 
+def get_dx(img, col):
+    return data.loc[img][col]
+
 def get_allx(col):
     return np.array(data[col].values.tolist())
 
 def get_l(img, l=0):
-    return data.loc[img].index.get_level_values(l)
+    return np.array(data.loc[img].index.get_level_values(l))
 
 def get_diff_indata(X):
-    arr = []
     X = np.array([
-        y/y.mean() for y in X+1
+        y/y.mean() for y in X.T+1
     ])
     X -= X.min()
-    X /= X.max()
-    X = (X.max(axis=1) - X.min(axis=1))
-    return X/X.max()
+    X /= X.mean()
+    X = (X.mean(axis=1) - X.min(axis=1))
+    return X#/X.max()
+
+def get_drop_mean(X):
+    arr = []
+    arr1 = []
+    for r in X:
+        i = np.where(r == 1)[0][0]
+        r = r[i:]
+        #print(r[::int(len(r)/5)-1])
+        #print(np.arange(0, len(r), int(len(r)/6)-1)[1:-1]+i)
+        i = np.arange(0, len(r), int(len(r)/6)-1)[1:-1]
+        arr.append(r[i])
+        arr1.append([ np.mean(r[ri-j*10:ri+j*10]) for j,ri in enumerate(i, 1) ])
+    return arr, arr1
+
+def get_data_fromdiff(col, per=0.5):
+    for img in uvideo:
+        x = get_dx(img, col)
+        x_train = get_x(img, col)
+
+        d = get_diff_indata(x_train)
+        temp = 0
+        #temp = np.argmin(d[50:])+50
+        #d = d[temp:]
+        #d -= d[0]
+        x_train = x_train[:, np.where(d >= d.max()*per)[0]+temp ]
 
 def get_num_of_data(X, num):
     arr = []
@@ -67,9 +94,26 @@ def get_minmax(X):
 def get_nfp(X):
     arr = []
     for x in X:
-        n = x[find_peaks(x, distance=250, height=0.5)[0][0]]
-        arr.append(x/n)
+        print(find_peaks(x, distance=200, height=np.max(x)*0.5))
+        mx = x[find_peaks(x, distance=200, height=np.max(x)*0.5)[0][0]]
+        mn = x.min()
+        #arr.append(x/n)
+        arr.append( np.array((x - mn) / (mx - mn)) )
     return arr
+
+""" def get_shift_nfp(X):
+    arr = []
+    for img in pd.unique(X.index.get_level_values(0)):
+        temp = None
+        ffp = []
+        for x in X.loc[img].values:
+            fp = find_peaks(x[:300], distance=25, height=np.max(x[:300])*0.5)[0][0]
+            n = x[fp]
+            ffp.append(fp)
+            temp = x/n
+            temp = np.roll(temp, ffp[0]-fp)
+            arr.append(temp)
+    return arr """
 
 """ def get_minmax_byimg(data):
     arr = []

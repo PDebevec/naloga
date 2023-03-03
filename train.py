@@ -66,6 +66,46 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
 res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
+#vizualizacija posameznega videja glede na clustering performance
+""" cluster = [ 
+    MiniBatchKMeans(n_clusters=2)
+    ,KMeans(n_clusters=2)
+    ,SpectralClustering(n_clusters=2)
+    ,Birch(n_clusters=2)
+    ,AgglomerativeClustering(n_clusters=2)
+]
+arr = []
+pos = []
+for img in lb.uvideo:
+    x = lb.get_x(img, 'NIR_nfp')
+    arr.append([])
+    pos.append([])
+    for c in cluster:
+        c.fit(x)
+        arr[-1].append(ml.get_accuracy(c.labels_, lb.get_l(img)))
+    arr[-1] = (np.array(arr[-1]) >= 0.9).astype(int)
+    w = arr[-1].mean()
+    h = np.where(arr[-1] == 1)[0]+1
+    #print(h, arr[-1], np.sum([ 2**y for y in h ]))
+    h = np.sum([ 2**y for y in h ])
+    pos[-1].append([ h/62, h%62 ])
+    #print(w, h)
+    #print(arr[-1])
+    if lb.videos.loc[img].values[0] == 'Cancer':
+        plt.plot(h/62, h%62, 'r+')
+    else:
+        plt.plot(h/62, h%62, 'bx')
+plt.show()
+
+pos = np.array(pos).reshape(-1, 2)
+print(pos.shape)
+
+model = AgglomerativeClustering(n_clusters=6)
+model.fit(pos)
+
+for l,v in zip(model.labels_, lb.uvideo):
+    print(v, l) """
+
 #testiranje hitrosti clustering > cluster_perf.csv #> cluster.txt
 """ open('./csv/cluster_perf.csv', 'w').close()
 cluster = [ 
