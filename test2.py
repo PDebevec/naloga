@@ -24,6 +24,10 @@ from scipy.signal import find_peaks, savgol_filter
 import matplotlib.pyplot as plt
 import matplotlib.colors as mco
 import itertools as it
+import ml
+
+#ml.test_decomposition()
+ml.test_cluster()
 
 """ def get_minmax(X):
     arr = []
@@ -39,7 +43,7 @@ file['NIR_minmax'] = get_minmax(file['NIR_255'])
 
 file.to_pickle('data.pickle') """
 
-file = pickle.load(open('data.pickle', 'rb'))
+#file = pickle.load(open('data.pickle', 'rb'))
 
 """ file['NIR_255_smth'] = lb.get_gaussian(file['NIR_255'].values, 20)
 file['NIR_nfp_smth'] = lb.get_nfp(file['NIR_255_smth'].values)
@@ -89,7 +93,7 @@ def clustering_on_column(column):
 
 model.to_pickle('tsd.pickle') """
 
-tsd = pickle.load(open('tsd.pickle', 'rb'))
+""" tsd = pickle.load(open('tsd.pickle', 'rb'))
 sc = [
 '0_Absolute energy',
 '0_Area under the curve',
@@ -490,7 +494,7 @@ for col in tsd.columns:
 
 tsd.to_pickle('tsd.pickle')
 
-print(tsd.info())
+print(tsd.info()) """
 
 #tsd.sort_index()
 

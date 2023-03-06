@@ -293,7 +293,51 @@ def clustering_on_diff(col, p=1.0):
             f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, lb.get_l(img, l=2)))+'\n')
     return
 
+def test_decomposition():
+    setting= [ '_sigmoid', '_cosine', '', '', '', '', '' ]
+    
+    decomposition = [
+        KernelPCA(n_components=4, kernel='sigmoid'),
+        KernelPCA(n_components=4, kernel='cosine'),
+        FactorAnalysis(n_components=4),
+        FastICA(n_components=4),
+        IncrementalPCA(n_components=4),
+        PCA(n_components=4),
+        TruncatedSVD(n_components=4)
+    ]
 
+    x = lb.get_x(16091401, 'NIR_minmax')
+    for d,s in zip(decomposition, setting):
+        for di in lb.get_divisor(700):
+            t = []
+            for i in range(100):
+                st = time.time()
+                d.fit_transform(x[:, ::di])
+                t.append(time.time() - st)
+            t = lb.reject_outliers(np.array(t))
+            print(int(1400/di), type(d).__name__+s, round(np.sum(t)/len(t)*1000, 3), ' ms')
+    return
+
+def test_cluster():
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.005)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+    
+    x = lb.get_x(16091401, 'NIR_minmax')
+    for c in cluster:
+        for di in lb.get_divisor(700):
+            t = []
+            for i in range(100):
+                st = time.time()
+                c.fit(x[:, ::di])
+                t.append(time.time() - st)
+            t = lb.reject_outliers(np.array(t))
+            print(int(1400/di), type(c).__name__, round(np.sum(t)/len(t)*1000, 3), ' ms')
+    return
 
 """ def hyper_parameter_perimg(img, n_data, ):
     
