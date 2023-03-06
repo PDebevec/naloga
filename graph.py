@@ -32,6 +32,68 @@ for img in pd.unique(lb.uvideo):
         plt.plot(x, color=c)
     plt.show() """
 
+# podatki iz katerih dobiš >90% acc
+""" for img in lb.uvideo:
+    plt.title(img)
+    X = lb.get_x(img, 'NIR_nfp_smth').T
+    ha = []
+    i = 0
+    for x in X:
+        x = x.reshape(-1, 1)
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(x)
+        acc = ml.get_accuracy(model.labels_, lb.get_l(img, l=2))
+        if acc > 0.9:
+            #print(acc)
+            ha.append(i)
+        i+=1
+    #print(ha)
+    plt.plot(X[ha, :])
+    plt.show() """
+# še za tsd
+""" for img in lb.uvideo:
+    plt.title(img)
+    X = lb.tsd.loc[img].values.T
+    ha = []
+    i = 0
+    for x in X:
+        x = x.reshape(-1, 1)
+        if np.isnan(x).any():
+            i+=1
+            continue
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(x)
+        acc = ml.get_accuracy(model.labels_, lb.get_l(img, l=2))
+        if acc > 0.95:
+            #print(acc)
+            ha.append(i)
+        i+=1
+    #print(ha)
+    plt.plot(X[ha, :])
+    plt.show() """
+#prikaz acc in diff v podatkih
+""" arr = []
+for img in lb.uvideo:
+    #plt.title(img)
+    X = lb.get_x(img, 'NIR_nfp_smth').T
+    ha = []
+    i = 0
+    a = []
+    for x in X:
+        x = x.reshape(-1, 1)
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(x)
+        acc = ml.get_accuracy(model.labels_, lb.get_l(img, l=2))
+        a.append(acc)
+        if acc > 0.85:
+            ha.append(i)
+        i+=1
+    arr.append(ha)
+    plt.title(str(img) + '\nmin:' + str(int(np.min(a)*1000)/10) + '% max:' + str(int(np.max(a)*1000)/10) + '% mean:' + str(int(np.mean(a)*1000)/10) + '%')
+    plt.plot(a)
+    plt.plot(lb.get_diff_indata(X.T))
+    plt.show() """
+
 
 #3d graf slik
 """ for img in pd.unique(lb.data.index.get_level_values(0)):

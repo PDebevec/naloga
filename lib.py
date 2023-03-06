@@ -6,7 +6,7 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
 from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
-from scipy.signal import find_peaks
+from scipy.signal import find_peaks, savgol_filter
 
 #data1 = pickle.load(open('data1.pickle', 'rb'))
 #data2 = pickle.load(open('data2.pickle', 'rb'))
@@ -14,6 +14,7 @@ data = pickle.load(open('data.pickle', 'rb'))
 videos = pickle.load(open('videolabel.pickle', 'rb'))
 uvideo = pd.unique(data.index.get_level_values(0))
 ulabel = videos['label'].values
+tsd = pickle.load(open('tsd.pickle', 'rb'))
 
 def to_array(strs, num=1400):
     for i,e in enumerate(strs):
@@ -49,7 +50,7 @@ def get_drop_mean(X):
         r = r[i:]
         #print(r[::int(len(r)/5)-1])
         #print(np.arange(0, len(r), int(len(r)/6)-1)[1:-1]+i)
-        i = np.arange(0, len(r), int(len(r)/6)-1)[1:-1]
+        i = np.arange(0, len(r), int(len(r)/8)-1)[1:-1]
         arr.append(r[i])
         arr1.append([ np.mean(r[ri-j*10:ri+j*10]) for j,ri in enumerate(i, 1) ])
     return arr, arr1
@@ -72,16 +73,17 @@ def get_num_of_data(X, num):
         arr.append(x[::int(len(x)/num)])
     return arr
 
-""" def get_diff(data_arr):
+def get_diff_peak(X, TTP):
     arr = []
-    for d in data_arr:
+    for x,ttp in zip(X, TTP):
         temp = []
-        temp.append(-(d[0]-d[1]))
-        for i in range(1, len(d)-1):
-            temp.append( ((d[i-1]-d[i]) + (d[i]-d[i+1])) * -0.5 )
-        temp.append(-(d[-2]-d[-1]))
+        p = x[ttp]
+        temp.append(x[0])
+        for i in range(1, len(x)-1):
+            temp.append( ((x[i-1]-p) + (p-x[i+1])) * -0.5 )
+        temp.append(p-x[-1])
         arr.append(temp)
-    return arr """
+    return arr
 
 def get_minmax(X):
     arr = []
@@ -93,13 +95,24 @@ def get_minmax(X):
 
 def get_nfp(X):
     arr = []
+    arr2 = []
     for x in X:
-        print(find_peaks(x, distance=200, height=np.max(x)*0.5))
-        mx = x[find_peaks(x, distance=200, height=np.max(x)*0.5)[0][0]]
+        #print(find_peaks(x, distance=200, height=np.max(x)*0.5))
+        p = find_peaks(x, distance=175, height=np.max(x)*0.35)[0][0]
+        mx = x[p]
         mn = x.min()
         #arr.append(x/n)
         arr.append( np.array((x - mn) / (mx - mn)) )
-    return arr
+        arr2.append(p)
+    return arr, arr2
+
+def get_tt_mm(X, TTP):
+    arr = []
+    arr1 = []
+    for x,ttp in zip(X, TTP):
+        arr.append( np.where(x[ttp:] == x[ttp+1:].min())[0]+ttp )
+        arr1.append( np.where(x[ttp:] == x[ttp+1:].max())[0]+ttp )
+    return arr, arr1
 
 """ def get_shift_nfp(X):
     arr = []
@@ -128,7 +141,7 @@ def get_binary(X):
     arr = []
     for img in pd.unique(X.index.get_level_values(0)):
         model = LabelBinarizer()
-        res = model.fit_transform(X.loc[img].index.get_level_values(0))+1
+        res = model.fit_transform(X.loc[img].index.get_level_values(0))
         arr.append(res.reshape(-1).tolist())
     return sum(arr, [])
 
@@ -156,6 +169,13 @@ def get_gaussian(X, sigma):
     for x in X:
         arr.append(gaussian_filter1d(x, sigma))
         #arr[-1] = [ x/arr[-1].max() for x in arr[-1]]
+        arr[-1] /= arr[-1].max()
+    return arr
+
+def get_savgol(X):
+    arr = []
+    for x in X:
+        arr.append(savgol_filter(x, int(len(X)/14), 5))
         arr[-1] /= arr[-1].max()
     return arr
 

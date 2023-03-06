@@ -197,11 +197,11 @@ for img in lb.uvideo:
     plt.show() """
 
 #Vizualizacija img glede na decomposition in cluster rezultate
-""" orig = np.zeros(150)
+orig = np.zeros(150)
 clus = np.zeros(150)
 deco = np.zeros(150)
 for img,ulabel in zip(lb.uvideo, lb.ulabel):
-    x = np.array(lb.data.loc[img]['NIR_tsd'].values.tolist())
+    x = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
 
     orig[:] = 0
     clus[:] = 0
@@ -218,7 +218,7 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
     for r,i in zip(lb.data.loc[img].index.get_level_values(1), range(len(w2))):
         clus[r] = w1[i]
         deco[r] = w2[i]
-        orig[r] = lb.data.loc[img].index.get_level_values(1)[i]
+        orig[r] = lb.data.loc[img].index.get_level_values(2)[i]+1
     
     #deco += np.abs(np.min(orig))
     plt.figure(str(img))
@@ -240,7 +240,7 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
         plt.subplot(2,2,2)
         plt.title('cluster')
         plt.imshow(clus.reshape(-1, 15), cmap='Blues')
-    plt.show() """
+    plt.show()
 #vizualizacija img gleden an nmf
 """ for img,l in zip(lb.uvideo, lb.ulabel):
     if img == 170110 or img == 16092701: continue

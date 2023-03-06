@@ -26,7 +26,7 @@ file['finding'] = file['finding'].astype(str)
 
 #file['timeseries'] = lb.to_array(file['timeseries'].values)
 #file['timeseries_Gcorr_GS20'] = lb.to_array(file['timeseries_Gcorr_GS20'].values)
-#file['timeseries_Gcorr_LD_GS20'] = lb.to_array(file['timeseries_Gcorr_LD_GS20'].values, num=1380)
+file['timeseries_Gcorr_LD_GS20'] = lb.to_array(file['timeseries_Gcorr_LD_GS20'].values, num=1380)
 #file['cumul_curve_Gcorr_GS20'] = lb.to_array(file['cumul_curve_Gcorr_GS20'].values, num=1380)
 #file['drops_rel'] = lb.to_array(file['drops_rel'].values)
 #file['drops_rel_med'] = lb.to_array(file['drops_rel_med'].values)

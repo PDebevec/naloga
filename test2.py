@@ -87,9 +87,9 @@ def clustering_on_column(column):
         np.array(file['NIR_minmax'].values.tolist()),
         verbose=1)
 
-model.to_pickle('model.pickle') """
+model.to_pickle('tsd.pickle') """
 
-tsd = pickle.load(open('model.pickle', 'rb'))
+tsd = pickle.load(open('tsd.pickle', 'rb'))
 sc = [
 '0_Absolute energy',
 '0_Area under the curve',
@@ -482,8 +482,17 @@ sc = [
 '0_Zero crossing rate'
 ]
 tsd = tsd.reindex(sc, axis=1)
+
+tsd = pd.DataFrame(index=file.index, columns=tsd.columns, data=tsd.values)
+
 for col in tsd.columns:
-    print("\'"+col+"\'", end=',\n')
+    print(col)
+
+tsd.to_pickle('tsd.pickle')
+
+print(tsd.info())
+
+#tsd.sort_index()
 
 #clustering_on_column('drops_mean')
 

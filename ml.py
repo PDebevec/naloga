@@ -227,7 +227,7 @@ def clustering_on_column(column):
         MiniBatchKMeans(n_clusters=2)
         ,KMeans(n_clusters=2)
         ,SpectralClustering(n_clusters=2)
-        ,Birch(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.05)
         ,AgglomerativeClustering(n_clusters=2)
     ]
 
@@ -240,7 +240,7 @@ def clustering_on_column(column):
             c.fit(np.array(x.values.tolist()))
             et = time.time() - st
             #print(column, img, type(c).__name__, get_accuracy(c.labels_, x.index.get_level_values(0)), et*1000, sep=',')
-            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(2)))+','+str(et*1000)+'\n')
+            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(2)-1))+','+str(et*1000)+'\n')
     return
 
 """ def clustering_on_column_outlier(column):
