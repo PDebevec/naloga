@@ -1,12 +1,15 @@
 import numpy as np
 import lib as lb
+import ml
 import matplotlib.pyplot as plt
 import scipy.signal as ss
 import pandas as pd
 from scipy.ndimage import gaussian_filter1d
+from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
+
 
 #izris vsake slike posebej in shrani
-for img in pd.unique(lb.uvideo):
+""" for img in pd.unique(lb.uvideo):
     print(img)
     #fig, axis = plt.subplots(1,2)
     for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_nfp_smth')):
@@ -19,18 +22,53 @@ for img in pd.unique(lb.uvideo):
     #plt.savefig('graphs/nfp/'+str(img)+'_nfp.png')
     #plt.savefig('graphs/'+str(img)+'.png')
     plt.show()
-    #exit()
+    #exit() """
 #simple
 """ for img in pd.unique(lb.uvideo):
     c = ''
     plt.title(img)
-    for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_diff_smth')):
+    for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_nfp_smth')):
         match l:
             case 'Healthy': c = 'green'
             case 'Benign': c = 'blue'
             case 'Cancer': c = 'red'
         plt.plot(x, color=c)
     plt.show() """
+
+# diff in data za vsak video od ttp naprej < morem še dodat
+""" c = pd.unique(lb.data.query("finding == 'Cancer'").index.get_level_values(0))
+for img in c:
+    x = lb.get_x(img, 'NIR_nfp_butter')
+    x = lb.get_diff_indata(x)
+    plt.plot(x, label=img)
+    plt.legend(loc='lower right')
+    #plt.plot(x.T)
+plt.show() """
+
+#posebej benign calncer in healthy
+""" b = np.array(lb.data.query("finding == 'Benign'")['NIR_nfp_smth'].values.tolist())
+ttpb = np.array(lb.data.query("finding == 'Benign'")['TTP_smth'].values.tolist())
+for bx, ttp in zip(b, ttpb):
+    #plt.plot(np.flip(bx[:ttp]))
+    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
+plt.title('Benign')
+plt.show()
+
+c = np.array(lb.data.query("finding == 'Cancer'")['NIR_nfp_smth'].values.tolist())
+ttpb = np.array(lb.data.query("finding == 'Cancer'")['TTP_smth'].values.tolist())
+for bx, ttp in zip(c, ttpb):
+    #plt.plot(np.flip(bx[:ttp]))
+    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
+plt.title('Cancer')
+plt.show()
+
+h = np.array(lb.data.query("finding == 'Healthy'")['NIR_nfp_smth'].values.tolist())
+ttpb = np.array(lb.data.query("finding == 'Healthy'")['TTP_smth'].values.tolist())
+for bx, ttp in zip(h, ttpb):
+    #plt.plot(np.flip(bx[:ttp]))
+    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
+plt.title('Healthy')
+plt.show() """
 
 # podatki iz katerih dobiš >90% acc
 """ for img in lb.uvideo:
@@ -72,10 +110,10 @@ for img in pd.unique(lb.uvideo):
     plt.plot(X[ha, :])
     plt.show() """
 #prikaz acc in diff v podatkih
-""" arr = []
+arr = []
 for img in lb.uvideo:
     #plt.title(img)
-    X = lb.get_x(img, 'NIR_nfp_smth').T
+    X = lb.get_x(img, 'NIR_nfp_butter').T
     ha = []
     i = 0
     a = []
@@ -92,7 +130,7 @@ for img in lb.uvideo:
     plt.title(str(img) + '\nmin:' + str(int(np.min(a)*1000)/10) + '% max:' + str(int(np.max(a)*1000)/10) + '% mean:' + str(int(np.mean(a)*1000)/10) + '%')
     plt.plot(a)
     plt.plot(lb.get_diff_indata(X.T))
-    plt.show() """
+    plt.show()
 
 
 #3d graf slik

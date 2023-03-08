@@ -6,7 +6,8 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
 from sklearn.metrics import accuracy_score
 from scipy.ndimage import gaussian_filter1d
-from scipy.signal import find_peaks, savgol_filter
+from scipy.signal import find_peaks, savgol_filter, butter, lfilter, filtfilt
+
 
 #data1 = pickle.load(open('data1.pickle', 'rb'))
 #data2 = pickle.load(open('data2.pickle', 'rb'))
@@ -24,7 +25,7 @@ def to_array(strs, num=1400):
 def get_x(img, col):
     return np.array(data.loc[img][col].values.tolist())
 
-def get_dx(img, col):
+def get_dfx(img, col):
     return data.loc[img][col]
 
 def get_allx(col):
@@ -32,6 +33,9 @@ def get_allx(col):
 
 def get_l(img, l=0):
     return np.array(data.loc[img].index.get_level_values(l))
+
+def get_alll(l=0):
+    return np.array(data.index.get_level_values(l))
 
 def get_diff_indata(X):
     X = np.array([
@@ -57,7 +61,7 @@ def get_drop_mean(X):
 
 def get_data_fromdiff(col, per=0.5):
     for img in uvideo:
-        x = get_dx(img, col)
+        x = get_dfx(img, col)
         x_train = get_x(img, col)
 
         d = get_diff_indata(x_train)
@@ -98,7 +102,7 @@ def get_nfp(X):
     arr2 = []
     for x in X:
         #print(find_peaks(x, distance=200, height=np.max(x)*0.5))
-        p = find_peaks(x, distance=175, height=np.max(x)*0.35)[0][0]
+        p = find_peaks(x, distance=150, height=np.max(x)*0.6)[0][0]
         mx = x[p]
         mn = x.min()
         #arr.append(x/n)
@@ -106,13 +110,13 @@ def get_nfp(X):
         arr2.append(p)
     return arr, arr2
 
-def get_tt_mm(X, TTP):
+""" def get_tt_mm(X, TTP):
     arr = []
     arr1 = []
     for x,ttp in zip(X, TTP):
-        arr.append( np.where(x[ttp:] == x[ttp+1:].min())[0]+ttp )
-        arr1.append( np.where(x[ttp:] == x[ttp+1:].max())[0]+ttp )
-    return arr, arr1
+        arr.append( np.where(x[ttp:] == x[ttp:].min())[0]+ttp )
+        arr1.append( np.where(x[ttp:] == x[ttp:].max())[0]+ttp )
+    return arr, arr1 """
 
 """ def get_shift_nfp(X):
     arr = []
@@ -177,6 +181,13 @@ def get_savgol(X):
     for x in X:
         arr.append(savgol_filter(x, int(len(X)/14), 5))
         arr[-1] /= arr[-1].max()
+    return arr
+
+def get_butter(X):
+    arr = []
+    for x in X:
+        b, a = butter(2, 0.0075)
+        arr.append(lfilter(b, a, x))
     return arr
 
 def get_gaussian_diff(X, sigma):

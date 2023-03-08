@@ -52,13 +52,18 @@ file['NIR_nfp_smth'], file['TTP_smth'] = lb.get_nfp(file['NIR_255_smth'].values)
 file['NIR_diff_smth'] = lb.get_gaussian_diff(file['NIR_minmax_smth'].values, 1)
 #file['NIR_tsd_smth'] = lb.get_tsfd(file['NIR_nfp_smth'])
 
-file['NIR_255_savg'] = lb.get_savgol(file['NIR_255'].values)
+file['NIR_255_butter'] = lb.get_butter(file['NIR_255'].values)
+file['NIR_minmax_butter'] = lb.get_minmax(file['NIR_255_butter'].values)
+file['NIR_nfp_butter'], file['TTP_butter'] = lb.get_nfp(file['NIR_255_butter'].values)
+file['NIR_diff_butter'] = lb.get_gaussian_diff(file['NIR_minmax_butter'].values, 1)
+
+""" file['NIR_255_savg'] = lb.get_savgol(file['NIR_255'].values)
 file['NIR_minmax_savg'] = lb.get_minmax(file['NIR_255_savg'].values)
 file['NIR_nfp_savg'], file['TTP_savg'] = lb.get_nfp(file['NIR_255_savg'].values)
-file['NIR_diff_savg'] = lb.get_gaussian_diff(file['NIR_minmax_savg'].values, 1)
+file['NIR_diff_savg'] = lb.get_gaussian_diff(file['NIR_minmax_savg'].values, 1) """
 
 file['drops'], file['drops_mean'] = lb.get_drop_mean(file['NIR_nfp_smth'])
-file['TTmin'], file['TTmax'] = lb.get_tt_mm(file['NIR_nfp_smth'], file['TTP_smth'])
+#??? file['TTmin'], file['TTmax'] = lb.get_tt_mm(file['NIR_nfp_smth'], file['TTP_smth'])
 
 file.reset_index(inplace=True)
 file = file.set_index(['video', 'finding', 'ROI']).sort_index(level=[0, 2])
