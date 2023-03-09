@@ -35,7 +35,7 @@ from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, Agglome
         plt.plot(x, color=c)
     plt.show() """
 
-# diff in data za vsak video od ttp naprej < morem še dodat
+# diff in data za vsak video """ od ttp naprej < morem še dodat """
 """ c = pd.unique(lb.data.query("finding == 'Cancer'").index.get_level_values(0))
 for img in c:
     x = lb.get_x(img, 'NIR_nfp_butter')
@@ -43,6 +43,15 @@ for img in c:
     plt.plot(x, label=img)
     plt.legend(loc='lower right')
     #plt.plot(x.T)
+plt.show() """
+
+#razlika med podatki na minmax benign/cancer
+""" for img in lb.uvideo:
+    x = lb.get_diff_indata_minmax(lb.get_x(img, 'NIR_nfp_butter'))
+    if lb.videos.loc[img]['label'] == 'Benign':
+        plt.plot(x, color='b')
+    else:
+        plt.plot(x, color='r')
 plt.show() """
 
 #posebej benign calncer in healthy
@@ -69,6 +78,38 @@ for bx, ttp in zip(h, ttpb):
     plt.plot(bx[ttp:1400-ttpb.max()+ttp])
 plt.title('Healthy')
 plt.show() """
+#imgs = [170108?, 16090101, 16092101?, 16092201, 16093801?] #problemi s ttp
+#od ttp naprej oz obratno
+""" for img in lb.uvideo:
+    plt.title(img)
+    col = 'NIR_nfp_butter'
+    tcol = 'TTP_butter'
+    b = np.array(lb.data.loc[img].query("finding == 'Benign'")[col].values.tolist())
+    if b.size > 0:
+        ttpb = np.array(lb.data.loc[img].query("finding == 'Benign'")[tcol].values.tolist())
+        for bx, ttp in zip(b, ttpb):
+            plt.plot(np.flip(bx[:ttp]), color='b')
+            #1400-ttpb.max()+ttp # za odrezat podatke
+            #plt.plot(bx[ttp:], color='b')
+        #plt.title('Benign')
+        #plt.show()
+
+    c = np.array(lb.data.loc[img].query("finding == 'Cancer'")[col].values.tolist())
+    if c.size > 0:
+        ttpb = np.array(lb.data.loc[img].query("finding == 'Cancer'")[tcol].values.tolist())
+        for bx, ttp in zip(c, ttpb):
+            plt.plot(np.flip(bx[:ttp]), color='r')
+            #plt.plot(bx[ttp:], color='r')
+        #plt.title('Cancer')
+        #plt.show()
+
+    h = np.array(lb.data.loc[img].query("finding == 'Healthy'")[col].values.tolist())
+    ttpb = np.array(lb.data.loc[img].query("finding == 'Healthy'")[tcol].values.tolist())
+    for bx, ttp in zip(h, ttpb):
+        plt.plot(np.flip(bx[:ttp]), color='g')
+        #plt.plot(bx[ttp:], color='g')
+    #plt.title('Healthy')
+    plt.show() """
 
 # podatki iz katerih dobiš >90% acc
 """ for img in lb.uvideo:
@@ -110,7 +151,7 @@ plt.show() """
     plt.plot(X[ha, :])
     plt.show() """
 #prikaz acc in diff v podatkih
-arr = []
+""" arr = []
 for img in lb.uvideo:
     #plt.title(img)
     X = lb.get_x(img, 'NIR_nfp_butter').T
@@ -130,7 +171,7 @@ for img in lb.uvideo:
     plt.title(str(img) + '\nmin:' + str(int(np.min(a)*1000)/10) + '% max:' + str(int(np.max(a)*1000)/10) + '% mean:' + str(int(np.mean(a)*1000)/10) + '%')
     plt.plot(a)
     plt.plot(lb.get_diff_indata(X.T))
-    plt.show()
+    plt.show() """
 
 
 #3d graf slik

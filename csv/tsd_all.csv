@@ -1,0 +1,390 @@
+,columns,170101,170103,170104,170108,16090101,16090401,16090601,16091201,16091301,16091401,16092001,16092101,16092201,16092301,16092501,16092801,16093001,16093201,16093301,16093501,16093601,16093801
+0,0_Absolute energy,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,True,True,True
+1,0_Area under the curve,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,True,True,True
+2,0_Autocorrelation,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,True,True,True
+3,0_Centroid,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,False
+4,0_ECDF Percentile Count_0,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+5,0_ECDF Percentile Count_1,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+6,0_ECDF Percentile_0,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,True,False,False,False,True,True,True
+7,0_ECDF Percentile_1,False,True,False,True,True,False,False,False,False,False,False,False,False,False,True,False,False,False,False,True,False,True
+8,0_ECDF_0,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+9,0_ECDF_1,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+10,0_ECDF_2,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+11,0_ECDF_3,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+12,0_ECDF_4,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+13,0_ECDF_5,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+14,0_ECDF_6,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+15,0_ECDF_7,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+16,0_ECDF_8,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+17,0_ECDF_9,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+18,0_Entropy,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False
+19,0_FFT mean coefficient_1,False,False,False,True,False,True,True,True,False,False,True,False,False,False,True,False,False,True,False,False,True,True
+20,0_FFT mean coefficient_2,False,True,False,True,True,True,False,True,False,False,False,False,False,False,False,False,False,False,True,True,True,False
+21,0_FFT mean coefficient_3,False,True,True,True,False,True,True,False,False,True,False,False,False,True,False,False,False,False,False,True,True,True
+22,0_FFT mean coefficient_4,False,False,True,True,True,True,False,False,False,False,False,False,False,False,True,False,False,True,True,True,True,True
+23,0_FFT mean coefficient_5,False,False,False,True,True,False,False,False,False,False,False,False,False,False,True,True,False,False,True,True,True,True
+24,0_FFT mean coefficient_6,False,True,False,True,False,False,False,True,False,False,False,False,False,False,False,False,False,False,True,False,True,True
+25,0_FFT mean coefficient_7,False,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,False,False,True,False,True,True
+26,0_FFT mean coefficient_8,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+27,0_FFT mean coefficient_9,False,False,False,False,False,False,False,True,False,False,True,False,False,False,False,False,False,False,False,False,False,True
+28,0_FFT mean coefficient_10,False,False,False,False,False,False,True,True,False,False,False,False,False,True,False,False,False,False,True,False,True,False
+29,0_FFT mean coefficient_11,False,False,False,True,True,True,True,True,False,False,False,False,False,True,True,False,False,False,False,False,True,False
+30,0_FFT mean coefficient_12,False,False,False,True,False,True,True,True,False,True,False,False,False,True,False,False,False,False,False,False,False,False
+31,0_FFT mean coefficient_13,True,False,False,True,False,False,False,True,False,True,False,True,False,False,False,False,False,False,False,False,False,True
+32,0_FFT mean coefficient_14,False,False,False,True,False,False,True,False,False,True,False,False,False,True,True,False,False,False,False,False,True,True
+33,0_FFT mean coefficient_15,False,False,False,True,False,False,True,False,False,False,False,False,False,False,True,False,False,False,False,False,False,True
+34,0_FFT mean coefficient_16,False,False,False,True,False,False,True,False,False,False,False,False,False,False,True,False,False,False,False,False,False,True
+35,0_FFT mean coefficient_17,False,False,False,True,True,False,True,True,False,False,True,False,False,False,True,True,False,False,False,True,False,True
+36,0_FFT mean coefficient_18,False,True,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False
+37,0_FFT mean coefficient_19,False,False,False,True,False,True,False,True,False,False,False,False,False,False,False,False,False,False,True,False,False,False
+38,0_FFT mean coefficient_20,False,False,False,True,False,False,False,True,False,True,False,False,False,True,True,False,True,False,False,False,False,False
+39,0_FFT mean coefficient_21,False,False,True,False,False,True,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False
+40,0_FFT mean coefficient_22,False,False,False,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+41,0_FFT mean coefficient_23,False,False,False,True,True,False,True,True,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+42,0_FFT mean coefficient_24,False,False,False,True,True,False,True,True,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+43,0_FFT mean coefficient_25,False,True,False,True,True,False,True,True,False,False,False,False,False,False,True,False,False,False,False,False,False,True
+44,0_FFT mean coefficient_26,False,True,False,False,True,False,False,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False
+45,0_FFT mean coefficient_27,False,False,False,False,False,False,False,True,False,False,False,False,False,True,False,True,False,False,True,True,False,False
+46,0_FFT mean coefficient_28,False,False,False,True,False,False,True,True,False,True,True,False,False,True,True,False,False,True,False,False,False,False
+47,0_FFT mean coefficient_29,False,True,False,False,False,False,True,False,False,False,False,False,False,False,False,False,True,False,False,False,False,True
+48,0_FFT mean coefficient_30,False,False,False,True,True,False,True,True,False,False,False,False,False,False,True,False,False,False,False,False,False,True
+49,0_FFT mean coefficient_31,False,False,False,True,True,False,True,True,False,True,True,False,False,False,True,False,False,False,False,False,False,True
+50,0_FFT mean coefficient_32,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+51,0_FFT mean coefficient_33,False,True,False,True,False,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+52,0_FFT mean coefficient_34,False,True,False,False,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,True
+53,0_FFT mean coefficient_35,False,False,False,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,True,False,True,False
+54,0_FFT mean coefficient_36,True,False,False,False,False,False,True,True,False,True,False,False,False,False,False,False,False,False,False,False,False,False
+55,0_FFT mean coefficient_37,False,True,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+56,0_FFT mean coefficient_38,False,True,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+57,0_FFT mean coefficient_39,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,False,False,True
+58,0_FFT mean coefficient_40,False,False,False,True,False,False,True,True,False,False,True,False,False,False,True,False,False,False,False,False,False,True
+59,0_FFT mean coefficient_41,False,True,False,True,False,False,True,False,False,False,True,False,False,False,False,True,False,False,False,True,False,True
+60,0_FFT mean coefficient_42,False,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,True,True,True
+61,0_FFT mean coefficient_43,False,False,False,True,False,True,True,True,False,False,False,False,False,False,True,False,False,False,False,False,True,False
+62,0_FFT mean coefficient_44,True,False,False,True,False,False,True,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False
+63,0_FFT mean coefficient_45,False,True,False,False,False,True,False,True,False,False,False,False,False,False,False,False,True,False,False,False,False,False
+64,0_FFT mean coefficient_46,False,True,False,True,True,False,True,False,False,False,False,False,False,False,False,False,False,False,False,True,False,True
+65,0_FFT mean coefficient_47,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+66,0_FFT mean coefficient_48,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+67,0_FFT mean coefficient_49,False,True,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,False,False,True
+68,0_FFT mean coefficient_50,False,True,False,False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,True,True,True
+69,0_FFT mean coefficient_51,False,False,False,False,True,False,True,False,False,False,False,False,False,True,False,False,False,False,True,False,True,False
+70,0_FFT mean coefficient_52,False,False,False,True,False,False,True,False,False,False,True,False,False,True,False,False,False,False,False,False,False,False
+71,0_FFT mean coefficient_53,False,False,False,False,False,False,False,True,False,False,False,True,False,True,False,False,False,False,False,False,True,False
+72,0_FFT mean coefficient_54,False,True,False,True,True,False,True,True,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+73,0_FFT mean coefficient_55,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+74,0_FFT mean coefficient_56,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+75,0_FFT mean coefficient_57,False,True,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+76,0_FFT mean coefficient_58,False,True,False,False,True,False,False,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+77,0_FFT mean coefficient_59,False,False,False,False,False,False,True,False,False,False,False,False,False,False,True,False,False,True,False,False,True,False
+78,0_FFT mean coefficient_60,True,False,False,True,True,False,True,True,False,False,False,False,False,True,False,True,False,False,False,False,False,False
+79,0_FFT mean coefficient_61,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False,False,True,True,True
+80,0_FFT mean coefficient_62,False,True,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,True,False,False,True
+81,0_FFT mean coefficient_63,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+82,0_FFT mean coefficient_64,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+83,0_FFT mean coefficient_65,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+84,0_FFT mean coefficient_66,False,True,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+85,0_FFT mean coefficient_67,False,False,False,False,False,True,True,False,False,False,False,False,False,True,False,False,False,False,True,False,False,False
+86,0_FFT mean coefficient_68,False,False,False,True,True,False,True,True,False,True,True,False,False,True,False,False,False,False,False,False,False,False
+87,0_FFT mean coefficient_69,False,True,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,True,False,True,False
+88,0_FFT mean coefficient_70,False,True,False,True,True,False,True,False,False,True,True,False,False,False,False,False,False,False,False,True,False,True
+89,0_FFT mean coefficient_71,False,False,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+90,0_FFT mean coefficient_72,False,False,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+91,0_FFT mean coefficient_73,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+92,0_FFT mean coefficient_74,False,True,False,False,False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,True,False,True
+93,0_FFT mean coefficient_75,False,False,False,False,False,False,True,True,False,False,False,False,False,True,True,True,False,False,True,False,True,False
+94,0_FFT mean coefficient_76,True,False,False,True,False,False,True,True,False,False,False,False,False,True,True,False,False,True,False,False,False,True
+95,0_FFT mean coefficient_77,False,False,False,False,True,True,False,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False
+96,0_FFT mean coefficient_78,False,True,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,True,True
+97,0_FFT mean coefficient_79,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+98,0_FFT mean coefficient_80,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+99,0_FFT mean coefficient_81,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+100,0_FFT mean coefficient_82,False,True,False,False,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False,True,False,True
+101,0_FFT mean coefficient_83,False,False,False,False,False,False,False,True,False,False,False,False,False,True,False,False,False,False,True,False,True,True
+102,0_FFT mean coefficient_84,False,False,False,True,True,False,True,True,False,True,False,False,False,True,True,True,False,False,False,False,True,True
+103,0_FFT mean coefficient_85,False,False,False,False,True,True,False,True,False,False,False,False,False,True,True,False,False,False,False,False,True,True
+104,0_FFT mean coefficient_86,False,True,False,True,False,False,True,False,False,True,True,False,False,False,False,False,False,False,False,True,False,False
+105,0_FFT mean coefficient_87,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+106,0_FFT mean coefficient_88,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+107,0_FFT mean coefficient_89,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+108,0_FFT mean coefficient_90,False,True,False,False,False,False,True,False,False,False,True,False,False,False,False,False,False,False,False,True,False,True
+109,0_FFT mean coefficient_91,False,False,False,False,False,True,True,True,False,False,False,False,False,True,False,False,False,False,True,False,True,False
+110,0_FFT mean coefficient_92,False,False,False,True,True,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,True,False
+111,0_FFT mean coefficient_93,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False,True,False,True,True
+112,0_FFT mean coefficient_94,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+113,0_FFT mean coefficient_95,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+114,0_FFT mean coefficient_96,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+115,0_FFT mean coefficient_97,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+116,0_FFT mean coefficient_98,False,True,False,False,True,False,True,False,False,False,True,False,False,False,False,False,False,False,False,True,False,True
+117,0_FFT mean coefficient_99,False,False,False,False,False,True,True,True,False,False,False,False,False,True,False,True,False,False,True,False,True,True
+118,0_FFT mean coefficient_100,True,False,False,True,False,False,True,True,False,False,False,False,False,True,True,True,False,False,False,False,True,True
+119,0_FFT mean coefficient_101,False,False,False,False,False,True,False,True,False,False,False,False,False,True,True,True,False,False,False,False,True,True
+120,0_FFT mean coefficient_102,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+121,0_FFT mean coefficient_103,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+122,0_FFT mean coefficient_104,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+123,0_FFT mean coefficient_105,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+124,0_FFT mean coefficient_106,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+125,0_FFT mean coefficient_107,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,False,False,False,True,False,True,True
+126,0_FFT mean coefficient_108,True,False,False,True,True,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,False,True
+127,0_FFT mean coefficient_109,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,False,False,False,True,False,True,True
+128,0_FFT mean coefficient_110,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+129,0_FFT mean coefficient_111,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+130,0_FFT mean coefficient_112,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+131,0_FFT mean coefficient_113,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+132,0_FFT mean coefficient_114,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+133,0_FFT mean coefficient_115,False,False,False,False,False,True,True,True,False,False,False,False,False,True,False,True,False,False,True,False,True,True
+134,0_FFT mean coefficient_116,False,False,False,True,False,False,True,True,False,False,False,False,False,True,True,True,False,False,False,False,True,True
+135,0_FFT mean coefficient_117,False,False,False,False,False,True,False,True,False,False,False,False,False,True,True,False,False,False,True,False,True,False
+136,0_FFT mean coefficient_118,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+137,0_FFT mean coefficient_119,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+138,0_FFT mean coefficient_120,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+139,0_FFT mean coefficient_121,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+140,0_FFT mean coefficient_122,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+141,0_FFT mean coefficient_123,False,False,False,False,False,True,False,True,False,False,False,False,False,True,True,False,False,False,True,False,True,False
+142,0_FFT mean coefficient_124,False,False,False,True,False,False,True,True,False,True,False,False,False,True,True,True,False,False,False,False,True,True
+143,0_FFT mean coefficient_125,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,True,False,False,True,False,True,True
+144,0_FFT mean coefficient_126,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+145,0_FFT mean coefficient_127,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+146,0_FFT mean coefficient_128,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+147,0_FFT mean coefficient_129,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+148,0_FFT mean coefficient_130,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+149,0_FFT mean coefficient_131,False,False,False,False,False,True,False,True,False,False,False,False,False,True,True,True,False,False,True,False,True,True
+150,0_FFT mean coefficient_132,False,False,False,True,False,False,True,True,False,True,True,False,False,True,False,True,False,False,False,False,True,True
+151,0_FFT mean coefficient_133,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,False,False,False,True,False,True,False
+152,0_FFT mean coefficient_134,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+153,0_FFT mean coefficient_135,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+154,0_FFT mean coefficient_136,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+155,0_FFT mean coefficient_137,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+156,0_FFT mean coefficient_138,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+157,0_FFT mean coefficient_139,False,False,False,False,False,True,False,True,False,False,False,False,False,True,True,True,False,False,True,False,True,True
+158,0_FFT mean coefficient_140,False,False,False,True,True,False,True,True,False,True,False,False,False,True,False,True,False,False,False,False,True,True
+159,0_FFT mean coefficient_141,False,False,False,False,False,True,False,True,False,False,True,False,False,True,False,True,False,False,True,False,True,False
+160,0_FFT mean coefficient_142,False,True,False,False,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,True,True
+161,0_FFT mean coefficient_143,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+162,0_FFT mean coefficient_144,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+163,0_FFT mean coefficient_145,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+164,0_FFT mean coefficient_146,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False
+165,0_FFT mean coefficient_147,False,False,False,False,False,True,False,True,False,False,False,False,False,False,True,True,False,False,True,False,True,True
+166,0_FFT mean coefficient_148,True,False,False,True,False,False,True,True,False,True,False,False,False,True,False,False,False,False,False,False,True,True
+167,0_FFT mean coefficient_149,False,False,False,False,False,True,False,True,False,False,True,False,False,True,False,True,False,False,True,False,True,False
+168,0_FFT mean coefficient_150,False,True,False,False,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+169,0_FFT mean coefficient_151,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+170,0_FFT mean coefficient_152,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+171,0_FFT mean coefficient_153,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+172,0_FFT mean coefficient_154,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+173,0_FFT mean coefficient_155,False,False,False,False,False,True,False,True,False,False,False,False,False,False,True,False,False,False,True,False,True,True
+174,0_FFT mean coefficient_156,False,False,False,True,True,False,True,True,False,True,False,False,False,True,False,False,False,False,False,False,False,True
+175,0_FFT mean coefficient_157,False,False,False,True,False,True,False,True,False,False,True,False,False,True,True,True,False,False,True,False,True,False
+176,0_FFT mean coefficient_158,False,True,False,False,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,True,True
+177,0_FFT mean coefficient_159,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+178,0_FFT mean coefficient_160,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+179,0_FFT mean coefficient_161,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+180,0_FFT mean coefficient_162,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+181,0_FFT mean coefficient_163,False,True,False,False,False,True,False,True,False,False,False,False,False,False,True,False,False,False,True,False,True,True
+182,0_FFT mean coefficient_164,False,False,False,True,True,False,True,True,False,True,False,False,False,True,True,False,False,False,False,False,False,True
+183,0_FFT mean coefficient_165,False,False,False,True,False,True,False,True,False,False,True,False,False,True,True,True,False,False,True,False,True,False
+184,0_FFT mean coefficient_166,False,True,False,False,False,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,True,True
+185,0_FFT mean coefficient_167,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+186,0_FFT mean coefficient_168,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+187,0_FFT mean coefficient_169,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+188,0_FFT mean coefficient_170,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+189,0_FFT mean coefficient_171,False,True,False,False,False,True,False,True,False,False,False,False,False,False,True,False,False,False,True,False,True,False
+190,0_FFT mean coefficient_172,False,False,False,False,True,False,False,True,False,True,False,False,False,True,True,False,False,False,False,True,False,True
+191,0_FFT mean coefficient_173,False,False,False,True,False,True,False,False,False,False,True,False,False,True,True,True,False,False,True,False,False,True
+192,0_FFT mean coefficient_174,False,True,False,False,False,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,True,True
+193,0_FFT mean coefficient_175,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+194,0_FFT mean coefficient_176,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+195,0_FFT mean coefficient_177,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+196,0_FFT mean coefficient_178,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False
+197,0_FFT mean coefficient_179,False,True,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,True,False,True,False
+198,0_FFT mean coefficient_180,False,False,False,True,False,False,False,False,False,False,False,True,False,True,True,False,False,False,False,False,False,True
+199,0_FFT mean coefficient_181,False,False,False,True,False,False,False,False,False,False,True,False,False,True,False,True,False,False,False,True,True,True
+200,0_FFT mean coefficient_182,False,True,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False,False,False,True,True,True
+201,0_FFT mean coefficient_183,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+202,0_FFT mean coefficient_184,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+203,0_FFT mean coefficient_185,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+204,0_FFT mean coefficient_186,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False
+205,0_FFT mean coefficient_187,False,False,False,False,False,True,False,False,False,True,True,False,False,False,True,False,False,False,True,False,True,False
+206,0_FFT mean coefficient_188,False,True,False,True,False,False,True,False,False,False,False,False,False,True,True,False,False,False,False,False,False,False
+207,0_FFT mean coefficient_189,False,True,False,True,True,False,True,False,False,False,True,False,False,True,False,False,False,False,False,True,True,True
+208,0_FFT mean coefficient_190,False,True,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False,False,False,True,True,True
+209,0_FFT mean coefficient_191,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+210,0_FFT mean coefficient_192,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+211,0_FFT mean coefficient_193,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+212,0_FFT mean coefficient_194,False,True,False,True,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False
+213,0_FFT mean coefficient_195,False,False,False,False,False,True,False,False,False,True,True,False,False,False,True,False,False,False,False,False,True,False
+214,0_FFT mean coefficient_196,False,False,False,True,False,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,False,False
+215,0_FFT mean coefficient_197,False,False,False,False,False,True,True,False,False,False,True,False,False,False,False,False,False,False,False,False,False,True
+216,0_FFT mean coefficient_198,False,False,False,False,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,True,True
+217,0_FFT mean coefficient_199,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+218,0_FFT mean coefficient_200,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+219,0_FFT mean coefficient_201,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+220,0_FFT mean coefficient_202,False,False,False,True,False,False,True,False,False,True,True,False,False,False,True,False,False,False,False,True,False,True
+221,0_FFT mean coefficient_203,False,False,False,False,False,True,False,False,False,True,True,False,False,True,False,False,False,True,False,False,True,False
+222,0_FFT mean coefficient_204,False,False,False,True,False,False,True,True,False,True,False,False,False,True,True,False,False,False,False,False,False,True
+223,0_FFT mean coefficient_205,True,False,False,True,False,False,True,True,False,True,False,False,False,False,True,True,False,False,False,False,False,False
+224,0_FFT mean coefficient_206,False,False,False,False,True,True,True,True,False,True,True,False,False,True,False,False,False,False,False,False,True,True
+225,0_FFT mean coefficient_207,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+226,0_FFT mean coefficient_208,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+227,0_FFT mean coefficient_209,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+228,0_FFT mean coefficient_210,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+229,0_FFT mean coefficient_211,False,False,False,True,False,True,False,True,False,True,True,False,False,True,False,False,False,True,False,False,True,False
+230,0_FFT mean coefficient_212,False,False,False,True,False,False,True,True,False,False,False,False,False,False,True,False,False,False,False,False,False,True
+231,0_FFT mean coefficient_213,False,False,False,True,True,False,True,True,False,False,False,False,False,False,True,True,False,False,False,False,False,True
+232,0_FFT mean coefficient_214,False,False,False,False,False,True,True,True,False,True,True,False,False,True,False,False,False,False,False,False,True,False
+233,0_FFT mean coefficient_215,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+234,0_FFT mean coefficient_216,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+235,0_FFT mean coefficient_217,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+236,0_FFT mean coefficient_218,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+237,0_FFT mean coefficient_219,False,False,False,True,False,True,False,True,False,True,True,False,False,True,False,False,False,True,False,False,True,False
+238,0_FFT mean coefficient_220,False,False,False,True,False,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,False,True
+239,0_FFT mean coefficient_221,False,False,False,True,True,False,True,False,False,True,False,False,False,True,True,False,False,False,False,False,False,True
+240,0_FFT mean coefficient_222,False,False,False,True,False,True,True,True,False,False,True,False,False,True,False,False,False,False,False,False,True,False
+241,0_FFT mean coefficient_223,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,False,True,True
+242,0_FFT mean coefficient_224,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+243,0_FFT mean coefficient_225,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+244,0_FFT mean coefficient_226,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+245,0_FFT mean coefficient_227,False,False,False,False,False,True,True,True,False,False,True,False,False,True,False,False,False,False,False,False,True,False
+246,0_FFT mean coefficient_228,False,False,False,True,True,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,False,True
+247,0_FFT mean coefficient_229,False,False,False,True,True,False,True,True,False,False,False,False,False,False,True,False,False,False,False,False,False,True
+248,0_FFT mean coefficient_230,False,False,False,False,False,False,True,True,False,False,True,False,False,True,False,False,False,False,False,False,True,False
+249,0_FFT mean coefficient_231,False,False,False,True,True,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,True,True
+250,0_FFT mean coefficient_232,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+251,0_FFT mean coefficient_233,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+252,0_FFT mean coefficient_234,False,False,False,True,True,False,True,False,False,True,True,False,False,True,True,False,False,False,False,True,False,True
+253,0_FFT mean coefficient_235,False,False,False,True,False,True,True,True,False,False,True,False,False,True,False,False,False,False,False,False,True,False
+254,0_FFT mean coefficient_236,False,False,False,True,True,False,True,True,False,False,True,False,False,True,True,False,False,False,False,False,False,True
+255,0_FFT mean coefficient_237,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,False,False,True
+256,0_FFT mean coefficient_238,False,False,False,True,True,True,True,True,False,True,True,False,False,True,False,False,False,True,False,False,True,False
+257,0_FFT mean coefficient_239,False,False,False,True,True,True,True,True,False,True,False,False,False,True,False,False,False,False,False,False,True,True
+258,0_FFT mean coefficient_240,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,False,False,True
+259,0_FFT mean coefficient_241,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+260,0_FFT mean coefficient_242,False,False,False,True,True,False,True,False,False,True,True,False,False,True,True,False,False,False,False,False,False,True
+261,0_FFT mean coefficient_243,False,False,False,True,False,True,True,True,False,False,True,False,False,True,False,False,False,False,False,False,True,False
+262,0_FFT mean coefficient_244,False,False,False,True,True,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,False,True
+263,0_FFT mean coefficient_245,False,False,False,True,True,False,True,False,False,True,False,False,False,False,True,False,False,False,False,False,False,True
+264,0_FFT mean coefficient_246,False,False,False,True,True,False,True,True,False,False,False,False,False,True,True,False,False,False,False,False,True,True
+265,0_FFT mean coefficient_247,False,False,False,False,False,True,True,True,False,True,True,False,False,True,False,False,False,False,False,False,True,False
+266,0_FFT mean coefficient_248,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,False,False,True
+267,0_FFT mean coefficient_249,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+268,0_FFT mean coefficient_250,False,False,False,True,True,False,True,False,False,True,True,False,False,False,True,False,False,False,False,False,False,True
+269,0_FFT mean coefficient_251,False,False,False,True,False,True,True,True,False,False,True,False,False,True,False,False,False,False,False,False,True,False
+270,0_FFT mean coefficient_252,False,False,False,True,True,False,True,True,False,True,False,False,False,False,True,False,False,False,False,False,False,True
+271,0_FFT mean coefficient_253,False,False,False,True,True,False,True,False,False,False,True,False,False,False,True,False,False,False,False,False,False,True
+272,0_FFT mean coefficient_254,False,False,False,True,True,False,True,True,False,True,False,False,False,True,True,False,False,False,False,False,False,True
+273,0_FFT mean coefficient_255,False,False,False,True,False,True,True,True,False,False,True,False,False,True,False,False,False,False,False,False,True,False
+274,0_FFT mean coefficient_,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+275,0_Fundamental frequency,True,False,False,False,False,False,False,False,False,False,False,False,False,False,True,False,False,False,False,True,False,False
+276,0_Histogram_0,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+277,0_Histogram_1,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+278,0_Histogram_2,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+279,0_Histogram_3,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+280,0_Histogram_4,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+281,0_Histogram_5,False,False,False,True,True,True,True,True,False,False,True,False,False,True,True,False,False,False,False,False,True,True
+282,0_Histogram_6,False,True,False,True,False,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+283,0_Histogram_7,False,False,True,True,True,False,False,False,False,True,False,True,True,False,False,True,False,False,False,True,False,False
+284,0_Histogram_8,False,True,False,False,True,False,False,False,False,False,False,False,True,False,False,True,False,False,False,True,True,True
+285,0_Histogram_9,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,True
+286,0_Human range energy,False,True,False,True,False,False,True,False,True,False,False,True,False,False,True,False,False,False,False,True,True,False
+287,0_Interquartile range,True,False,False,False,False,False,True,True,False,False,False,False,False,False,True,True,False,False,False,True,False,False
+288,0_Kurtosis,False,True,False,False,False,False,True,False,False,False,True,True,True,False,False,True,False,False,False,True,True,True
+289,0_LPCC_0,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,False,True,False
+290,0_LPCC_1,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,True
+291,0_LPCC_2,False,True,False,True,False,False,True,True,False,False,False,False,False,False,True,True,False,False,False,True,True,True
+292,0_LPCC_3,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,True
+293,0_LPCC_4,False,True,False,True,False,False,True,True,False,False,True,False,False,False,True,True,False,False,False,True,True,True
+294,0_LPCC_5,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,True
+295,0_LPCC_6,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,True
+296,0_LPCC_7,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,True
+297,0_LPCC_8,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,True
+298,0_LPCC_9,False,True,False,True,False,False,True,True,False,False,True,False,False,False,True,True,False,False,False,True,True,True
+299,0_LPCC_10,False,True,False,True,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,True
+300,0_LPCC_11,False,True,False,True,False,False,True,True,False,False,False,False,False,False,True,True,False,False,False,True,True,True
+301,0_MFCC_0,False,True,False,False,False,True,True,False,False,False,False,False,False,True,False,False,False,False,False,False,True,False
+302,0_MFCC_1,False,True,False,False,False,True,True,False,False,False,False,False,False,True,False,True,False,False,False,False,True,False
+303,0_MFCC_2,False,True,False,False,False,True,True,False,False,False,False,False,False,True,True,True,False,False,False,False,True,False
+304,0_MFCC_3,False,True,False,True,False,True,False,False,False,False,False,False,False,True,True,True,False,False,False,False,False,False
+305,0_MFCC_4,False,True,False,True,False,True,True,False,False,True,False,False,False,False,True,True,False,False,True,False,False,False
+306,0_MFCC_5,False,True,True,True,False,True,True,False,False,True,False,False,True,True,False,True,False,False,True,False,False,False
+307,0_MFCC_6,False,False,True,False,False,False,False,False,False,False,False,True,True,False,False,False,True,False,False,False,False,False
+308,0_MFCC_7,False,True,False,False,False,True,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False
+309,0_MFCC_8,False,True,False,False,False,True,True,False,False,False,False,False,False,True,True,True,False,False,False,False,False,False
+310,0_MFCC_9,False,True,False,True,False,True,True,False,False,False,False,False,False,False,False,True,False,False,False,False,False,False
+311,0_MFCC_10,False,True,False,False,False,True,True,False,False,False,False,False,True,True,False,True,False,False,False,False,True,False
+312,0_MFCC_11,False,True,True,False,False,True,True,False,False,False,False,False,False,True,False,True,False,False,False,True,True,False
+313,0_Max,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+314,0_Max power spectrum,False,False,False,False,False,False,True,True,False,False,True,True,True,False,True,False,False,False,False,True,True,False
+315,0_Maximum frequency,False,True,False,True,True,False,True,True,True,False,False,False,True,False,False,True,False,False,False,True,True,True
+316,0_Mean,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,True,True,True
+317,0_Mean absolute deviation,False,False,False,True,False,False,True,True,False,False,False,True,False,False,True,False,False,False,False,True,False,False
+318,0_Mean absolute diff,False,True,False,False,True,False,False,True,False,False,True,False,False,False,False,False,True,False,False,True,False,True
+319,0_Mean diff,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+320,0_Median,False,True,False,True,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False,True,True,True
+321,0_Median absolute deviation,True,True,False,True,False,False,True,True,False,False,False,False,False,False,True,True,False,False,False,False,False,False
+322,0_Median absolute diff,False,False,False,False,False,False,True,True,False,True,True,False,False,False,False,False,False,False,False,True,False,False
+323,0_Median diff,False,True,False,True,True,False,True,True,False,False,False,False,False,False,True,False,False,False,False,False,True,False
+324,0_Median frequency,False,False,False,True,True,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,False,False
+325,0_Min,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+326,0_Negative turning points,False,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,True,False,False,False
+327,0_Neighbourhood peaks,False,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+328,0_Peak to peak distance,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True
+329,0_Positive turning points,False,True,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False,True,False,False,False
+330,0_Power bandwidth,False,False,False,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+331,0_Root mean square,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,True,True,True
+332,0_Signal distance,False,False,False,True,True,True,True,False,False,True,True,False,False,False,False,False,False,True,False,False,False,False
+333,0_Skewness,False,True,False,False,True,False,False,True,False,False,False,True,True,False,False,True,False,False,False,True,True,True
+334,0_Slope,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+335,0_Spectral centroid,False,True,False,True,False,False,False,True,True,False,False,False,True,False,False,True,False,False,False,True,True,True
+336,0_Spectral decrease,False,False,False,True,False,False,False,True,False,False,False,False,False,False,False,True,False,False,False,False,True,False
+337,0_Spectral distance,False,True,False,True,False,False,False,True,False,False,True,False,False,False,False,True,False,False,False,True,True,True
+338,0_Spectral entropy,False,True,False,False,True,False,True,False,True,False,False,True,False,False,True,True,False,False,False,True,True,False
+339,0_Spectral kurtosis,False,True,False,True,True,False,True,True,True,False,False,False,True,False,False,True,False,False,False,True,True,False
+340,0_Spectral positive turning points,False,False,False,False,False,False,False,True,False,False,True,True,False,False,False,False,False,False,False,False,False,True
+341,0_Spectral roll-off,False,True,False,True,True,False,True,True,True,False,False,False,True,False,False,True,False,False,False,True,True,True
+342,0_Spectral roll-on,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+343,0_Spectral skewness,False,True,False,True,True,False,True,True,True,False,False,False,True,False,False,True,False,False,False,True,True,False
+344,0_Spectral slope,False,True,False,True,False,False,False,True,True,False,False,False,True,False,False,True,False,False,False,True,True,True
+345,0_Spectral spread,False,True,False,True,False,False,True,True,True,False,False,False,True,False,False,True,False,False,False,True,True,False
+346,0_Spectral variation,True,False,False,False,False,False,True,True,True,False,False,False,False,False,True,True,False,False,False,True,True,False
+347,0_Standard deviation,False,False,False,True,True,True,True,False,False,False,True,False,False,False,True,False,False,True,False,True,False,True
+348,0_Sum absolute diff,False,True,False,False,True,False,False,True,False,False,True,False,False,False,False,False,True,False,False,True,False,True
+349,0_Total energy,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,False,False,False,False,True,True,True
+350,0_Variance,False,False,False,True,False,True,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,True
+351,0_Wavelet absolute mean_0,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+352,0_Wavelet absolute mean_1,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+353,0_Wavelet absolute mean_2,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+354,0_Wavelet absolute mean_3,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+355,0_Wavelet absolute mean_4,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+356,0_Wavelet absolute mean_5,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+357,0_Wavelet absolute mean_6,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+358,0_Wavelet absolute mean_7,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+359,0_Wavelet absolute mean_8,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+360,0_Wavelet energy_0,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+361,0_Wavelet energy_1,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+362,0_Wavelet energy_2,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+363,0_Wavelet energy_3,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+364,0_Wavelet energy_4,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+365,0_Wavelet energy_5,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+366,0_Wavelet energy_6,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+367,0_Wavelet energy_7,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+368,0_Wavelet energy_8,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+369,0_Wavelet entropy,False,True,False,True,True,False,False,True,False,False,True,False,False,False,False,True,False,False,False,True,False,False
+370,0_Wavelet standard deviation_0,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+371,0_Wavelet standard deviation_1,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+372,0_Wavelet standard deviation_2,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+373,0_Wavelet standard deviation_3,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+374,0_Wavelet standard deviation_4,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+375,0_Wavelet standard deviation_5,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+376,0_Wavelet standard deviation_6,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+377,0_Wavelet standard deviation_7,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+378,0_Wavelet standard deviation_8,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+379,0_Wavelet variance_0,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+380,0_Wavelet variance_1,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+381,0_Wavelet variance_2,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+382,0_Wavelet variance_3,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+383,0_Wavelet variance_4,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+384,0_Wavelet variance_5,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+385,0_Wavelet variance_6,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+386,0_Wavelet variance_7,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+387,0_Wavelet variance_8,False,True,False,True,False,False,False,True,False,False,True,False,True,False,False,True,False,False,False,True,True,True
+388,0_Zero crossing rate,False,False,False,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,False,False,False

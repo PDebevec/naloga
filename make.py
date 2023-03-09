@@ -42,7 +42,7 @@ file = file.drop(16091601)
 
 file['NIR_255'] = file['NIR']/255
 file['NIR_minmax'] = lb.get_minmax(file['NIR_255'])
-file['NIR_nfp'], file['TTP'] = lb.get_nfp(file['NIR_255'])
+#file['NIR_nfp'], file['TTP'] = lb.get_nfp(file['NIR_255'])
 file['NIR_diff'] = lb.get_gaussian_diff(file['NIR_minmax'], 1)
 #file['NIR_tsd'] = lb.get_tsfd(file['NIR_nfp'])
 

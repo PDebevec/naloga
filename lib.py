@@ -1,12 +1,30 @@
+import ml
+import sys
+import pickle
+import time
+import tsfel
 import numpy as np
 import pandas as pd
-import pickle
-import tsfel
-from sklearn.preprocessing import LabelBinarizer
-from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, TruncatedSVD
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV, ParameterGrid
+from sklearn.model_selection import ParameterSampler, RandomizedSearchCV
+from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
+from sklearn.cluster import SpectralCoclustering, SpectralBiclustering #neki
+from sklearn.cluster import AffinityPropagation, MeanShift, DBSCAN, OPTICS, BisectingKMeans
+from sklearn.neighbors import KNeighborsClassifier, LocalOutlierFactor
+from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, SparsePCA, TruncatedSVD
+from sklearn.decomposition import NMF, MiniBatchNMF
+from sklearn.naive_bayes import BernoulliNB, CategoricalNB, ComplementNB, GaussianNB, MultinomialNB ## blo v poslanem (link spodi)
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, VotingClassifier, BaggingClassifier, StackingClassifier #najbulš s pravimi feature
+from sklearn.preprocessing import LabelBinarizer, LabelEncoder
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.model_selection import GridSearchCV
+from mpl_toolkits.mplot3d import axes3d
 from scipy.ndimage import gaussian_filter1d
 from scipy.signal import find_peaks, savgol_filter, butter, lfilter, filtfilt
+from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
+import matplotlib.colors as mco
+import itertools as it
 
 
 #data1 = pickle.load(open('data1.pickle', 'rb'))
@@ -37,6 +55,9 @@ def get_l(img, l=0):
 def get_alll(l=0):
     return np.array(data.index.get_level_values(l))
 
+def reject_outliers(X, m=2):
+    return X[abs(X - np.mean(X)) < m * np.std(X)]
+
 def get_diff_indata(X):
     X = np.array([
         y/y.mean() for y in X.T+1
@@ -45,6 +66,12 @@ def get_diff_indata(X):
     X /= X.mean()
     X = (X.mean(axis=1) - X.min(axis=1))
     return X#/X.max()
+
+def get_diff_indata_minmax(X):
+    mn = X.min(axis=0)
+    mx = X.max(axis=0)
+    X = mx-mn
+    return X
 
 def get_drop_mean(X):
     arr = []
@@ -102,7 +129,8 @@ def get_nfp(X):
     arr2 = []
     for x in X:
         #print(find_peaks(x, distance=200, height=np.max(x)*0.5))
-        p = find_peaks(x, distance=150, height=np.max(x)*0.6)[0][0]
+        #p = find_peaks(x, distance=150, height=np.max(x)*0.6)[0][0]
+        p = find_peaks(x)[0][0]
         mx = x[p]
         mn = x.min()
         #arr.append(x/n)
@@ -219,8 +247,6 @@ def get_divisor(num):
             arr.append(i)
     return arr
 
-def reject_outliers(X, m=2):
-    return X[abs(X - np.mean(X)) < m * np.std(X)]
 
 
 """ data['NIR_255'] = data['NIR']/255

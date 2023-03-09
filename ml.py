@@ -1,6 +1,7 @@
 import time
 import pickle
-import lib as lb
+#import lib as lb
+from lib import *
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -34,28 +35,11 @@ def get_f1_score(labels_, y, ave='micro'):
     acc = f1_score(y, labels_, average=ave)
     return max([ acc, (acc-1)*-1 ])
 
-def separate_labels(labels_, y_train):
-    arr = []
-    for label in np.unique(y_train):
-        arr.append(list(labels_[np.where(y_train == label)]))
-    separate_labels = arr
-    for x in np.unique(np.concatenate(separate_labels)):
-        arr[np.argmax([ y.count(x) for y in separate_labels])].append(x)
-    return arr
-
-
-def find_batch_inlabel(separate_labels, labels_, ulabels):
-    arr = []
-    for x in labels_:
-        arr.append(ulabels[np.argmax([ y.count(x) for y in separate_labels ])])
-    return arr
-
-
-def find_batch(labels_, labeled, labels):
-    arr = []
-    for batch in labels_:
-        arr.append(labels[np.argmax([x.count(batch) for x in labeled])])
-    return arr
+def get_data_by_cluster(labels_, X):
+    #print(labels_.tolist())
+    i = np.argsort(labels_)
+    #X = X[:, i]
+    return (X[:, labels_ == 0], X[:, labels_ == 1], X[:, labels_ == 2]), i
 
 def select_decomposition_cluster(decomposition, cluster, column, x_fit):
     for img in pd.unique(x_fit.index.get_level_values(0)):
@@ -64,19 +48,19 @@ def select_decomposition_cluster(decomposition, cluster, column, x_fit):
     return cluster.lables_
 
 def get_cancer_benign():
-    cvideos = pd.unique(lb.data.xs('Cancer', level=1, drop_level=False).index.get_level_values(0))
-    bvideos = pd.unique(lb.data.xs('Benign', level=1, drop_level=False).index.get_level_values(0))
+    cvideos = pd.unique(data.xs('Cancer', level=1, drop_level=False).index.get_level_values(0))
+    bvideos = pd.unique(data.xs('Benign', level=1, drop_level=False).index.get_level_values(0))
     return cvideos, bvideos
 
 def seperate_x_cancer_benign(split):
     c, b = get_cancer_benign()
     c_train, c_test = train_test_split(c, shuffle=True, test_size=split)
     b_train, b_test = train_test_split(b, shuffle=True, test_size=split)
-    return lb.data.loc[np.hstack((c_train, b_train))], lb.data.loc[np.hstack((c_test, b_test))]
+    return data.loc[np.hstack((c_train, b_train))], data.loc[np.hstack((c_test, b_test))]
 
 def seperate_x_random_img():
-    img = np.random.choice(pd.unique(lb.data.index.get_level_values(0)), 1)[0]
-    return lb.data.drop(img), lb.data.xs(img, level='video', drop_level=False)
+    img = np.random.choice(pd.unique(data.index.get_level_values(0)), 1)[0]
+    return data.drop(img), data.xs(img, level='video', drop_level=False)
 
 def decomposition_data(column, file, components):
     setting= [ '_sigmoid_', '_cosine_', '_', '_', '_', '_', '_' ]
@@ -96,7 +80,7 @@ def decomposition_data(column, file, components):
         nplist.append(np.array([[column+s+type(d).__name__]*components]))
         for img in pd.unique(file.index.get_level_values(0)):
             nplist[-1] = np.vstack(( nplist[-1],
-            d.fit_transform(lb.get_x(img, column))))
+            d.fit_transform(get_x(img, column))))
         file[column+s+type(d).__name__] = nplist[-1][1:].tolist()
     return file
 
@@ -117,22 +101,22 @@ def decomposition_cluster(column):
         MiniBatchKMeans(n_clusters=2)
         ,KMeans(n_clusters=2)
         ,SpectralClustering(n_clusters=2)
-        ,Birch(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.005)
         ,AgglomerativeClustering(n_clusters=2)
     ]
     
     dfcsv = np.array(['col', 'component_fun', 'setting',  'model', 'video', 'acc', 'time'])
-    for img in pd.unique(lb.data.index.get_level_values(0)):
+    for img in pd.unique(data.index.get_level_values(0)):
         for d, s in zip(decomposition, setting):
             sd = time.time()
-            x = d.fit_transform(lb.get_x(img, column))
+            x = d.fit_transform(get_x(img, column))
             dt = time.time() - sd
             compmodel = type(d).__name__
             for c in cluster:
                 sc = time.time()
                 c.fit(x)
                 ct = time.time() - sc
-                dfcsv = np.vstack((dfcsv, np.array([column, compmodel, s, type(c).__name__, img, get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(2)), (dt+ct)*1000])))
+                dfcsv = np.vstack((dfcsv, np.array([column, compmodel, s, type(c).__name__, img, get_accuracy(c.labels_, data.loc[img].index.get_level_values(2)), (dt+ct)*1000])))
     dfcsv = pd.DataFrame(dfcsv[1:], columns=dfcsv[0])
     dfcsv = dfcsv.sort_values(by=['col', 'component_fun', 'setting', 'model', 'video']).set_index(['col', 'component_fun', 'setting', 'model', 'video'])
     Path(column+'.csv').touch(exist_ok=True)
@@ -157,14 +141,14 @@ def double_decomposition_cluster():
         MiniBatchKMeans(n_clusters=2)
         ,KMeans(n_clusters=2)
         ,SpectralClustering(n_clusters=2)
-        ,Birch(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.005)
         ,AgglomerativeClustering(n_clusters=2)
     ]
 
     arr = []
-    for col in lb.data.columns[2:8]:
-        for img in pd.unique(lb.data.index.get_level_values(0)):
-            x = np.array(lb.data.loc[img][col].tolist())
+    for col in data.columns[2:8]:
+        for img in pd.unique(data.index.get_level_values(0)):
+            x = np.array(data.loc[img][col].tolist())
             for s1,d1 in zip(setting, decomposition):
                 for s2,d2 in zip(setting, decomposition):
                     ds = time.time()
@@ -180,7 +164,7 @@ def double_decomposition_cluster():
                             col, img,
                             type(d1).__name__+s1, type(d2).__name__+s2,
                             type(c).__name__,
-                            get_accuracy(c.labels_, lb.data.loc[img].index.get_level_values(2)),
+                            get_accuracy(c.labels_, data.loc[img].index.get_level_values(2)),
                             (de+ce)*1000
                             ])
             return arr
@@ -194,19 +178,19 @@ def divisor():
         MiniBatchKMeans(n_clusters=2)
         ,KMeans(n_clusters=2)
         ,SpectralClustering(n_clusters=2)
-        ,Birch(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.005)
         ,AgglomerativeClustering(n_clusters=2)
     ]
 
     arr = []
     i = 0
-    for col in lb.data.columns[1:]:
-        divisors = lb.get_divisor(len(lb.data[col].values[0]))
-        for img in pd.unique(lb.data.index.get_level_values(0)):
+    for col in data.columns[1:]:
+        divisors = get_divisor(len(data[col].values[0]))
+        for img in pd.unique(data.index.get_level_values(0)):
             print(col, img)
             for c in cluster:
                 for d in divisors:
-                    x = lb.data.loc[img][col]
+                    x = data.loc[img][col]
                     st = time.time()
                     c.fit(np.array(x.values.tolist())[:, ::d])
                     et = time.time() - st
@@ -227,14 +211,14 @@ def clustering_on_column(column):
         MiniBatchKMeans(n_clusters=2)
         ,KMeans(n_clusters=2)
         ,SpectralClustering(n_clusters=2)
-        ,Birch(n_clusters=2, threshold=0.05)
+        ,Birch(n_clusters=2, threshold=0.005)
         ,AgglomerativeClustering(n_clusters=2)
     ]
 
     f = open('./csv/'+column+'.csv', 'a')
     f.write('video,clustering,acc,time\n')
-    for img in pd.unique(lb.data.index.get_level_values(0)):
-        x = lb.data.loc[img][column]
+    for img in pd.unique(data.index.get_level_values(0)):
+        x = data.loc[img][column]
         for c in cluster:
             st = time.time()
             c.fit(np.array(x.values.tolist()))
@@ -256,8 +240,8 @@ def clustering_on_column(column):
 
     f = open('./csv/'+column+'+outlier.csv', 'a')
     f.write('video,clustering,acc,time\n')
-    for img in lb.uvideo:
-        x = lb.get_x(img, column)
+    for img in uvideo:
+        x = get_x(img, column)
         model = LocalOutlierFactor(n_neighbors=int(len(x)*0.9))
         res = model.fit_predict(x)
         
@@ -265,7 +249,7 @@ def clustering_on_column(column):
             st = time.time()
             c.fit(x[res == 1])
             et = time.time() - st
-            #print(img, get_accuracy(model.labels_, lb.get_l(img, l=2)[res == 1]))
+            #print(img, get_accuracy(model.labels_, get_l(img, l=2)[res == 1]))
             f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(2)))+','+str(et*1000)+'\n')
     return """
 
@@ -275,22 +259,22 @@ def clustering_on_diff(col, p=1.0):
         MiniBatchKMeans(n_clusters=2)
         ,KMeans(n_clusters=2)
         ,SpectralClustering(n_clusters=2)
-        ,Birch(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.005)
         ,AgglomerativeClustering(n_clusters=2)
     ]
 
     f = open('./csv/'+str(int(p*100))+'%diff_'+col+'.csv', 'a')
     f.write('video,clustering,acc\n')
-    for img in lb.uvideo:
-        x = lb.get_x(img, col)
-        d = lb.get_diff_indata(x.T)
+    for img in uvideo:
+        x = get_x(img, col)
+        d = get_diff_indata(x.T)
         d = np.where(d >= p)[0]
         x = x[:, d].reshape(-1, len(d))
 
         for c in cluster:
             c.fit(x)
-            #print(img, type(c).__name__, get_accuracy(c.labels_, lb.get_l(img)), sep=',')
-            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, lb.get_l(img, l=2)))+'\n')
+            #print(img, type(c).__name__, get_accuracy(c.labels_, get_l(img)), sep=',')
+            f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, get_l(img, l=2)))+'\n')
     return
 
 def test_decomposition():
@@ -306,15 +290,15 @@ def test_decomposition():
         TruncatedSVD(n_components=4)
     ]
 
-    x = lb.get_x(16091401, 'NIR_minmax')
+    x = get_x(16091401, 'NIR_minmax')
     for d,s in zip(decomposition, setting):
-        for di in lb.get_divisor(700):
+        for di in get_divisor(700):
             t = []
             for i in range(100):
                 st = time.time()
                 d.fit_transform(x[:, ::di])
                 t.append(time.time() - st)
-            t = lb.reject_outliers(np.array(t))
+            t = reject_outliers(np.array(t))
             print(int(1400/di), type(d).__name__+s, round(np.sum(t)/len(t)*1000, 3), ' ms')
     return
 
@@ -327,16 +311,39 @@ def test_cluster():
         ,AgglomerativeClustering(n_clusters=2)
     ]
     
-    x = lb.get_x(16091401, 'NIR_minmax')
+    x = get_x(16091401, 'NIR_minmax')
     for c in cluster:
-        for di in lb.get_divisor(700):
+        for di in get_divisor(700):
             t = []
             for i in range(100):
                 st = time.time()
                 c.fit(x[:, ::di])
                 t.append(time.time() - st)
-            t = lb.reject_outliers(np.array(t))
+            t = reject_outliers(np.array(t))
             print(int(1400/di), type(c).__name__, round(np.sum(t)/len(t)*1000, 3), ' ms')
+    return
+
+def test_on_Ndata(col):
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.005)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+    open('./csv/Ndata_'+col+'.csv', 'w').close()
+    
+    f = open('./csv/Ndata_'+col+'.csv', 'a')
+    f.write('img,model,N_data,acc,time\n')
+    for img in uvideo:
+        x = get_x(img, col)
+        for c in cluster:
+            for d in get_divisor(len(x[0])):
+                st = time.time()
+                c.fit(x[:, ::d])
+                et = time.time() - st
+                f.write(str(img)+','+type(c).__name__+','+str(len(x[0])/d)+','+str(get_accuracy(c.labels_, get_l(img, l=2)))+','+str(round(et*1000, 3))+'\n')
     return
 
 """ def hyper_parameter_perimg(img, n_data, ):

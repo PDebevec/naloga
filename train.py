@@ -197,7 +197,7 @@ for img in lb.uvideo:
     plt.show() """
 
 #Vizualizacija img glede na decomposition in cluster rezultate
-orig = np.zeros(150)
+""" orig = np.zeros(150)
 clus = np.zeros(150)
 deco = np.zeros(150)
 for img,ulabel in zip(lb.uvideo, lb.ulabel):
@@ -240,7 +240,7 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
         plt.subplot(2,2,2)
         plt.title('cluster')
         plt.imshow(clus.reshape(-1, 15), cmap='Blues')
-    plt.show()
+    plt.show() """
 #vizualizacija img gleden an nmf
 """ for img,l in zip(lb.uvideo, lb.ulabel):
     if img == 170110 or img == 16092701: continue
@@ -258,6 +258,28 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
     else:
         plt.plot(h.mean(), w.mean(), 'bo')
 plt.show() """
+
+#od tsd posamezen col kulk acc
+ws = []
+for img in ml.uvideo:
+    X = np.array(ml.tsd.loc[img].values)
+    
+    r = []
+    for x in X.T:
+        x = x+x.min()
+        x = x/x.max()
+        if (np.isnan(x).any()):
+            r.append(np.nan)
+            continue
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(x.reshape(-1, 1))
+        r.append(ml.get_accuracy(model.labels_, ml.get_l(img, l='binary')))
+    w = np.array(r) > 0.85
+    ws.append(w)
+ws = np.array(ws).T
+df = pd.DataFrame(ws, columns=ml.uvideo)
+df = pd.concat([pd.DataFrame(np.array(ml.tsd.columns), columns=['columns']), df], axis=1)
+df.to_csv('./csv/tsd_all.csv')
 
 #clustering na decomposition videja
 #cluster podobne videje skupaj s DBSCAN ???
