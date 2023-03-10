@@ -271,6 +271,18 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
         plt.plot(h.mean(), w.mean(), 'bo')
 plt.show() """
 
+## v clustering dat podatke samo od ttp naprej ttp:
+""" for img in ml.uvideo:
+    X = ml.get_x(img, 'NIR_nfp_butter')
+    ttp = ml.get_x(img, 'TTP_butter')
+
+    x = np.array([ x[t:len(x)-ttp.max()+t] for x,t in zip(X,ttp) ])
+
+    model = AgglomerativeClustering(n_clusters=2)
+    model.fit(x)
+
+    print(img, ml.get_accuracy(model.labels_, ml.get_l(img, 'binary'))) """
+
 #od tsd posamezen col kulk acc true/false
 """ ws = []
 for img in ml.uvideo:
@@ -310,7 +322,7 @@ for img in ml.uvideo:
 ws = np.array(ws).T
 df = pd.DataFrame(ws, columns=ml.uvideo)
 df = pd.concat([pd.DataFrame(np.array(ml.tsd.columns), columns=['columns']), df], axis=1)
-df.to_csv('./csv/ts_data_col.csv') """
+df.to_csv('./csv/ttp:ts_data_col.csv') """
 
 #clustering na decomposition videja
 #cluster podobne videje skupaj s DBSCAN ???
