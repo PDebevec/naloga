@@ -37,32 +37,6 @@ import itertools as it
 ##^https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
 ## forest v (model_selection)cv hyper parameter
 
-for img in ml.uvideo:
-    x = ml.get_x(img, 'timeseries')[0]
-    print(img, x.shape)
 
-""" b = np.array(ml.data.query("finding == 'Benign'")['NIR_nfp_butter'].values.tolist())
-ttpb = np.array(ml.data.query("finding == 'Benign'")['TTP_butter'].values.tolist())
-for bx, ttp in zip(b, ttpb):
-    #plt.plot(np.flip(bx[:ttp]))
-    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
-plt.title('Benign')
-plt.show()
-
-c = np.array(ml.data.query("finding == 'Cancer'")['NIR_nfp_butter'].values.tolist())
-ttpb = np.array(ml.data.query("finding == 'Cancer'")['TTP_butter'].values.tolist())
-for bx, ttp in zip(c, ttpb):
-    #plt.plot(np.flip(bx[:ttp]))
-    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
-plt.title('Cancer')
-plt.show()
-
-h = np.array(ml.data.query("finding == 'Healthy'")['NIR_nfp_butter'].values.tolist())
-ttpb = np.array(ml.data.query("finding == 'Healthy'")['TTP_butter'].values.tolist())
-for bx, ttp in zip(h, ttpb):
-    #plt.plot(np.flip(bx[:ttp]))
-    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
-plt.title('Healthy')
-plt.show() """
 
 #exit()

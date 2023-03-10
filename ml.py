@@ -300,7 +300,7 @@ def test_decomposition():
                 d.fit_transform(x[:, ::di])
                 t.append(time.time() - st)
             t = reject_outliers(np.array(t))
-            print(int(1400/di), type(d).__name__+s, round(np.sum(t)/len(t)*1000, 3), ' ms')
+            print(int(len(x[0])/di), type(d).__name__+s, round(np.sum(t)/len(t)*1000, 3), ' ms')
     return
 
 def test_cluster():
@@ -321,7 +321,7 @@ def test_cluster():
                 c.fit(x[:, ::di])
                 t.append(time.time() - st)
             t = reject_outliers(np.array(t))
-            print(int(1400/di), type(c).__name__, round(np.sum(t)/len(t)*1000, 3), ' ms')
+            print(int(len(x[0])/di), type(c).__name__, round(np.sum(t)/len(t)*1000, 3), ' ms')
     return
 
 def test_on_Ndata(col):

@@ -35,7 +35,7 @@ uvideo = pd.unique(data.index.get_level_values(0))
 ulabel = videos['label'].values
 tsd = pickle.load(open('tsd.pickle', 'rb'))
 
-def to_array(strs, num=1400):
+def to_array(strs, num=1490):
     for i,e in enumerate(strs):
         strs[i] = np.array([float(x) for x in e[1:-1].split(',')])[:num]
     return strs
@@ -218,7 +218,7 @@ def get_butter(X):
         arr.append(lfilter(b, a, x))
     return arr
 
-def get_gaussian_diff(X, sigma):
+def get_gaussian_diff(X, sigma=1):
     arr = []
     for x in X:
         arr.append(gaussian_filter1d(x, sigma=sigma, order=1, mode='nearest'))
