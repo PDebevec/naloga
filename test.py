@@ -36,6 +36,9 @@ import itertools as it
 ## algo za misssing values sklearn
 ##^https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
 
+## kateri decomposition je najbulš na podatkih > clustering acc
+## ta decomposition izbrat za 2xdecomposition (matrix multipy) da dobimo podatke shape(len(krivulj na sliko), neko št)
+## ne vem doma
 
 
 
