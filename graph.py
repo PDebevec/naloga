@@ -35,6 +35,25 @@ from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, Agglome
         plt.plot(x, color=c)
     plt.show() """
 
+#vizualizacija tsd
+##'0_ECDF Percentile Count_0', '0_ECDF Percentile Count_1' useless
+##'0_ECDF Percentile_0', '0_ECDF Percentile_1' uredi
+##'0_ECDF_0', '0_ECDF_9' useless
+##'0_FFT mean coefficient_1', '0_FFT mean coefficient_255' eh, podatki so flipani 255 > 1
+##'0_Histogram_0', '0_Histogram_9' ne vem histogram je čudn
+##'0_LPCC_0', '0_LPCC_11' eh, podatki so flipani > axis=0
+##'0_MFCC_0', '0_MFCC_11' ne?
+##'0_Wavelet absolute mean_0', '0_Wavelet absolute mean_8' uredi
+##'0_Wavelet energy_0', '0_Wavelet energy_8' uredi
+##'0_Wavelet standard deviation_0', '0_Wavelet standard deviation_8' uredi
+##'0_Wavelet variance_0', '0_Wavelet variance_8' uredi
+""" for img in ml.uvideo:
+    x = ml.tsd.loc[img][['0_Wavelet variance_0', '0_Wavelet variance_8']].to_numpy()
+    
+    plt.title(img)
+    plt.plot(x.T)
+    plt.show() """
+
 # diff in data za vsak video """ od ttp naprej < morem še dodat """
 """ c = pd.unique(lb.data.query("finding == 'Cancer'").index.get_level_values(0))
 for img in c:

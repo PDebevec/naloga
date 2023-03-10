@@ -37,7 +37,17 @@ import itertools as it
 ##^https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
 
 
+## v clustering dat podatke samo od ttp naprej ttp:
 
+for img in ml.uvideo:
+    X = ml.get_x(img, 'NIR_nfp_butter')
+    ttp = ml.get_x(img, 'TTP_butter')
 
+    x = np.array([ x[t:len(x)-ttp.max()+t] for x,t in zip(X,ttp) ])
+
+    model = AgglomerativeClustering(n_clusters=2)
+    model.fit(x)
+
+    print(img, ml.get_accuracy(model.labels_, ml.get_l(img, 'binary')))
 
 #exit()

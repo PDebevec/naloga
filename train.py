@@ -66,6 +66,18 @@ for img in pd.unique(lb.data.index.get_level_values(0)):
 res = model.fit_predict(np.concatenate(lb.data['NIR_minmax'].values).reshape(-1, 1400))
 lb.data = lb.data.drop(index=lb.data.iloc[np.where(res == -1)[0]].index) """
 
+#najbulš tsd podatki
+""" df = pd.read_csv('./csv/ts_data_col.csv', index_col=[0 ,1])
+
+a = df.mean(axis=1).to_numpy()
+a = np.where(a > 0.79)
+print(a)
+b = df.min(axis=1).to_numpy()
+b = np.where(b > 0.59)
+print(b) """
+#ˇglede na^
+# 0_FFT mean coefficient_25, 0_FFT mean coefficient_57, 0_FFT mean coefficient_65, 0_FFT mean coefficient_234
+
 #vizualizacija posameznega videja glede na clustering performance
 """ cluster = [ 
     MiniBatchKMeans(n_clusters=2)
