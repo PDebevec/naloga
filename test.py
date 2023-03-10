@@ -13,7 +13,7 @@ from sklearn.model_selection import ParameterSampler, RandomizedSearchCV
 from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, AgglomerativeClustering, Birch
 from sklearn.cluster import SpectralCoclustering, SpectralBiclustering #neki
 from sklearn.cluster import AffinityPropagation, MeanShift, DBSCAN, OPTICS, BisectingKMeans
-from sklearn.neighbors import KNeighborsClassifier, LocalOutlierFactor
+from sklearn.neighbors import KNeighborsClassifier, LocalOutlierFactor, NearestNeighbors
 from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, IncrementalPCA, PCA, SparsePCA, TruncatedSVD
 from sklearn.decomposition import NMF, MiniBatchNMF
 from sklearn.naive_bayes import BernoulliNB, CategoricalNB, ComplementNB, GaussianNB, MultinomialNB ## blo v poslanem (link spodi)
@@ -37,6 +37,32 @@ import itertools as it
 ##^https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
 ## forest v (model_selection)cv hyper parameter
 
-#zakaj je delalo 2xdecomposition???
+for img in ml.uvideo:
+    x = ml.get_x(img, 'timeseries')[0]
+    print(img, x.shape)
+
+""" b = np.array(ml.data.query("finding == 'Benign'")['NIR_nfp_butter'].values.tolist())
+ttpb = np.array(ml.data.query("finding == 'Benign'")['TTP_butter'].values.tolist())
+for bx, ttp in zip(b, ttpb):
+    #plt.plot(np.flip(bx[:ttp]))
+    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
+plt.title('Benign')
+plt.show()
+
+c = np.array(ml.data.query("finding == 'Cancer'")['NIR_nfp_butter'].values.tolist())
+ttpb = np.array(ml.data.query("finding == 'Cancer'")['TTP_butter'].values.tolist())
+for bx, ttp in zip(c, ttpb):
+    #plt.plot(np.flip(bx[:ttp]))
+    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
+plt.title('Cancer')
+plt.show()
+
+h = np.array(ml.data.query("finding == 'Healthy'")['NIR_nfp_butter'].values.tolist())
+ttpb = np.array(ml.data.query("finding == 'Healthy'")['TTP_butter'].values.tolist())
+for bx, ttp in zip(h, ttpb):
+    #plt.plot(np.flip(bx[:ttp]))
+    plt.plot(bx[ttp:1400-ttpb.max()+ttp])
+plt.title('Healthy')
+plt.show() """
 
 #exit()

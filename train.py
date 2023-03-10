@@ -163,7 +163,7 @@ for d,s in zip(decomposition, setting):
 #vizualizacija decomposition na video glede na ROI
 """ arr = []
 for img in lb.uvideo:
-    x = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
+    x = np.array(lb.data.loc[img]['NIR_nfp_butter'].values.tolist())
 
     model = FactorAnalysis(n_components=1)
     w = model.fit_transform(x)
@@ -182,7 +182,7 @@ for img in lb.uvideo:
 #visualizacija ROI glede na decomposition
 """ arr = []
 for img in lb.uvideo:
-    x = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
+    x = np.array(lb.data.loc[img]['NIR_nfp_butter'].values.tolist())
 
     model = KernelPCA(n_components=1, kernel='sigmoid')
     w = model.fit_transform(x)
@@ -201,7 +201,7 @@ for img in lb.uvideo:
 clus = np.zeros(150)
 deco = np.zeros(150)
 for img,ulabel in zip(lb.uvideo, lb.ulabel):
-    x = np.array(lb.data.loc[img]['NIR_nfp'].values.tolist())
+    x = np.array(lb.data.loc[img]['NIR_nfp_butter'].values.tolist())
 
     orig[:] = 0
     clus[:] = 0
@@ -259,11 +259,11 @@ for img,ulabel in zip(lb.uvideo, lb.ulabel):
         plt.plot(h.mean(), w.mean(), 'bo')
 plt.show() """
 
-#od tsd posamezen col kulk acc
-ws = []
+#od tsd posamezen col kulk acc true/false
+""" ws = []
 for img in ml.uvideo:
     X = np.array(ml.tsd.loc[img].values)
-    
+    p = 0.90
     r = []
     for x in X.T:
         x = x+x.min()
@@ -274,12 +274,31 @@ for img in ml.uvideo:
         model = AgglomerativeClustering(n_clusters=2)
         model.fit(x.reshape(-1, 1))
         r.append(ml.get_accuracy(model.labels_, ml.get_l(img, l='binary')))
-    w = np.array(r) > 0.85
+    w = np.array(r) > p
     ws.append(w)
 ws = np.array(ws).T
 df = pd.DataFrame(ws, columns=ml.uvideo)
 df = pd.concat([pd.DataFrame(np.array(ml.tsd.columns), columns=['columns']), df], axis=1)
-df.to_csv('./csv/tsd_all.csv')
+df.to_csv('./csv/'+str(int(p*100))+'%ts_data.csv') """
+#^celi podatki
+""" ws = []
+for img in ml.uvideo:
+    X = np.array(ml.tsd.loc[img].values)
+    r = []
+    for x in X.T:
+        x = x+x.min()
+        x = x/x.max()
+        if (np.isnan(x).any()):
+            r.append(np.nan)
+            continue
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(x.reshape(-1, 1))
+        r.append(ml.get_accuracy(model.labels_, ml.get_l(img, l='binary')))
+    ws.append(r)
+ws = np.array(ws).T
+df = pd.DataFrame(ws, columns=ml.uvideo)
+df = pd.concat([pd.DataFrame(np.array(ml.tsd.columns), columns=['columns']), df], axis=1)
+df.to_csv('./csv/ts_data_col.csv') """
 
 #clustering na decomposition videja
 #cluster podobne videje skupaj s DBSCAN ???

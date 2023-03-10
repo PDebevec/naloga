@@ -35,7 +35,6 @@ file = file.set_index(['video', 'finding', 'ROI']).sort_index(level=[0, 2])
 
 #file = file.sort_index(level=[0, 2])
 
-
 file = file.drop(16091601)
 #file = file.drop(16091401)
 #file = file.drop(16092101)

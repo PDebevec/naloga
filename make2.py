@@ -8,7 +8,7 @@ file = pd.read_csv('data2.csv')
 
 file['x_init'] = [[x] for x in file['x_init']]
 
-del file['timeseries']
+#del file['timeseries']
 del file['timeseries_Gcorr_GS20']
 del file['drops_rel']
 del file['drops_rel_med']
@@ -24,7 +24,7 @@ file['Video'] = file['Video'].astype(int)
 file['ROI_num'] = file['ROI_num'].astype(int)
 file['finding'] = file['finding'].astype(str)
 
-#file['timeseries'] = lb.to_array(file['timeseries'].values)
+file['timeseries'] = lb.to_array(file['timeseries'].values, num=1500)
 #file['timeseries_Gcorr_GS20'] = lb.to_array(file['timeseries_Gcorr_GS20'].values)
 file['timeseries_Gcorr_LD_GS20'] = lb.to_array(file['timeseries_Gcorr_LD_GS20'].values, num=1380)
 #file['cumul_curve_Gcorr_GS20'] = lb.to_array(file['cumul_curve_Gcorr_GS20'].values, num=1380)

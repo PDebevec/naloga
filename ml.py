@@ -222,6 +222,7 @@ def clustering_on_column(column):
         for c in cluster:
             st = time.time()
             c.fit(np.array(x.values.tolist()))
+            #c.fit(np.array(x.values.tolist()).reshape(-1, 1))
             et = time.time() - st
             #print(column, img, type(c).__name__, get_accuracy(c.labels_, x.index.get_level_values(0)), et*1000, sep=',')
             f.write(str(img)+','+type(c).__name__+','+str(get_accuracy(c.labels_, x.index.get_level_values(2)-1))+','+str(et*1000)+'\n')
@@ -345,7 +346,3 @@ def test_on_Ndata(col):
                 et = time.time() - st
                 f.write(str(img)+','+type(c).__name__+','+str(len(x[0])/d)+','+str(get_accuracy(c.labels_, get_l(img, l=2)))+','+str(round(et*1000, 3))+'\n')
     return
-
-""" def hyper_parameter_perimg(img, n_data, ):
-    
-    return """
