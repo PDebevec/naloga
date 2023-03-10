@@ -39,7 +39,9 @@ import itertools as it
 
 ## v clustering dat podatke samo od ttp naprej ttp:
 
-for img in ml.uvideo:
+
+
+""" for img in ml.uvideo:
     X = ml.get_x(img, 'NIR_nfp_butter')
     ttp = ml.get_x(img, 'TTP_butter')
 
@@ -48,6 +50,6 @@ for img in ml.uvideo:
     model = AgglomerativeClustering(n_clusters=2)
     model.fit(x)
 
-    print(img, ml.get_accuracy(model.labels_, ml.get_l(img, 'binary')))
+    print(img, ml.get_accuracy(model.labels_, ml.get_l(img, 'binary'))) """
 
 #exit()

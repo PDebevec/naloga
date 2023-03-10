@@ -70,13 +70,33 @@ data.to_pickle('data.pickle')
 
 print(data.info())
 
-model = tsfel.time_series_features_extractor(
+""" model = tsfel.time_series_features_extractor(
         tsfel.get_features_by_domain(),
         np.array(data['NIR_nfp_butter'].values.tolist()),
         verbose=1)
 
 
-tsd = model
+tsd = model """
+
+
+def fun():
+    for img in pd.unique(data.index.get_level_values(0)):
+        X = np.array(data.loc[img]['NIR_nfp_butter'].values.tolist())
+        ttp = np.array(data.loc[img]['TTP_butter'].values.tolist())
+
+        x = np.array([ x[t:len(x)-ttp.max()+t] for x,t in zip(X,ttp) ])
+
+        yield tsfel.time_series_features_extractor(
+                    tsfel.get_features_by_domain(),
+                    x,
+                    verbose=1
+                    ).set_index(data.query("video == "+str(img)).index)
+    #return
+
+tsd = pd.concat([
+    x for x in fun()
+])
+
 
 sc = [
 '0_Absolute energy',
@@ -470,11 +490,6 @@ sc = [
 '0_Zero crossing rate'
 ]
 tsd = tsd.reindex(sc, axis=1)
-
-tsd = pd.DataFrame(index=data.index, columns=tsd.columns, data=tsd.values)
-
-for col in tsd.columns:
-    print(col)
 
 tsd.to_pickle('tsd.pickle')
 
