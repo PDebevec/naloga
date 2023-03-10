@@ -59,6 +59,9 @@ data['NIR_minmax_butter'] = ml.get_minmax(data['NIR_255_butter'].values)
 data['NIR_nfp_butter'], data['TTP_butter'] = ml.get_nfp(data['NIR_255_butter'].values)
 data['NIR_diff_butter'] = ml.get_gaussian_diff(data['NIR_minmax_butter'].values)
 
+#drops
+data['drops'], data['drops_mean'] = ml.get_drop_mean(data['NIR_nfp_butter'])
+
 #binary za finding
 data['binary'] = ml.get_binary(data)
 data = data.set_index('binary', append=True).sort_index(level=[0, 2])

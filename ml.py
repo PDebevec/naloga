@@ -346,3 +346,9 @@ def test_on_Ndata(col):
                 et = time.time() - st
                 f.write(str(img)+','+type(c).__name__+','+str(len(x[0])/d)+','+str(get_accuracy(c.labels_, get_l(img, l=2)))+','+str(round(et*1000, 3))+'\n')
     return
+
+def test_time(fun):
+    st = time.time()
+    fun()
+    et = time.time() - st
+    return et

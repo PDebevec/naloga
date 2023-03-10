@@ -280,7 +280,7 @@ ws = np.array(ws).T
 df = pd.DataFrame(ws, columns=ml.uvideo)
 df = pd.concat([pd.DataFrame(np.array(ml.tsd.columns), columns=['columns']), df], axis=1)
 df.to_csv('./csv/'+str(int(p*100))+'%ts_data.csv') """
-#^celi podatki
+#^celi podatki acc
 """ ws = []
 for img in ml.uvideo:
     X = np.array(ml.tsd.loc[img].values)

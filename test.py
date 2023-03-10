@@ -18,6 +18,7 @@ from sklearn.decomposition import KernelPCA, FactorAnalysis, FastICA, Incrementa
 from sklearn.decomposition import NMF, MiniBatchNMF
 from sklearn.naive_bayes import BernoulliNB, CategoricalNB, ComplementNB, GaussianNB, MultinomialNB ## blo v poslanem (link spodi)
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, VotingClassifier, BaggingClassifier, StackingClassifier #najbulš s pravimi feature
+from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import GridSearchCV
@@ -29,13 +30,13 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mco
 import itertools as it
 ## https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8861725/
-##^^ from ml impot * ig? zaradi drugih lib
+## https://whimsical.com/classica-video-report-example-XXQEU7ngNqe3sSQLXCMny9
+##? from ml impot * ig? zaradi drugih lib
 #170108 16091401 16093601 16093801 """16092701"""
-
-## np.zeros = decomposition na podatkih, vse videje skupaj v clustering
-## algo za misssing values sklearn (sklearn.inpute. ...) ## posamezen video? idk, na vsak roi posebej bi mogli met label
+## algo za misssing values sklearn
 ##^https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
-## forest v (model_selection)cv hyper parameter
+
+
 
 
 

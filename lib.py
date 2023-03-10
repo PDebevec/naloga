@@ -81,7 +81,7 @@ def get_drop_mean(X):
         r = r[i:]
         #print(r[::int(len(r)/5)-1])
         #print(np.arange(0, len(r), int(len(r)/6)-1)[1:-1]+i)
-        i = np.arange(0, len(r), int(len(r)/8)-1)[1:-1]
+        i = np.arange(0, len(r), int(len(r)/8)-1)[:-1]
         arr.append(r[i])
         arr1.append([ np.mean(r[ri-j*10:ri+j*10]) for j,ri in enumerate(i, 1) ])
     return arr, arr1
