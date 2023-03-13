@@ -9,7 +9,7 @@ from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, Agglome
 
 
 #izris vsake slike posebej in shrani
-for img in pd.unique(lb.uvideo):
+""" for img in pd.unique(lb.uvideo):
     #print(img)
     #fig, axis = plt.subplots(1,2)
     for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_minmax_butter')):
@@ -22,7 +22,7 @@ for img in pd.unique(lb.uvideo):
     #plt.savefig('./graphs/nfp/'+str(img)+'.svg', format='svg')
     plt.savefig('./graphs/minmax/'+str(img)+'_butter.png', dpi=350)
     plt.clf()
-    #exit()
+    #exit() """
 #simple
 """ for img in pd.unique(lb.uvideo):
     c = ''

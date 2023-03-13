@@ -53,6 +53,12 @@ data['NIR_minmax_gs'] = ml.get_minmax(data['NIR_255_gs'])
 data['NIR_nfp_gs'], data['TTP_gs'] = ml.get_nfp(data['NIR_255_gs'].values)
 data['NIR_diff_gs'] = ml.get_gaussian_diff(data['NIR_255_gs'])
 
+#z savgol filtrom
+data['NIR_255_savg'] = ml.get_gaussian(data['NIR_255'].values, 20)
+data['NIR_minmax_savg'] = ml.get_minmax(data['NIR_255_savg'])
+data['NIR_nfp_savg'], data['TTP_savg'] = ml.get_nfp(data['NIR_255_savg'].values)
+data['NIR_diff_savg'] = ml.get_gaussian_diff(data['NIR_255_savg'])
+
 #z glajenjem butter + lfilter
 data['NIR_255_butter'] = ml.get_butter(data['NIR_255'].values)
 data['NIR_minmax_butter'] = ml.get_minmax(data['NIR_255_butter'].values)
@@ -70,15 +76,7 @@ data.to_pickle('data.pickle')
 
 print(data.info())
 
-""" model = tsfel.time_series_features_extractor(
-        tsfel.get_features_by_domain(),
-        np.array(data['NIR_nfp_butter'].values.tolist()),
-        verbose=1)
-
-
-tsd = model """
-
-
+exit()
 def fun():
     for img in pd.unique(data.index.get_level_values(0)):
         X = np.array(data.loc[img]['NIR_nfp_butter'].values.tolist())

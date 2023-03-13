@@ -36,6 +36,49 @@ import itertools as it
 ## algo za misssing values sklearn
 ##^https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
 
+""" for img in ml.uvideo:
+    x = ml.get_x(img, 'NIR_nfp_savg')
 
+    plt.plot(x.T)
+    plt.show() """
+
+
+
+""" for img in ml.uvideo:
+    b = ml.get_x(img, 'NIR_nfp_butter')
+    ttpb = ml.get_x(img, 'TTP_butter')
+    for bx, ttp, b in zip(b, ttpb, ml.get_l(img, l='finding')):
+        c = 'green'
+        match b:
+            case 'Benign': c = 'blue'
+            case 'Cancer': c = 'red'
+        plt.plot(bx[ttp:], color=c, alpha=0.5)
+    plt.title(str(img) + '_butter')
+    plt.show() """
+
+""" arr = []
+for img in ml.uvideo:
+    #plt.title(img)
+    X = ml.get_x(img, 'NIR_nfp_butter').T
+    ha = []
+    i = 0
+    a = []
+    for x in X:
+        x = x.reshape(-1, 1)
+        model = AgglomerativeClustering(n_clusters=2)
+        model.fit(x)
+        #acc = ml.get_accuracy(model.labels_, ml.get_l(img, l=2))
+        acc = ml.get_accuracy(model.labels_, ml.get_l(img, l=2))
+        a.append(acc)
+        if acc > 0.85:
+            ha.append(i)
+        i+=1
+    arr.append(ha)
+    plt.title(str(img) + '_butter' + '\nmin:' + str(int(np.min(a)*1000)/10) + '% max:' + str(int(np.max(a)*1000)/10) + '% mean:' + str(int(np.mean(a)*1000)/10) + '%')
+    plt.plot(a)
+    plt.plot(ml.get_diff_indata(X.T))
+    #plt.savefig('./graphs/acc&diff/'+str(img)+'.png', dpi=350)
+    #plt.clf()
+    plt.show() """
 
 #exit()

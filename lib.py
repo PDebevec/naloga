@@ -131,7 +131,7 @@ def get_nfp(X):
     for x in X:
         #print(find_peaks(x, distance=200, height=np.max(x)*0.5))
         #p = find_peaks(x, distance=150, height=np.max(x)*0.6)[0][0]
-        p = find_peaks(x)[0][0]
+        p = find_peaks(x[40:])[0][0]+40
         mx = x[p]
         mn = x.min()
         #arr.append(x/n)
@@ -205,10 +205,10 @@ def get_gaussian(X, sigma):
         arr[-1] /= arr[-1].max()
     return arr
 
-def get_savgol(X):
+def get_savgol(X, W, P):
     arr = []
     for x in X:
-        arr.append(savgol_filter(x, int(len(x)/14), 10))
+        arr.append(savgol_filter(x, W, P))
         arr[-1] /= arr[-1].max()
     return arr
 
