@@ -169,11 +169,12 @@ plt.show() """
     #print(ha)
     plt.plot(X[ha, :])
     plt.show() """
+
 #prikaz acc in diff v podatkih
 """ arr = []
 for img in lb.uvideo:
     #plt.title(img)
-    X = lb.get_x(img, 'NIR_nfp_butter').T
+    X = lb.get_x(img, 'NIR_nfp_savg').T
     ha = []
     i = 0
     a = []
@@ -188,12 +189,25 @@ for img in lb.uvideo:
             ha.append(i)
         i+=1
     arr.append(ha)
-    plt.title(str(img) + '\nmin:' + str(int(np.min(a)*1000)/10) + '% max:' + str(int(np.max(a)*1000)/10) + '% mean:' + str(int(np.mean(a)*1000)/10) + '%')
+    plt.title(str(img) + ' savg' + '\nmin:' + str(int(np.min(a)*1000)/10) + '% max:' + str(int(np.max(a)*1000)/10) + '% mean:' + str(int(np.mean(a)*1000)/10) + '%')
     plt.plot(a)
     plt.plot(lb.get_diff_indata(X.T))
-    plt.savefig('./graphs/acc&diff/'+str(img)+'.png', dpi=350)
+    plt.savefig('./graphs/acc&diff/'+str(img)+'_savg.png', dpi=350)
     plt.clf() """
 
+#od first peak naprej
+""" for img in ml.uvideo:
+    b = ml.get_x(img, 'NIR_nfp_butter')
+    ttpb = ml.get_x(img, 'TTP_butter')
+    for bx, ttp, b in zip(b, ttpb, ml.get_l(img, l='finding')):
+        c = 'green'
+        match b:
+            case 'Benign': c = 'blue'
+            case 'Cancer': c = 'red'
+        plt.plot(bx[ttp:], color=c, alpha=0.5)
+    plt.title(str(img) + ' butter')
+    plt.savefig('./graphs/ttp:/' + str(img) + '_butter.png', dpi=350)
+    plt.clf() """
 
 #3d graf slik
 """ for img in pd.unique(lb.data.index.get_level_values(0)):

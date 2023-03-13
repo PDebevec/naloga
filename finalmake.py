@@ -54,7 +54,7 @@ data['NIR_nfp_gs'], data['TTP_gs'] = ml.get_nfp(data['NIR_255_gs'].values)
 data['NIR_diff_gs'] = ml.get_gaussian_diff(data['NIR_255_gs'])
 
 #z savgol filtrom
-data['NIR_255_savg'] = ml.get_gaussian(data['NIR_255'].values, 20)
+data['NIR_255_savg'] = ml.get_savgol(data['NIR_255'].values, 99, 5)
 data['NIR_minmax_savg'] = ml.get_minmax(data['NIR_255_savg'])
 data['NIR_nfp_savg'], data['TTP_savg'] = ml.get_nfp(data['NIR_255_savg'].values)
 data['NIR_diff_savg'] = ml.get_gaussian_diff(data['NIR_255_savg'])
