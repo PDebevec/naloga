@@ -26,14 +26,16 @@ def run_clustering(x, img, clusteringfun, column):
 def get_accuracy(labels_, y):
     #model = LabelBinarizer()
     #res = model.fit_transform(y).reshape(-1)
-    acc = accuracy_score(y, labels_)
-    return max([ acc, (acc-1)*-1 ])
+    acc1 = accuracy_score(y, labels_)
+    acc2 = accuracy_score(1-y, labels_)
+    return max([ acc1, acc2 ])
 
 def get_f1_score(labels_, y, ave='micro'):
     #model = LabelBinarizer()
     #res = model.fit_transform(y).reshape(-1)
     acc = f1_score(y, labels_, average=ave)
-    return max([ acc, (acc-1)*-1 ])
+    return acc
+    # return max([ acc, (acc-1)*-1 ])
 
 def get_data_by_cluster(labels_, X):
     #print(labels_.tolist())
@@ -61,6 +63,38 @@ def seperate_x_cancer_benign(split):
 def seperate_x_random_img():
     img = np.random.choice(pd.unique(data.index.get_level_values(0)), 1)[0]
     return data.drop(img), data.xs(img, level='video', drop_level=False)
+
+def divisor():
+
+    cluster = [ 
+        MiniBatchKMeans(n_clusters=2)
+        ,KMeans(n_clusters=2)
+        ,SpectralClustering(n_clusters=2)
+        ,Birch(n_clusters=2, threshold=0.005)
+        ,AgglomerativeClustering(n_clusters=2)
+    ]
+
+    arr = []
+    i = 0
+    for col in data.columns[1:]:
+        divisors = get_divisor(len(data[col].values[0]))
+        for img in pd.unique(data.index.get_level_values(0)):
+            print(col, img)
+            for c in cluster:
+                for d in divisors:
+                    x = data.loc[img][col]
+                    st = time.time()
+                    c.fit(np.array(x.values.tolist())[:, ::d])
+                    et = time.time() - st
+                    arr.append([
+                        col, img,
+                        type(c).__name__, d,
+                        get_accuracy(c.labels_, x.index.get_level_values(2)),
+                        et*1000
+                    ])
+    df = pd.DataFrame(arr, columns=['col', 'video', 'cluster', 'divisor', 'acc', 'time']).set_index(['col', 'video', 'cluster', 'divisor'])
+    df.to_csv('divisor.csv')
+    return
 
 def decomposition_data(column, file, components):
     setting= [ '_sigmoid_', '_cosine_', '_', '_', '_', '_', '_' ]
@@ -170,38 +204,6 @@ def double_decomposition_cluster():
             return arr
     df = pd.DataFrame(arr, columns=['col', 'img', 'decomposition.1',  'decomposition.2', 'cluster', 'acc', 'time']).set_index( [ 'col', 'img', 'decomposition.1',  'decomposition.2', 'cluster' ] )
     df.to_csv('aalldiff.csv')
-    return
-
-def divisor():
-
-    cluster = [ 
-        MiniBatchKMeans(n_clusters=2)
-        ,KMeans(n_clusters=2)
-        ,SpectralClustering(n_clusters=2)
-        ,Birch(n_clusters=2, threshold=0.005)
-        ,AgglomerativeClustering(n_clusters=2)
-    ]
-
-    arr = []
-    i = 0
-    for col in data.columns[1:]:
-        divisors = get_divisor(len(data[col].values[0]))
-        for img in pd.unique(data.index.get_level_values(0)):
-            print(col, img)
-            for c in cluster:
-                for d in divisors:
-                    x = data.loc[img][col]
-                    st = time.time()
-                    c.fit(np.array(x.values.tolist())[:, ::d])
-                    et = time.time() - st
-                    arr.append([
-                        col, img,
-                        type(c).__name__, d,
-                        get_accuracy(c.labels_, x.index.get_level_values(2)),
-                        et*1000
-                    ])
-    df = pd.DataFrame(arr, columns=['col', 'video', 'cluster', 'divisor', 'acc', 'time']).set_index(['col', 'video', 'cluster', 'divisor'])
-    df.to_csv('divisor.csv')
     return
 
 def clustering_on_column(column):

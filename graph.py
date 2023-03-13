@@ -9,20 +9,20 @@ from sklearn.cluster import KMeans, SpectralClustering, MiniBatchKMeans, Agglome
 
 
 #izris vsake slike posebej in shrani
-""" for img in pd.unique(lb.uvideo):
-    print(img)
+for img in pd.unique(lb.uvideo):
+    #print(img)
     #fig, axis = plt.subplots(1,2)
-    for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_nfp_smth')):
+    for l,x in zip(lb.get_l(img), lb.get_x(img, 'NIR_minmax_butter')):
         c = ''
         match l:
             case 'Healthy': c = 'green'
             case 'Benign': c = 'blue'
             case 'Cancer': c = 'red'
-        plt.plot(x, color=c)
-    #plt.savefig('graphs/nfp/'+str(img)+'_nfp.png')
-    #plt.savefig('graphs/'+str(img)+'.png')
-    plt.show()
-    #exit() """
+        plt.plot(x, color=c, alpha=0.5)
+    #plt.savefig('./graphs/nfp/'+str(img)+'.svg', format='svg')
+    plt.savefig('./graphs/minmax/'+str(img)+'_butter.png', dpi=350)
+    plt.clf()
+    #exit()
 #simple
 """ for img in pd.unique(lb.uvideo):
     c = ''
@@ -133,7 +133,7 @@ plt.show() """
 # podatki iz katerih dobiš >90% acc
 """ for img in lb.uvideo:
     plt.title(img)
-    X = lb.get_x(img, 'NIR_nfp_smth').T
+    X = lb.get_x(img, 'NIR_nfp_butter').T
     ha = []
     i = 0
     for x in X:
@@ -181,6 +181,7 @@ for img in lb.uvideo:
         x = x.reshape(-1, 1)
         model = AgglomerativeClustering(n_clusters=2)
         model.fit(x)
+        #acc = ml.get_accuracy(model.labels_, lb.get_l(img, l=2))
         acc = ml.get_accuracy(model.labels_, lb.get_l(img, l=2))
         a.append(acc)
         if acc > 0.85:
@@ -190,7 +191,8 @@ for img in lb.uvideo:
     plt.title(str(img) + '\nmin:' + str(int(np.min(a)*1000)/10) + '% max:' + str(int(np.max(a)*1000)/10) + '% mean:' + str(int(np.mean(a)*1000)/10) + '%')
     plt.plot(a)
     plt.plot(lb.get_diff_indata(X.T))
-    plt.show() """
+    plt.savefig('./graphs/acc&diff/'+str(img)+'.png', dpi=350)
+    plt.clf() """
 
 
 #3d graf slik

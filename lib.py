@@ -20,8 +20,9 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import GridSearchCV
 from mpl_toolkits.mplot3d import axes3d
 from scipy.ndimage import gaussian_filter1d
-from scipy.signal import find_peaks, savgol_filter, butter, lfilter, filtfilt
+from scipy.signal import find_peaks, savgol_filter, butter, lfilter, filtfilt, sosfilt
 from scipy.optimize import curve_fit
+from math import factorial
 import matplotlib.pyplot as plt
 import matplotlib.colors as mco
 import itertools as it
@@ -199,7 +200,7 @@ def get_img_label(X):
 def get_gaussian(X, sigma):
     arr = []
     for x in X:
-        arr.append(gaussian_filter1d(x, sigma))
+        arr.append(gaussian_filter1d(x, sigma, mode='nearest'))
         #arr[-1] = [ x/arr[-1].max() for x in arr[-1]]
         arr[-1] /= arr[-1].max()
     return arr
@@ -207,7 +208,7 @@ def get_gaussian(X, sigma):
 def get_savgol(X):
     arr = []
     for x in X:
-        arr.append(savgol_filter(x, int(len(X)/14), 5))
+        arr.append(savgol_filter(x, int(len(x)/14), 10))
         arr[-1] /= arr[-1].max()
     return arr
 
@@ -215,6 +216,7 @@ def get_butter(X):
     arr = []
     for x in X:
         b, a = butter(2, 0.0075)
+        #b, a = butter(1, 0.01)
         arr.append(lfilter(b, a, x))
     return arr
 
