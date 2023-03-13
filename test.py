@@ -43,7 +43,12 @@ for img in ml.uvideo:
     plt.show()
 
 
+## začet pisat poročilo
+## ig se mal poigrat z smooth
+## doma tudi delat
 
+## pogledat kateri column od 1490 je najbulš >csv
+## ne vem doma 
 
 
 #exit()
